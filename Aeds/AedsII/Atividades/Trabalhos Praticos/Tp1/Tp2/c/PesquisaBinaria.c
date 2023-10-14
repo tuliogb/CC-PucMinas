@@ -9,7 +9,6 @@
     Curso: CC-PucMinas - 14/10/2023
 */
 
-
 int tamanho = 0;
 
 typedef struct {
