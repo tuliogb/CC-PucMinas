@@ -4,6 +4,12 @@
 #include <stdbool.h>
 #include <time.h>
 
+/*
+    Dev: Tulio Gomes Braga
+    Matricula: 1441272
+    Curso: CC-PucMinas - 14/10/2023
+*/
+
 int tamanho = 0;
 int comp=0;
 clock_t start,end;
