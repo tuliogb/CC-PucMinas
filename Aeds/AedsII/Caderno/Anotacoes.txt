@@ -1,0 +1,202 @@
+Estudo livre: .gcc | -o3         
+
+\- Aula 9 de Agosto de 2023 -/
+
+O operador teta pode ser lido como mais ou menos aproximadamente.
+Memoria Principal -> Ordenação interna. Comparar ou Monimentar, analisar custo.
+Registro pode ser tambem os elementos do array.
+Registro: Elemento da minha coleção. Exemplo, em uma lista de frutas temos banana, maça... Atributo: Informação sobre o elemento. Exemplo: nome da fruta, nutrientes,cor.
+|-> Posso ordenar de arcodo com algum atributo, conhecido como chave de pesquisa.
+O quicksort, o marginsort e heapsort são exemplos de algoritimos otimos -- >(teta(n*log(n))).
+Algoritimo estavel quando em caso de empate, ira manter a ordem inicial dos elemento.
+Porque o algoritimo de selecao em seu loop externo vai ate n-1 --> Nao perguntar.
+
+Steak<String> e .push // A primeira ira criar uma string de empilhamento e a segunda ira colar o resultado.
+RandomAcessFile -> Manipula a posicao, sendo capaz de especificar a linha que sera escrita ou lida.
+string.substring(inicio, fim); Usada pra pegar certa parte da string.
+char primeiraLetra = nomearq.charAt(0); // Pega a primeira letra do nome do arquivo
+int indiceNoAlfabeto1 = alfa.indexOf(primeiraLetra); // Encontra o índice no alfabeto original
+char letraNoNovoAlfa = NovoAlfa.charAt(indiceNoAlfabeto1); // Encontra a letra correspondente no novo alfabeto
+
+
+\- Aula 14 de Agosto de 2023 -/
+
+Estrutura de soleção é bom quando tem movimento de muitos elementos. (Tema Aula: Unidade 1 Estrutura dos nossos codigos Java/C).
+Existem varios tipos de algoritimos de ordenação. Metodo Swap (Recebe 2 elementos do array e troca ele do lugar).
+Implemente um metodo que testa se ta ordenado, retorna true. Algo pra contar o tempo de execução. Extend é herança. Protegido(ClasseMae/filhas) Publico(Todas) Privado(ClasseMae)
+Construtor-> Cria um objeto, tudo que precisa ser garantido ao criar é ele que fara. Nao tem parametro de retorno e tem o mesmo nome da classe. Pode ter mesmo nome so que com parametros diferentes.
+Math.abs / rand.nexInt  -  Pesquisa binaria(TetaLogN, mas precisa estar ordenada) e Pesquisa sequencial(TetaN).
+					|-> Deixa a base quieta e quando chegar mais agrupa em novo grupo. Depois coloca o novo grupo ORDENADO na base, enquanto isso faz sequencial.
+Obs: O algoritimo de ordenação por inserção é a bala de prata para ordenar arrays ordenados ou praticamente ordenados. Ver microfundamento de ordenação e pesquisa sobre algoritimo de inserção.
+Obs: Um problema importante na ordenação é a ordenacao parcial. Esse problema é relevante em maquinas de busca. Pré processamento é fundamental (Pode estar ligado a épocas(Natal/Enem/...).
+Oque é args[0], oque é interrogação,ternario. Testar qual os metodos mais rapidos(Principal).
+.cc Linux .ccp Windows .h (header/cabecalho)-> Contem as assinaturas do codigo. (NEW-DELETE / MALLOC-FREE)
+Make compila tudo. Arquivo make file, contem as regras de compilação,diretivas. Cria um exec.
+
+Assistir videos de Somatorio - Somatorio para dia 16/07.
+
+
+\- Aula 16 Agosto de 2023 -/
+
+Somatorio é pra levantamento de custo. O custo é a soma dos custos das suas operações. LaTex(https://pt.overleaf.com)
+
+∑ -->>  i= ponto de inicio da sequencia.
+	n= limite, aonde ira terminar a sequencia.			Existem propriedades matematicas, como dividir o somatorio em 2, comutatividade...
+	k= formula							Associatividade , tire a diferenca para fora e junte oque é igual.
+	
+Obs: Valor maximo - 1 é DECREMENTETO. 					P.A ->> 0<i<n  --  (a+b*i) ou (a+b*n-b*i) ou (a+b*(n-i)) --> |   (2a+b*n).(n+1)
+																     |  ---------------  -->> (Formula pra P.A)
+									(n(n+1)/2) -->> Formula Somatório			     |         2
+																     |       
+
+				
+				Propriedade 2   = a⁰   +    ∑ a.x(i+1)	   //	acha n+1, termo 0 e fazer formula fechada.
+						         0<=i<=n	
+ 
+									
+Complexidade e Analise de algoritimos: Repete 33x e divide pela media.
+
+Teta O Omega - Testar o Co(n) -- Qu,He,Me -> Teta n*log n -- Se,Bo,In(n²) -> Custo de ordenação.
+Obs: Nem sempre fazer a analise da classe de algoritimos é um problema mais dificil que a analise de um algoritimo em particular. Por exemplo o limite inferior da ordenação é Teta(n*logN).O algoritimo de shell sort, ainda tem sua complexidade como um ponto em aberto na computação.
+
+
+Quando uma funcao de complexidade for O de n, ela  tambem sera O de qualquer coisa maior ou igual a n. Por exemplo O de n², O de n³ e O de n²⁰;
+Uma funcao omega de n tambem sera omega de qualquer  coisa menor ou igual a n. Por exemplo omega de raiz quadrada de n, omega de log de n e omega de 1.
+
+Definir omega prox aula;
+
+
+
+
+\- Aula dia 6 de Setembro de 2023 -/
+
+
+Na fila circular, a variável "primeiro" gerencia remoções e a "último", inserções.
+O construtor da FC (fila circular) cria o array com uma unidade a mais para economizar um if na inserção. Ver exercício no fim do mayerial "tipos abstratos de dados lineares: filas"
+O número de elementos permitidos na fila será exatamente o solicitado pelo usuário. A posição a mais nunca e utilizada como armazenamento extra. 
+Os valores iniciais de "primeiro" e "ultimo" sempre serão iguais.
+
+O insercao é a bala de prata pra array ordenado e parcialmente ordenado.
+No algoritimo de insercao a primeira clausula do while serve apenas pra nao acessarmos posicoes negativas do array.
+O i aponta pro elemento a ser ordenado. O j aponta pra maior posicao da parte ordenada. O j é decrementado enquanto  array de j for maior que o elemento a ser inserido.
+O laco interno faz duas atividades "indepemdentes". A primeira tarefa é uma pesquisa sequencial na parte ordenada para encontrar a posicao de insercao. A outra é o deslocamento dos elementos maiores que o novo elemento.
+
+atribuir é mais barato que comparar <<<-------------------------------------!    Insercao n-1 comparacoes crescente e decrescente n-1;
+
+Em somatorio tenha manha de atribuir ou descontar pra comecar de 1 e no final  concerta a atribuicao.
+Bolha e ShellSort.
+
+
+\- Aula dia 13 de Setembro de 2023 -/
+
+QuickSort ->> Mais rapido para a maioria dos casos, mas se caso estiver parcialmente ordenado ira usar inserção.
+Codigo ziviane, percorre o vetor todo e conta a quant de elementos, e pega quant/2 o pivo.
+Custo de teta n*log(n); Pior custo é (n²);
+
+
+\- Aula dia 18 de Setembro de 2023 -/
+
+Fala o maior e menor elemento do array com custo de teta de 1, onde normalmente é teta de n, porem tera que reorganizar pagando log n. Tendo o custo de n*log n.
+Maior -> Temp -> Organiza -> no espaço que sobrou coloca o maior (ultima, no primeiro laço).
+
+Arvore Binaria (cada no tem no maximo 2 filhos) ---> No interno tem filho.
+						     No externo -- nao tem filho é folha. <<----					O heap é algoritimo de arvore.
+						     
+						     Cada nó é menor ou igual aos seus filhos, fazendo com que a raiz tenha menor valor.
+						     Suas folhas ocupam um ou dois niveis sendo que o penultimo é completo e as folhas do ultimo nivel se agrupam o mais à esquerda possivel.
+
+----------->>>>>> Pontencia de 2 menos um <<<<<<-------------
+
+     0			  	9
+  1      2		   8         3
+3   4   5   6		7     6    1   2	
+78  9                5    4   0
+
+Heap nó menor 		Heap nó maior  <<-- Vamos usar esse.
+
+Pai i/2
+f1 2*i
+f2 2*i+1        exeção quando o array comeca com 0.
+
+
+	i/2;
+	if(i!=0){
+		array[i]			
+	}
+
+Exercicio 4 e 5; -->> Esses primeiros exercicios vao cair na prova.
+
+Heap vai inserindo e comparando com o elemento pai.  Organizar n*log n;
+Pega a ultima folha e coloca ele na posicao da raiz, depois tem que organizar,  pois o pai  sera menor que os filhos. Eu tenho 1 filho, tenho 2 filhos, comparo os filhos.
+
+Remover -- adicionar o removido no final, removi 3 raiz entao ficara heap no vetor e no legth-1 = raiz 1 // legth-2 = raiz 2;
+|__>> Insere e Remove (Maior) -->> Assim que organiza.
+
+
+Em ordem decrescente --- 1 etapa = melhor(teta(n)) pior(teta(n*logn))
+			 2 etapa = melhor(teta(n*logn))  pior(teta(n*logn))
+			 
+			 
+			 
+			 
+			 
+\- Aula dia 25 de Setembro de 2023 -/
+
+Na declaração de ponteiro especificamos o tipo do valor que o ponteiro aponta. Por exemplo: int* x; Cria um ponteiro para armazenar endereços de numeros inteiros. 
+											    Cliente* c; Cria um ponteiro para armazenar endereços de clientes.
+
+Nas suas classes de modelo (pasta model do ti2), para cada classe, crie um metodo clone. Esse metodo cria um novo objeto no qual todos os seus atributos serao uma copia do objeto corrente.
+Introducao ao java verificar declaracao de array e matrizes.
+Nivelamento exercicio de ponteiro. Linguagem c pra programadores java(Ponteiro).
+
+Estude os slides de tads(lista,pilha e fila) flexiveis em c, execute os codigos.
+Execute inserir no inicio(lista dupla) considerando a lista vazia. Desenhar
+Ver arvores binarias
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+																       
