@@ -141,7 +141,6 @@ Em ordem decrescente --- 1 etapa = melhor(teta(n)) pior(teta(n*logn))
 			 
 			 
 \- Aula dia 25 de Setembro de 2023 -/
-
 Na declaração de ponteiro especificamos o tipo do valor que o ponteiro aponta. Por exemplo: int* x; Cria um ponteiro para armazenar endereços de numeros inteiros. 
 											    Cliente* c; Cria um ponteiro para armazenar endereços de clientes.
 
@@ -152,6 +151,25 @@ Nivelamento exercicio de ponteiro. Linguagem c pra programadores java(Ponteiro).
 Estude os slides de tads(lista,pilha e fila) flexiveis em c, execute os codigos.
 Execute inserir no inicio(lista dupla) considerando a lista vazia. Desenhar
 Ver arvores binarias
+
+
+\- Aula dia 16 de Outubro de 2023 -/
+Sao chamadas de arvores binarias pois seu nó tem zero, um ou dois filhos.    		Pai
+										Filho 		Filho  	  (Mas que serao pais caso tenham filhos)
+Aqueles que possuem algum filho sao "nó interno", caso contrario folhas >>--------^
+Uma das principais métricas das árvores binárias é sua altura que corresponde ao número de arestas existentes no caminho entre a raiz e a folha mais distante. Seria "niveis" que tem sem contar o nó. Temos arvores de cadeias lineares, as quais tem nivel=termos-1(nó); Sempre sendo 0,1,-1;
+
+Arvore N elementos balanceador tem custo de: 
+
+>>> θ(lg n) no pior caso, ou seja lg n comparações entre elementos da árvore.
+Exemplo pior caso: Por exemplo, se uma árvore binária balanceada tiver 1024 nós, pesquisaremos um elemento nessa estrutura fazendo aproximadamente 10 comparações no pior caso. Isso porque o logaritmo na base dois de 1024 é dez.
+
+>>> Em uma árvore contendo uma cadeia linear de nós, o custo das operações básicas é θ(n) no pior caso. Por exemplo, em uma árvore binária contendo uma cadeia linear com 1024 nós, o custo para pesquisar um elemento será de aproximadamente 1024 comparações no pior caso(em que percorre tudo ou nao acha o elemento).
+
+
+Estrutura:
+Um nó é uma classe autorreferencial que contém duas referências (ou ponteiros) para outros objetos do tipo nó.
+Em que cada nó é maior que todos seus vizinhos à esquerda e menor que todos a direita.
 
 
 
