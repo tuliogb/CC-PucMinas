@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style/style-config-conta.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-KK94CHFLLe+nY2dmCWGMq91rCGa5gtU4mk92HdvYe+M/SXH301p5ILy+dN9+nJOZ" crossorigin="anonymous">
+    <link rel="icon" href="./imgs/logo.png" crossorigin>
+    <title>Configurações da Conta</title>
+</head>
+
+<body>
+    <header>
+        <a href="produtos.html"><img class="logo" src="imgs/logo.png" alt="Logo da EstoqueMaster"></a>
+        <button class="btn-entre">Minha conta</button>
+    </header>
+
+    <section class="m-3 d-flex flex-column">
+        <div id="titulo"
+            class="bg-primary d-flex d-flex justify-content-between text-white py-2 px-5 mb-5 rounded w-100">
+            Minha Conta
+            <div>
+                <button id="BtnEditar" type="button" class="btn btn-info">Editar</button>
+                <button id="BtnSalvar" type="button" class="btn btn-info" hidden>Salvar</button>
+            </div>
+        </div>
+
+        <div id="info" class="row-col-1">
+            <div id="email" class="col-sm-12 my-3 w-50 mx-auto justify-content-center">
+                <div class="bg-primary text-white py-1 px-5 rounded-top w-100">Email:</div>
+                <input id="campoEmail" class="bg-info-subtle p-2 w-100 h-100 rounded-bottom" disabled>
+            </div>
+
+            <div id="senha" class="col-sm-12 my-3 w-50 mx-auto justify-content-center">
+                <div class="d-flex justify-content-between bg-primary text-white py-1 px-5 rounded-top w-100">
+                    Senha:
+                    <button id="btnToggleSenha" type="button" class="btn btn-primary" data-bs-toggle="button">Exibir
+                        senha</button>
+                </div>
+                <input id="campoSenha" class="bg-info-subtle p-2 w-100 h-100 rounded-bottom" type="password" disabled>
+            </div>
+        </div>
+
+        <div class="row d-flex justify-content-center text-center align-items-center text-white w-auto mt-4">
+            <div id="notificacao" class="me-5 col-2 bg-primary rounded ">
+                <div
+                    class="form-check form-switch form-check-reverse d-flex justify-content-between align-items-center">
+                    <style>
+                        .form-check-input:checked {
+                            background-color: #0dcaf0;
+                            /* Cor personalizada para a checkbox ativada */
+                        }
+                    </style>
+                    <label id="labelNotif" class="form-check-label" for="switchNotif">
+                        <h3>Notificações [ON]</h3>
+                    </label>
+                    <input class="form-check-input" type="checkbox" role="switch" id="switchNotif" checked>
+                </div>
+            </div>
+            <div id="logout" class="ms-5 col-2 bg-primary rounded user-select-none text-center">
+                <a id="btnLogOut" class="text-decoration-none text-white">
+                    <h2>Log Out</h2>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <div class="d-flex justify-content-center" style="margin-top: 25rem;">
+        <button id="btnLimpar" type="button" class="btn btn-outline-danger btn-lg" data-bs-toggle="modal"
+            data-bs-target="#staticBackdrop">
+            Limpar todos os dados
+        </button>
+    </div>
+
+    <!-- Modal -->
+    <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+        aria-labelledby="staticBackdropLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="staticBackdropLabel">Limpar todos os dados?</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    Ao aceitar, você irá excluir todos os seus produtos, categorias e seu usuário. Essa mudança é
+                    irreversível!
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Cancelar</button>
+                    <button id="btnLimparDadosModal" type="button" class="btn btn-outline-danger"
+                        data-bs-dismiss="modal">Sim, quero limpar os dados.</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-ENjdO4Dr2bkBIFxQpeoTz1HIcje39Wm4jDKdf19U8gI4ddQ3GYNS7NTKfAdVQSZe" crossorigin="anonymous">
+    </script>
+    <script src="src/script-config-conta.js"></script>
+</body>
+
+</html>

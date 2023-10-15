@@ -1,0 +1,56 @@
+html {
+    font-family: 'Inter', sans-serif;
+    height: 100%;
+    width: 100%;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: 'Inter', sans-serif;
+    height: 100%;
+    width: 100%;
+    margin: 0;
+    padding: 0;
+}
+
+header {
+    background-color: #cff4fc;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 45px;
+}
+
+.logo {
+    width: 93px;
+}
+
+.btn-entre {
+    background-color: #0063B2;
+    padding: 20px 10px;
+    color: white;
+    font-size: 18px;
+    font-weight: 200;
+    border: none;
+    border-radius: 10px;
+    width: 200px;
+    transition: 0.9s;
+}
+
+.btn-entre:hover {
+    background-color: #004985;
+    cursor: pointer;
+}
+
+.btn-entre:active {
+    background-color: #0063B2;
+    transition: none;
+}
+
+#impar {
+    position: absolute;
+    bottom: 10%;
+    left: 50%;
+    transform: translate3d(-50%, -50%, 0);
+}

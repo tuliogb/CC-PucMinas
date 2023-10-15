@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="style/index-style.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@200;400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style/produtos-style.css">
+    <link rel="icon" href="./imgs/logo.png" crossorigin>
+    <title>EstoqueMaster</title>
+</head>
+
+<body>
+
+    <header>
+        <a href="#"><img class="logo" src="imgs/logo.png" alt="Logo da EstoqueMaster"></a>
+        <a href="config-conta.html"><button class="btn-entre">Minha conta</button></a>
+    </header>
+</br></br>
+<h2 class="titulo-estoque">Meu estoque</h2>
+</br>
+    <main>
+        <div class="topo-estq">
+            <a href="cadastro-produto.html" style="text-decoration: none;">
+                <button class="btn-estoque"
+                    style="display: flex; align-items: center; justify-content: center; gap: 5px">
+                    <span><img class="icon" src="imgs/plus.webp" alt=""></span>
+                    <p>Novo produto</p>
+                </button></a>
+            <button class="btn-pesquisa">
+                <span><img class="icon" src="imgs/search-icon.png" alt=""></span>
+            </button>
+        </div>
+
+        <div class="btns-estoque">
+            <div class="direita-btns">
+                <button class="btn-estoque" id="btn-todos">Todos</button>
+                <button class="btn-estoque" id="btn-produtos-faltando">Mostrar produtos em falta</button>
+            </div>
+            <div class="esquerda-btns">
+                <button class="btn-estoque" style="background-color: rgb(231, 17, 17);" id="btn-excluir">Excluir
+                    selecionado</button>
+                <button class="btn-estoque" id="btn-selecionar-todos">Selecionar todos</button>
+            </div>
+        </div>
+
+        <div class="scroller">
+
+
+            <table style="height: 100px;" class="produtos-tabela">
+                <thead>
+                    <tr>
+                        <th>Nome</th>
+                        <th>Id</th>
+                        <th>Preço</th>
+                        <th>Estoque</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+
+                </tbody>
+            </table>
+        </div>
+
+    </main>
+
+    <footer>
+        <p>© EstoqueMaster</p>
+        <a target="_blank"
+            href="https://github.com/ICEI-PUC-Minas-PMGCC-TI/ti-1-pmg-cc-m-20231-gestao-e-planejamento-de-empresas"><img
+                src="imgs/github-icon.png" alt=""></a>
+    </footer>
+    <script src="src/tabela-produtos.js"></script>
+</body>
+
+</html>
