@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+    }
+    
+    .container {
+      max-width: 500px;
+      margin: 0 auto;
+      padding: 20px;
+    }
+    
+    .form-group {
+      margin-bottom: 20px;
+    }
+    
+    label {
+      display: block;
+      font-weight: bold;
+      margin-bottom: 5px;
+    }
+    
+    input[type="number"] {
+      width: 100%;
+      padding: 10px;
+      border-radius: 5px;
+      border: 1px solid #ccc;
+    }
+    
+    button[type="submit"] {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 10px;
+      border: none;
+      border-radius: 5px;
+      background-color: #007bff;
+      color: #fff;
+      cursor: pointer;
+    }
+    
+    button[type="submit"]:hover {
+      background-color: #0056b3;
+    }
+    
+    .button-icon {
+      margin-right: 5px;
+    }
+    
+    .product-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+      grid-gap: 30px;
+    }
+  
+    .product-card {
+      width: 100%;
+      padding: 10px;
+      border-radius: 10px;
+      box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="form-group">
+      <label for="minPrice">Preço Mínimo:</label>
+      <input type="number" id="minPrice" min="0" step="0.01" placeholder="0.00">
+    </div>
+    <div class="form-group">
+      <label for="maxPrice">Preço Máximo:</label>
+      <input type="number" id="maxPrice" min="0" step="0.01" placeholder="999.99">
+    </div>
+    <button type="submit" id="searchBtnn">
+      <i class="fa-solid fa-magnifying-glass button-icon"></i>
+      <span>Buscar Produto</span>
+    </button>
+    <br>
+    <div class="product-grid" id="preco"></div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+  <script>
+    function buscarProdutos() {
+      var minPrice = document.getElementById("minPrice").value;
+      var maxPrice = document.getElementById("maxPrice").value;
+
+      var apiUrl = "https://fakestoreapi.com/products";
+
+      axios.get(apiUrl)
+        .then(function(response) {
+          var precoDiv = document.getElementById("preco");
+
+          var produtosFiltrados = response.data.filter(function(produto) {
+            return (
+              (!minPrice || produto.price >= minPrice) &&
+              (!maxPrice || produto.price <= maxPrice)
+            );
+          });
+
+          if (produtosFiltrados.length > 0) {
+            var produtosHtml = "";
+
+            produtosFiltrados.forEach(function(produto) {
+              produtosHtml += `
+                <div class="product-card">
+                  <img src="${produto.image}" alt="${produto.title}" width="200">
+                  <h3>${produto.title}</h3>
+                  <p>Preço: $${produto.price}</p>
+                </div>
+              `;
+            });
+
+            precoDiv.innerHTML = produtosHtml;
+          } else {
+            precoDiv.innerHTML = "Nenhum produto encontrado.";
+          }
+        })
+        .catch(function(error) {
+          console.log("Ocorreu um erro:", error);
+        });
+
+      // Impedir o envio do formulário
+      return false;
+    }
+
+    var searchBtn = document.getElementById("searchBtnn");
+    searchBtn.addEventListener("click", buscarProdutos);
+  </script>
+</body>
+</html>

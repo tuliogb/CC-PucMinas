@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <script src="https://kit.fontawesome.com/77a71ff409.js" crossorigin="anonymous"></script>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js" integrity="sha384-IQsoLXl5PILFhosVNubq5LC7Qb9DXgDA9i+tQ8Zj3iwWAwPtgFTxbJ8NT4GN1R8p" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js" integrity="sha384-cVKIPhGWiC2Al4u+LWgxfKTRIcfu0JTxR+EQDz/bgldoEyl4H0zUF0QKbrJ0EcQF" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" integrity="sha512-JU/jzPUMxURiV7zmna7UQf5Jiz3xJ6RlSWcPztPZvMiLEZ1Z7MBgNGkck6at8GyD9x2FcOLBzwCztpOM+uDg5g==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+    <title>Loja Online - Túlio</title>
+</head>
+<body>
+    <header>
+        <div class="container-fluid">
+            <div class="logo"><img src="Image/Logo.jpg" width="150px" height="150px"></div>
+              <h3>Good shopping</h3>
+              <form id="searchForm" action="pesquisa.html">
+                <button type="submit" class="botao-pesquisar">
+                  Pesquisar <i class="fa-solid fa-magnifying-glass"></i>
+                </button>
+                </form>
+
+                <div class="menu">
+                    <nav>
+                        <a href="#">Sing In</a>
+                        <a href="#">|</a>
+                        <a href="#">Register</a>
+                        <a href="#">|</a>
+                        <a href="#">My acount</a>
+                        <a href="#">|</a>
+                        <a href="#">Track order</a>
+                    </nav>
+                  </div>
+                <div>
+                  <div class="sociais">
+                    <button class="botao-carrinho">
+                      <i class="fa-solid fa-cart-shopping"></i>
+                    </button>
+              </div>
+
+          </div>
+      </header>
+    <article>
+        <div class="container-fluid justify-content-around">
+
+
+
+            <div class="formulario">
+
+              <div class="mb-3">
+                <h2>Quick Find - Choose product</h2>
+                <p>Find the right product at the right price</p>
+                <label for="disabledSelect" class="form-label">Choose Type</label>
+                <select id="disabledSelect" class="form-select">
+                  <option>Type</option>
+                </select>
+              </div>
+
+              <div class="mb-3">
+                <label for="disabledSelect" class="form-label">Chosse Brand</label>
+                <select id="disabledSelect" class="form-select">
+                  <option>Brand</option>
+                </select>
+              </div>
+
+              <div class="mb-3">
+                <label for="disabledSelect" class="form-label">Choose Category</label>
+                <select id="disabledSelect" class="form-select">
+                  <option>Category</option>
+                </select>
+              </div>
+
+              <div class="mb-4">
+                <form>
+                  <div class="row">
+                    <div class="col md-2">
+                      <label class="my-1 mr-2" for="minPrice">Preço Mínimo:</label>
+                      <input type="number" id="minPrice" class="form-control" min="0" step="0.01" placeholder="0.00">
+                    </div>
+                    <div class="col md-2">
+                      <label class="my-1 mr-2" for="maxPrice">Preço Máximo:</label>
+                      <input type="number" id="maxPrice" class="form-control" min="0" step="0.01" placeholder="999.99">
+                    </div>
+                  </div>
+                </form>
+              </div>
+
+
+              <button onclick="window.location.href = 'preco.html';">
+                <i class="fa-solid fa-magnifying-glass"></i>
+                <p>Abrir filtragem...</p>
+              </button>
+              
+              
+
+            </div>
+
+
+
+
+            
+            <div class="carrosel">
+              <div id="carouselExampleInterval" class="carousel slide" data-bs-ride="carousel">
+                <div class="carousel-inner">
+                  <div class="carousel-item active" data-bs-interval="1000">
+                    <img src="Image/nome.jpg" class="d-block w-100" alt="...">
+                  </div>
+                  <div class="carousel-item" data-bs-interval="1000">
+                    <img src="Image/curso.jpg" class="d-block w-100" alt="...">
+                  </div>
+                  <div class="carousel-item" data-bs-interval="500">
+                    <img src="Image/matricula.jpg" class="d-block w-100" alt="...">
+                  </div>
+                </div>
+                <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleInterval" data-bs-slide="prev">
+                  <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                  <span class="visually-hidden">Previous</span>
+                </button>
+                <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleInterval" data-bs-slide="next">
+                  <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                  <span class="visually-hidden">Next</span>
+                </button>
+              </div>
+            </div>
+        </div>
+    </article>
+
+
+
+
+    <main>
+      <div class="row justify-content-around flex-wrap">
+        <div class="col col-lg-2 d-flex flex-column justify-content-center m-2 coluna">
+
+          <div class="card m-4" style="width: 95%;">
+            <img id="foto" src="" class="card-img-top" alt="...">
+            <div class="card-body">
+              <h5 id="nome" class="card-title">1</h5>
+              <p id="descricao" class="card-text"></p>
+              <a id="1" href="#" class="btn btn-primary"></a>
+            </div>
+          </div>
+
+
+          <div class="card m-4" style="width: 95%;">
+            <img class="card-img-top foto" src="" alt="...">
+            <div class="card-body">
+              <h5 class="card-title nome"></h5>
+              <p class="card-text descricao"></p>
+              <a id="2" class="btn btn-primary preco" href="#"></a>
+            </div>
+          </div>
+
+          <div class="card m-4" style="width: 95%;">
+            <img class="card-img-top foto" src="" alt="...">
+            <div class="card-body">
+              <h5 class="card-title nome"></h5>
+              <p class="card-text descricao"></p>
+              <a id="3" class="btn btn-primary preco" href="#"></a>
+            </div>
+          </div>
+
+        </div>
+        <div class="col col-lg-2 d-flex flex-column justify-content-center m-2 coluna">
+          
+
+          <div class="card m-4" style="width: 95%;">
+            <img class="card-img-top foto" src="" alt="...">
+            <div class="card-body">
+              <h5 class="card-title nome">4</h5>
+              <p class="card-text descricao"></p>
+              <a id="4" class="btn btn-primary preco" href="#"></a>
+            </div>
+          </div>
+
+
+          <div class="card m-4" style="width: 95%;">
+            <img class="card-img-top foto" src="" alt="...">
+            <div class="card-body">
+              <h5 class="card-title nome">5</h5>
+              <p class="card-text descricao"></p>
+              <a id="5" class="btn btn-primary preco" href="#"></a>
+            </div>
+          </div>
+
+          <div class="card m-4" style="width: 95%;">
+            <img class="card-img-top foto" src="" alt="...">
+            <div class="card-body">
+              <h5 class="card-title nome">6</h5>
+              <p class="card-text descricao"></p>
+              <a id="6" class="btn btn-primary preco" href="#"></a>
+            </div>
+          </div>
+
+
+        </div>
+        <div class="col col-lg-2 d-flex flex-column justify-content-center m-2 coluna">
+          
+          <div class="card m-4" style="width: 95%;">
+            <img class="card-img-top foto" src="" alt="...">
+            <div class="card-body">
+              <h5 class="card-title nome">7</h5>
+              <p class="card-text descricao"></p>
+              <a id="7" class="btn btn-primary preco" href="#"></a>
+            </div>
+          </div>
+
+          <div class="card m-4" style="width: 95%;">
+            <img class="card-img-top foto" src="" alt="...">
+            <div class="card-body">
+              <h5 class="card-title nome"></h5>
+              <p class="card-text descricao">8</p>
+              <a id="8" class="btn btn-primary preco" href="#"></a>
+            </div>
+          </div>
+
+          <div class="card m-4" style="width: 95%;">
+            <img class="card-img-top foto" src="" alt="...">
+            <div class="card-body">
+              <h5 class="card-title nome"></h5>
+              <p class="card-text descricao">9</p>
+              <a id="9" class="btn btn-primary preco" href="#"></a>
+            </div>
+          </div>
+
+
+        </div>
+
+
+        <div class="col col-lg-3 d-flex flex-column justify-content-center m-2 coluna ultima-coluna">
+          <h3 class="m-4">Most Reviewed Itens</h3>
+          
+
+          <div class="card m-4" style="width: 80%;">
+            <img src="" class="card-img-top" alt="...">
+            <div class="card-body">
+              <h5 class="card-title"></h5>
+              <p class="card-text"></p>
+              <a href="#" class="btn btn-primary"></a>
+            </div>
+          </div>
+
+
+          <div class="card m-4" style="width: 80%;">
+            <img src="" class="card-img-top" alt="...">
+            <div class="card-body">
+              <h5 class="card-title"></h5>
+              <p class="card-text"></p>
+              <a href="#" class="btn btn-primary"></a>
+            </div>
+          </div>
+
+          <div class="card m-4" style="width: 80%;">
+            <img src="" class="card-img-top" alt="...">
+            <div class="card-body">
+              <h5 class="card-title"></h5>
+              <p class="card-text"></p>
+              <a href="#" class="btn btn-primary"></a>
+            </div>
+          </div>
+
+          <div class="newsletter">
+
+            <h3>NewsLetter</h3>
+            <p class="card-text">Signup for newsletter!</p>
+            <input type="text" name="search" id='search' placeholder="Type here...">
+            <button type="submit"><p> Submite </p></button>
+            <p></p>
+            <p></p>
+            <p></p>
+            <p></p>
+            <p></p>
+            <p></p>
+          </div>
+        </div>
+      </div>
+    </main>
+
+
+      <botton>
+        <div class="container-fluid-rodape">
+          <div class="row botton1" style="width:100%">
+            <div class="col col-lg-2 coluna-botton">
+              <h3>Payment Methods</h3>
+              <p></p>
+              <i class="fa-brands fa-paypal"></i>
+              <p></p>
+              <i class="fa-brands fa-google-pay"></i>
+              <p></p>
+              <i class="fa-brands fa-cc-mastercard"></i>
+              <p></p>
+              <i class="fa-solid fa-money-check-dollar"></i>
+              <p></p>
+              <p></p>
+              <p></p>
+              <p></p>
+              <p></p>
+              
+            </div>
+            <div class="col col-lg-2 coluna-botton">
+              <h3>Quick Links</h3>
+              <p></p>
+              <a href="#">Help</a>
+              <a href="#">Shipping Policy</a>
+              <a href="#">Cancelation & Returns</a>
+              <a href="#">FAQ</a>
+              <a href="#">Privacy Policy</a>
+              <a href="#">Disclamer</a>
+              <p></p>
+              <p></p>
+              <p></p>
+            </div>
+            <div class="col col-lg-2 coluna-botton">
+              <h3>Lets be social</h3>
+              <p></p>
+              <i class="fa-brands fa-facebook"></i>
+              <p></p>
+              <i class="fa-brands fa-telegram"></i>
+              <p></p>
+              <i class="fa-brands fa-google"></i>
+              <p></p>
+              <i class="fa-brands fa-square-instagram"></i>
+              <p></p>
+              <i class="fa-brands fa-square-whatsapp"></i>
+              <p></p>
+              <p></p>
+              <p></p>
+
+            </div>
+            <div class="col col-lg-2 coluna-botton">
+              <h3>Contact Us</h3>
+              <p class="card-text">Adress line one</p>
+              <p class="card-text">Street: Rua Carlos Manoel</p>
+              <p class="card-text">Place: Belvedere-Bh</p>
+              <a href="#">shopping@company.com</a>
+              <p class="card-text">1800 4400 22</p>
+              <p></p>
+              <p></p>
+            </div>
+          </div> 
+        </div>   
+      </botton>
+
+      <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+      <script src="script.js"></script>
+    
+</body>
+</html>

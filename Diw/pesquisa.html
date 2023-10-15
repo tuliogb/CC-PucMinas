@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Pesquisar</title>
+</head>
+<body>
+
+  <style>
+    .search-container {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-top: 50px;
+    }
+
+    .search-input {
+      padding: 10px;
+      border: 2px solid #0056b3;
+      border-radius: 25px;
+      font-size: 16px;
+      outline: none;
+    }
+
+    .search-button {
+      padding: 10px 20px;
+      background-color: #0056b3;
+      border: none;
+      border-radius: 25px;
+      color: white;
+      font-size: 16px;
+      cursor: pointer;
+      margin-left: 10px;
+    }
+
+    .search-button:hover {
+      background-color: #0056b3;
+    }
+
+    .product-container {
+      margin-top: 30px;
+    }
+
+    .product-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+      grid-gap: 30px;
+    }
+
+    .product-card {
+      width: 100%;
+      padding: 10px;
+      border-radius: 10px;
+      box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
+    }
+  </style>
+
+  <div class="search-container">
+    <input type="text" id="search" class="search-input" placeholder="Search a product...">
+    <button id="searchBtn" class="search-button">Search</button>
+  </div>
+
+  <div class="product-container">
+    <div class="product-grid" id="productList"></div>
+  </div>
+
+
+  <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+  <script src="script.js"></script>
+
+</body>
+</html>

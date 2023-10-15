@@ -1,0 +1,171 @@
+@import url('https://fonts.googleapis.com/css2?family=Titillium+Web:wght@200;300&display=swap');
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing:border-box;
+    font-family: 'Titillium Web', sans-serif;
+
+}
+.container-fluid{
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+}
+header{
+    background-color:#ffffff;
+    width: 100%;
+    padding: 10px;
+}
+
+.logo{
+    width: 10%;
+    min-width: 150px;
+    float: left;
+    margin-right: 20px;
+}
+.logo img{
+    width: 100%;
+    height: auto;
+}
+.sociais{
+    float: left;
+    margin-right: 20px;
+}
+.sociais button{
+    height: 55px;
+    width: 70px;
+    margin: 0px;
+    margin-left: 5px; 
+    margin-right: 5px;
+}
+
+
+.menu{
+    width: 25%;
+    display: flex;
+    flex-direction:row;
+}
+
+.menu nav a{
+    color: #000000;
+    text-decoration: none;
+    font-size: 15px;
+}
+nav{
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
+}
+
+
+.formulario button{
+    height: 60px;
+    width: 100%;
+    margin-left: 5px; 
+    margin-right: 5px;
+}
+
+.formulario{
+    width: 30%;
+}
+
+.coluna{
+    justify-content: center !important;
+    display: flex !important;
+    flex-direction: column !important;
+}
+h3{
+    display: flex;
+    width: auto;
+}
+.ultima-coluna{
+    background-color: rgb(255, 255, 255);
+    border:solid;
+    border-width: 1px;
+    border-color: #000000;
+    border-radius: 20px;
+
+}
+.newsletter button p{
+    height: 25px;
+    margin: 0px;
+    margin-left: 5px; 
+    margin-right: 5px;
+}
+.botton1{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-around;
+}
+.coluna-botton{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+@media only screen and (max-width:1000px) {
+    nav{
+        flex-direction: column;
+    }
+    .menu{
+        margin-left: 10px;
+    }
+    .logo{
+        min-width: 70px;
+    }
+    
+}
+.carrosel{
+    width: 60%;
+}
+main{
+    margin-top: 80px;
+}
+.container-fluid-rodape{
+    margin-top: 45px;
+}
+
+.botao-pesquisar {
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    font-size: 16px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  .botao-pesquisar:hover {
+    background-color: #0056b3;
+  }
+  
+  .botao-pesquisar i {
+    margin-left: 5px;
+  }
+
+  .botao-carrinho {
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    font-size: 16px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    margin-left: 10px;
+  }
+  
+  .botao-carrinho:hover {
+    background-color: #0056b3;
+  }
+  
+  .botao-carrinho i {
+    margin-right: 5px;
+  }
+  
+  .botao-carrinho p {
+    margin: 0;
+  }
+  

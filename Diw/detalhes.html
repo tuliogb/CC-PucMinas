@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Detalhes do Produto</title>
+  <style>
+body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+  background-color: #f5f5f5;
+}
+
+.container {
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 20px;
+  background-color: #fff;
+  border-radius: 5px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+h1 {
+  font-size: 24px;
+  margin-bottom: 20px;
+  color: #333;
+  text-align: center;
+}
+
+.product-image {
+  text-align: center;
+}
+
+.product-image img {
+  max-width: 100%;
+  height: auto;
+  border-radius: 5px;
+}
+
+.nome {
+  margin-bottom: 10px;
+  color: #333;
+  font-size: 20px;
+  font-weight: bold;
+  text-align: center;
+}
+
+.product-price {
+  font-size: 24px;
+  margin-bottom: 20px;
+  color: #007bff;
+  text-align: center;
+}
+
+.product-details {
+  margin-bottom: 20px;
+  color: #555;
+}
+
+.product-details ul {
+  list-style-type: none;
+  padding: 0;
+}
+
+.product-details li {
+  margin-bottom: 5px;
+}
+
+.product-details span {
+  font-weight: bold;
+  color: #333;
+}
+
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Detalhes do Produto</h1>
+    <div class="product-image">
+      <img src="" alt="Imagem do Produto" id="productImage" width="300px" height="300px">
+    </div>
+    <div class="nome">
+      <p id="productName"></p>
+    </div>
+    <div class="product-price">
+      <p id="productPrice"></p>
+    </div>
+    <div class="product-details">
+      <ul id="productDetailsList"></ul>
+    </div>
+  </div>
+
+  <script>
+    // Recuperar o ID do produto da URL
+    const urlParams = new URLSearchParams(window.location.search);
+    const productId = urlParams.get('id');
+
+    // Fazer a solicitação HTTP para obter os detalhes do produto
+    fetch(`https://fakestoreapi.com/products/${productId}`)
+      .then(response => response.json())
+      .then(product => {
+        // Atualizar os elementos HTML com as informações do produto
+        document.getElementById('productImage').src = product.image;
+        document.getElementById('productName').textContent = product.title;
+        document.getElementById('productPrice').textContent = `Preço: $${product.price}`;
+
+        const productDetailsList = document.getElementById('productDetailsList');
+        // Limpar a lista de detalhes do produto
+        productDetailsList.innerHTML = '';
+
+        // Adicionar cada detalhe do produto à lista
+        for (const detail in product) {
+          if (detail !== 'image' && detail !== 'title' && detail !== 'price') {
+            const li = document.createElement('li');
+            li.textContent = `${detail}: ${product[detail]}`;
+            productDetailsList.appendChild(li);
+          }
+        }
+      })
+      .catch(error => {
+        console.error('Erro ao fazer a solicitação HTTP:', error);
+      });
+  </script>
+</body>
+</html>
