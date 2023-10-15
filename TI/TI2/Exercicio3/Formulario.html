@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Formulário de Inserção de Relógios</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f5f5f5;
+            margin: 0;
+            padding: 0;
+            text-align: center;
+        }
+        h1 {
+            background-color: #3498db;
+            color: #fff;
+            padding: 20px;
+            border-radius: 10px;
+        }
+        form {
+            background-color: #fff;
+            border-radius: 10px;
+            padding: 20px;
+            max-width: 400px; 
+            margin: 0 auto;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        label {
+            display: block;
+            font-weight: bold;
+            margin-top: 10px;
+        }
+        input[type="text"] {
+            width: 100%;
+            padding: 10px;
+            margin: 5px 0;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            box-sizing: border-box; 
+        }
+        input[type="submit"] {
+            background-color: #3498db;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            padding: 10px 20px;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+        input[type="submit"]:hover {
+            background-color: #2980b9;
+        }
+    </style>
+</head>
+<body>
+    <h1>Formulário de Inserção de Relógios</h1>
+    <form action="/relogios" method="post">
+        <label for="nome">Nome:</label>
+        <input type="text" id="nome" name="nome" required><br><br>
+
+        <label for="modelo">Modelo:</label>
+        <input type="text" id="modelo" name="modelo" required><br><br>
+
+        <input type="submit" value="Inserir Relógio">
+    </form>
+
+    <form action="/excluir-relogio" method="post">
+        <label for="excluir-id">ID do Relógio para Excluir:</label>
+        <input type="text" id="excluir-id" name="excluir-id" required>
+        <input type="submit" value="Excluir">
+    </form>
+
+    <form action="/atualizar-relogio" method="post">
+        <label for="atualizar-id">ID do Relógio para Atualizar:</label>
+        <input type="text" id="atualizar-id" name="atualizar-id" required>
+        <label for="novo-nome">Novo Nome:</label>
+        <input type="text" id="novo-nome" name="novo-nome" required>
+        <label for="novo-modelo">Novo Modelo:</label>
+        <input type="text" id="novo-modelo" name="novo-modelo" required>
+        <input type="submit" value="Atualizar">
+    </form>
+
+    <h1>Lista de Relógios Cadastrados</h1>
+    <ul>
+        <% for (model.Relogio relogio : relogios) { %>
+            <li>ID: <%= relogio.getId() %></li>
+            <li>Nome: <%= relogio.getNome() %></li>
+            <li>Modelo: <%= relogio.getModelo() %></li>
+            <br>
+        <% } %>
+    </ul>
+</body>
+    
+    
+</body>
+</html>
