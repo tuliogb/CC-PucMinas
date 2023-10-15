@@ -59,15 +59,36 @@ class Celula {
         }
     }
 
-    void ligarContrario(){
-        //fazer uma copia?
+    void inverter(){
+        Celula i=primeiro.prox;Celula j=ultimo;Celula k;
+
+        while(i!=j && j.prox!=i){
+            int tmp = i.elemento;
+            i.elemento = j.elemento;
+            j.elemento = tmp;
+
+            i=i.prox;
+            for(k=primeiro;k.prox!=j;k=k.prox);
+            j=k;
+        }
     }
+
+    void inserirValores(int x,int y){
+        for(int i=x;i<y;i++){
+            inserirInicio(i);
+        }
+    }
+
+    //FAZER QUICK E SHELLSORT
 
     public static void main(String[] args) {
         Celula celula = new Celula();
         ultimo = primeiro = new Celula();
 
-        celula.inserirFim(10);
+
+        celula.inserirValores(1, 6);
+        celula.inverter();
+        celula.mostrar();
 
     }
 }
