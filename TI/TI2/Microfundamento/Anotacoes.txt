@@ -1,0 +1,40 @@
+>> Manipulação de Dados com SQL <<      Padrao: ANSI
+
+
+UNIDADE 1 
+SGBDs - Sistemas de Gerenciamento de Banco de Dados. Ele proprio quem determina em que ordem as operacoes de consultas vao ser executadas. Linguagem de alto nivel, proximo da aplicacao e necessidade.
+Grupos principais Sql: DML, DDL e DCL.
+
+>> DDL -> Definicao de Dados, comandos para manutencao de dados (Tabelas/Colunas,views e indices). Comandos: CREATE, ALTER e DROP; 
+>> DML -> Manipulação de Dados, maior consumo de manipular e inserir dados. Comandos: SELECT, INSERT, UPDATE, DELETE;
+>> DCL -> Acesso ao Banco, regula o acesso ao banco, segurança e permicoes. Comandos: GRANT, REVOKE;
+
+
+Praticas:
+
+CREATE TABLE nome_da_tabela(                >> Criando colunas e seus tipos de dados;
+        nome_da_coluna1 tipo_de_dado,
+        nome_da_coluna2 tipo_de_dado,
+        nome_da_coluna3 tipo_de_dado, 
+        CONSTRAINT KEY_Categoria  foreign key (Categoria) REFERENCES Categoria(Codigo)                                  (chave estrangeira)
+        ...
+); 
+
+
+ALTER TABLE pruduto                                                                                   "Adiciona a tabela fornecedor a chave que esta na fornecedor"                          
+ADD CONSTRAINT FK_pruduto_fornecedor  foreign key (fornecedor) REFERENCES fornecedor(Codigo) 
+
+ALTER TABLE produto RENAME COLUMN nome_antigo TO novo_nome;         "novo nome pra coluna"
+RENAME TABLE nome_tabela TO novo_nome                           "novo nome pra tabela"
+
+
+select * from nome_da_tabela                "ver o conteudo da tabela"
+DROP TABLE nome_da_tabela;              "apaga tabela com o conteudo junto"
+TRUNCATE TABLE nome_da_tabela           "apaga o conteudo da tabela"
+
+
+UNIDADE 2
+
+
+
+
