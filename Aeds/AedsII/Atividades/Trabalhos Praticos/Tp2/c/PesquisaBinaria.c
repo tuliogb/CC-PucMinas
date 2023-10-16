@@ -2,14 +2,16 @@
 #include <stdlib.h>
 #include <string.h>
 #include <stdbool.h>
+#include <time.h>
 
 /*
     Dev: Tulio Gomes Braga
     Matricula: 1441272
-    Curso: CC-PucMinas - 14/10/2023
+    Curso: CC-PucMinas - 16/10/2023
 */
 
-int tamanho = 0;
+clock_t start,end;
+int tamanho = 0,comp=0;
 
 typedef struct {
     int id;
@@ -37,7 +39,7 @@ void InserirElementos(Jogador *lista){
 
 void SetaId(Jogador *jogador, int id) {
     FILE *file;
-    file = fopen("players.csv", "r");
+    file = fopen("/tmp/players.csv", "r");
 
     char linha[100];
     char resp[100];
@@ -143,9 +145,6 @@ void mostrarTodos(Jogador *lista){
 }
 
 
-
-
-
 void OrganizaArray(Jogador *lista,int x){
     if(x<tamanho){
         int menor=x;
@@ -157,13 +156,11 @@ void OrganizaArray(Jogador *lista,int x){
     }
 }
 
-
 void troca(Jogador *lista,int x,int y){
     Jogador tmp = lista[x];
     lista[x] = lista[y];
     lista[y] = tmp;
 }
-
 
 bool PesquisaBinaria(Jogador *lista,char *x){
     bool resp=false;
@@ -172,6 +169,7 @@ bool PesquisaBinaria(Jogador *lista,char *x){
 
     while(esq<=dir){
         meio=(esq+dir)/2;
+        comp++;
         if(strcmp(x,lista[meio].nome)==0){
             resp=true;
             esq=tamanho;
@@ -180,6 +178,17 @@ bool PesquisaBinaria(Jogador *lista,char *x){
     }
 
     return resp;
+}
+
+
+void ArqLog(){
+    int matricula = 1441272;
+    int tempo;
+    tempo = (int)(end-start)/1000;
+
+    FILE *file = fopen("matrícula_binaria.txt","w");
+    fprintf(file,"%i\t%is\t%i",matricula,tempo,comp);
+
 }
 
 
@@ -205,7 +214,12 @@ void TemEsseNome(Jogador *lista){
 int main(){
     Jogador lista[500];
     InserirElementos(lista);
+
+    start=clock();
     OrganizaArray(lista,0);
     TemEsseNome(lista);
+    end=clock();
+    ArqLog();
+
     return 0;
 }
