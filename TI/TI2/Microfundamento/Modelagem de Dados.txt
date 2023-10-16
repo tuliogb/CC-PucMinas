@@ -1,0 +1,49 @@
+>> Modelagem de Dados <<
+
+
+UNIDADE 1
+Quando modelamos um banco de dados, devemos ter em mente em primeiro lugar quem vai usar esse BD e porque precisa usá-lo. E fazemos isso para evitar:
+- Redundância de dados.
+- Inconsistência de dados.
+- Dificuldade de aproveitamento de dados em novas aplicações.
+- Dificuldade no acesso a dados.
+- Falta da visão de Administração de Dados. 
+
+Banco de dados      !=   Sistema Gerenciamento de banco de dados
+ +Usuarios                   Foco tecnologico
+ Metodos e Graus             Auxilia nos metodos e graus (incorpora alguns)
+
+
+ - Procedural: o usuário tem que especificar qual dado é necessário e como obtê-lo.
+ - Não procedural: o usuário não define como os dados serão acessados.
+
+Participantes:
+    Administrador de Dados (AD):
+    - Visão mais lógica e de modelagem: “Arquiteto”.
+    - Define a estrutura de informação da empresa (base de dados).
+    - Administra a descrição da base de dados (dicionário de dados).
+    - Define padrões para codificação de objetos da base de dados (tabelas, nomes de campos).
+    - Zela pelo modelo corporativo de dados.
+    - Conhece profundamente as regras de negócio da empresa: visão mais específica.
+
+    Administrador de Banco de Dados (DBA – Database Administrator):
+    - Visão mais física de implementação: “Engenheiro”.
+    - Perfil de Analista de Suporte: performance, otimização, armazenamento.
+    - Gerencia a base de dados instalada.
+    - Modifica a estrutura de armazenamento e a organização física: migrações, carga de dados, atualização de versões.
+    - Fornece e controla as autorizações de acesso ao SGBD.
+    - Administra o Sistema Gerenciador de Banco de Dados (SGBD).
+    - Deve ser especialista no SGBD (Oracle, SQL Server, MySQL, etc.).
+
+    Analista de Sistemas/Engenheiro de Software/Desenvolvedor:
+    - Coleta os requisitos e necessidades de informação dos usuários finais.
+    - Desenvolve os sistemas que acessam bancos de dados.
+    - Trabalha conjuntamente com o AD na modelagem do BD.
+    - Trabalha conjuntamente com o DBA na implementação do BD.
+
+    Usuário Final:
+    - Acessa o banco de dados para consultas, atualizações, geração de relatórios.
+    - Diferenças entre usuário nível operacional e nível gerencial
+
+    
+    parei em tema 2
