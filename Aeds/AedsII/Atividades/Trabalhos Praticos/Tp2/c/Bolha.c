@@ -7,12 +7,22 @@
 /*
     Dev: Tulio Gomes Braga
     Matricula: 1441272
-    Curso: CC-PucMinas - 14/10/2023
+    Curso: CC-PucMinas - 17/10/2023
 */
 
-int tamanho = 0;
-int comp=0,mov=0;
+/*
+    InserirElementos: Controla a entrada(stdin) quando ela nao for igual a "FIM" , chamando os outros metodos passando o id e o primeiro endereco vago da lista;
+    SetaId: Abre o arquivo base, ignora a primeira linha, procura a linha do Id digitado, pega a linha e manda pra parteDados;
+    parteDados: Copia a linha e substitui o \n por \0, aloca de tamanho+4 (+4 pra entrar os espacos entre as virgulas) e trata os casos ",,", envia pra SetaDados;
+    setaDados: Parte a String de acordo com ',' e caso a parte for ' ', insere nao informado, se nao, o conteudo dela proprio;
+    mostrarTodos: Percorre a lista enviada ate o tamanho enviado chamando a mostraDados pra printar na formatacao correta;
+    ArqLog: Registra em um arquivo a matricula, tempo de execucao, numero de ocorrencia de comparacao e movimentacao durante o exercicio abaixo;
+
+    Exercicios de Ordenacao: Metodo Bolha para ordenar de acordo com o atributo da struct "anoNascimento";
+*/
+
 clock_t start,end;
+int tamanho=0,comp=0,mov=0;
 
 typedef struct {
     int id;
@@ -37,9 +47,10 @@ void InserirElementos(Jogador *lista){
     }
 }
 
+
 void SetaId(Jogador *jogador, int id) {
     FILE *file;
-    file = fopen("players.csv", "r");
+    file = fopen("/tmp/players.csv", "r");
 
     char linha[100];
     char resp[100];
@@ -62,6 +73,7 @@ void SetaId(Jogador *jogador, int id) {
     }
     fclose(file);
 }
+
 
 void parteDados(Jogador *jogador, const char *x) {
 
@@ -96,6 +108,7 @@ void parteDados(Jogador *jogador, const char *x) {
     free(nvlinha);
 }
 
+
 void setaDados(Jogador *jogador,char *linha){
 
     int t=0;
@@ -121,6 +134,7 @@ void setaDados(Jogador *jogador,char *linha){
 
 }
 
+
 void mostraDados(Jogador *jogador){
     printf("[%d ## %s ## %d ## %d ## %d ## %s ## %s ## %s]\n",
         jogador->id,
@@ -134,6 +148,7 @@ void mostraDados(Jogador *jogador){
     );
 }
 
+
 void mostrarTodos(Jogador *lista){
     for(int i=0;i<tamanho;i++){
         mostraDados(&lista[i]);
@@ -141,21 +156,21 @@ void mostrarTodos(Jogador *lista){
 }
 
 void troca(Jogador *lista,int x,int y){
-    Jogador tmp = lista[x]; mov++;
+    mov++;
+    Jogador tmp = lista[x];
     lista[x] = lista[y];
     lista[y] = tmp;
 }
 
 void ArqLog(){
-    int matricula = 1441272;
-    float tempo;
-    tempo = (float)(end-start)/1000;
+    int matricula = 802512;
+    int tempo;
+    tempo = (int)(end-start)*1000;
 
-    FILE *file = fopen("matrícula_binaria.txt","w");
-    fprintf(file,"%i\t%f\t%i\t%i",matricula,tempo,comp,mov);
+    FILE *file = fopen("matricula_bolha.txt","w");
+    fprintf(file,"%i\t%ims\t%i\t%i",matricula,tempo,comp,mov);
 
 }
-
 
 void Bolha(Jogador *array){
     int n=tamanho,i=0,j=0;
@@ -174,7 +189,9 @@ void NomeEdata(Jogador *lista,int tam){
     for (int i=0;i<(tam-1);i++) {
       int menor=i;
       for (int j=(i+1);j<tam;j++){
+        comp++;
          if (lista[menor].anoNascimento == lista[j].anoNascimento){
+             comp++;
             if(strcmp(lista[menor].nome, lista[j].nome)>0) menor=j;
          }
       }
@@ -183,16 +200,17 @@ void NomeEdata(Jogador *lista,int tam){
 }
 
 
+
 int main(){
     Jogador lista[500];
     InserirElementos(lista);
 
+    start=clock();
     Bolha(lista);
     NomeEdata(lista,tamanho);
+    end=clock();
+    ArqLog();
 
     mostrarTodos(lista);
-
     return 0;
 }
-
-
