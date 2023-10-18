@@ -171,11 +171,9 @@ Estrutura:
 Um nó é uma classe autorreferencial que contém duas referências (ou ponteiros) para outros objetos do tipo nó.
 Em que cada nó é maior que todos seus vizinhos à esquerda e menor que todos a direita.
 
-
-
-
-
-
+Obs: No metodo inserir em java com retorno de referencia(i) da ab a conexao do novo nó acontece no primeiro retorno do metodo inserir recursivo.
+ChatGpt: Mostre graficamente e passo a passo a insercao dos numeros 3,5,1,8,2,4,7 e 6 na arvore binaria considerando o codigo.
+Implemente o algoritico de ordenacao treeSort, que insere os elementos em uma arvore, efetuar o caminha central e mostrar os elementos ordenados.
 
 
 
