@@ -7,11 +7,22 @@
 /*
     Dev: Tulio Gomes Braga
     Matricula: 1441272
-    Curso: CC-PucMinas - 16/10/2023
+    Curso: CC-PucMinas - 17/10/2023
+*/
+
+/*
+    InserirElementos: Controla a entrada(stdin) quando ela nao for igual a "FIM" , chamando os outros metodos passando o id e o primeiro endereco vago da lista;
+    SetaId: Abre o arquivo base, ignora a primeira linha, procura a linha do Id digitado, pega a linha e manda pra parteDados;
+    parteDados: Copia a linha e substitui o \n por \0, aloca de tamanho+4 (+4 pra entrar os espacos entre as virgulas) e trata os casos ",,", envia pra SetaDados;
+    setaDados: Parte a String de acordo com ',' e caso a parte for ' ', insere nao informado, se nao, o conteudo dela proprio;
+    mostrarTodos: Percorre a lista enviada ate o tamanho enviado chamando a mostraDados pra printar na formatacao correta;
+    ArqLog: Registra em um arquivo a matricula, tempo de execucao, numero de ocorrencia de comparacao e movimentacao durante o exercicio abaixo;
+
+    Exercicios de Ordenacao: Metodo PesquisaBinaria para procurar o elemento informado pela entrada;
 */
 
 clock_t start,end;
-int tamanho = 0,comp=0;
+int tamanho=0,comp=0,mov=0;
 
 typedef struct {
     int id;
@@ -137,7 +148,6 @@ void mostraDados(Jogador *jogador){
     );
 }
 
-
 void mostrarTodos(Jogador *lista){
     for(int i=0;i<tamanho;i++){
         mostraDados(&lista[i]);
@@ -145,10 +155,45 @@ void mostrarTodos(Jogador *lista){
 }
 
 
+void troca(Jogador *lista,int x,int y){
+    mov++;
+    Jogador tmp = lista[x];
+    lista[x] = lista[y];
+    lista[y] = tmp;
+}
+
+
+void ArqLog(){
+    int matricula = 802512;
+    int tempo;
+    tempo = (int)(end-start)*1000;
+
+    FILE *file = fopen("matricula_pesquisaBinaria.txt","w");
+    fprintf(file,"%i\t%ims\t%i\t%i",matricula,tempo,comp,mov);
+
+}
+
+
+void NomeEdata(Jogador *lista,int tam){
+    for (int i=0;i<(tam-1);i++) {
+      int menor=i;
+      for (int j=(i+1);j<tam;j++){
+        comp++;
+         if (lista[menor].anoNascimento == lista[j].anoNascimento){
+             comp++;
+            if(strcmp(lista[menor].nome, lista[j].nome)>0) menor=j;
+         }
+      }
+      troca(lista,menor,i);
+   }
+}
+
+
 void OrganizaArray(Jogador *lista,int x){
     if(x<tamanho){
         int menor=x;
         for(int j=x+1;j<tamanho;j++){
+            comp++;
             if(strcmp(lista[menor].nome, lista[j].nome)>0) menor=j; // RETORNA 0 SE FOR IGUAL, NEGATIVO 1 MENOR, POSITIVO 1 MAIOR;
         }
         troca(lista,menor,x);
@@ -156,11 +201,6 @@ void OrganizaArray(Jogador *lista,int x){
     }
 }
 
-void troca(Jogador *lista,int x,int y){
-    Jogador tmp = lista[x];
-    lista[x] = lista[y];
-    lista[y] = tmp;
-}
 
 bool PesquisaBinaria(Jogador *lista,char *x){
     bool resp=false;
@@ -175,20 +215,10 @@ bool PesquisaBinaria(Jogador *lista,char *x){
             esq=tamanho;
         }else if(strcmp(x,lista[meio].nome)>0) esq = meio+1;
         else dir=meio-1;
+        comp++;
     }
 
     return resp;
-}
-
-
-void ArqLog(){
-    int matricula = 1441272;
-    int tempo;
-    tempo = (int)(end-start)/1000;
-
-    FILE *file = fopen("matrícula_binaria.txt","w");
-    fprintf(file,"%i\t%is\t%i",matricula,tempo,comp);
-
 }
 
 
@@ -211,6 +241,9 @@ void TemEsseNome(Jogador *lista){
 
 
 
+
+
+
 int main(){
     Jogador lista[500];
     InserirElementos(lista);
@@ -219,7 +252,7 @@ int main(){
     OrganizaArray(lista,0);
     TemEsseNome(lista);
     end=clock();
+    
     ArqLog();
-
     return 0;
 }
