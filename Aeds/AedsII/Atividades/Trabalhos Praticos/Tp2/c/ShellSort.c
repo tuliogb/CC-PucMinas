@@ -181,7 +181,7 @@ void ArqLog(){
     int tempo;
     tempo = (int)(end-start)*1000;
 
-    FILE *file = fopen("matricula_shellsort","w");
+    FILE *file = fopen("matricula_shellsort.txt","w");
     fprintf(file,"%i\t%ims\t%i\t%i",matricula,tempo,comp,mov);
 
 }
