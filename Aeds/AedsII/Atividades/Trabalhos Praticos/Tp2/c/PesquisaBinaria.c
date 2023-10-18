@@ -164,7 +164,7 @@ void troca(Jogador *lista,int x,int y){
 
 
 void ArqLog(){
-    int matricula = 802512;
+    int matricula = 0;
     int tempo;
     tempo = (int)(end-start)*1000;
 
