@@ -35,6 +35,118 @@ TRUNCATE TABLE nome_da_tabela           "apaga o conteudo da tabela"
 
 UNIDADE 2
 
+INSERT INTO nome_da_tabela (nome_da_coluna1, nome_da_coluna2, ...) VALUES (valor_a_ser_inserido_na_coluna1, valor_a_ser_inserido_na_coluna2, ...)
+Comando pra inserir na tabela os valores desejados. Os dados(Ex: coluna) tem que estar na mesma ordem que esta na tabela, se nao da erro;
+Valor: Caracter usa ' ' >> pra separar os valores usa ',' virgula, sem isso ele considera como inteiro; Se eu deixo de inserir é nulo o conteudo != 0;
 
 
+UPDATE nome_da_tabela SET nome_da_coluna = novo_valor_do_dado_da_coluna WHERE condições >> pode colocar o in, o qual verifica se existe, caso exista faz a solicitacao;
+Caso voce queira corrigir um dado é so usar update, inserindo o nome da tabela, o local em que vai ser setado e informacao.
+UPDATE Fornecedor SET Nome = 'Fornecedor 4' where codigo = null >> todas as ocorrencia nulas de nome vao ser alteradas; Para selecionar a alteracao especificando é so manipular o campo que esta null;
+
+
+DELETE FROM nome_da_tabela WHERE condições
+Se nao informa a condicao(where) ele apaga a tabela toda. Where coluna = '2', ele ira na coluna chamada 'coluna' e apagara o elemento = 2;
+
+
+SELECT: indica quais colunas que serão apresentadas como resultado da consulta. 
+WHERE: apresenta as restrições ou filtros que serão aplicadas aos dados.
+ORDER BY: classifica as linhas retornadas pela consulta.
+
+
+SELECT Codigo , Nome         >> Nesse caso ele pegará as colunas Codigo e Nome da tabela Categoria;
+FROM Categoria
+WHERE UF = 'MG' OR UF = 'BA';  >> Ira retornar somente os de minas e bahia da coluna UF; 
+
+O codigo acima retorna de acordo com a ordem dos elementos na tabela, se quiser ordenar diferente usa o >> ORDER BT UF; Se quer ao contrario ORDER BT UF DESC;
+
+
+Operador 	        Descrição
+= 	 igual a: verifica se dois valores são iguais
+<> 	 diferente de: verifica se dois valores são diferentes
+> 	 maior que: verifica se o valor à esquerda é maior do que o valor à direita
+< 	 menor que: verifica se o valor à esquerda é menor do que o valor à direita
+>= 	 maior ou igual a: verifica se o valor à esquerda é maior ou igual do que o valor à direita
+<= 	 menor ou igual a: verifica se o valor à esquerda é menor ou igual do que o valor à direita
+
+
+
+Operador 	        Descrição
+AND >	verifica se todas as expressões dos dois lados do AND são verdadeiras
+OR  >	verifica se alguma das expressões dos dois lados do OR é verdadeira
+
+BETWEEN 	
+verifica se um determinado valor está dentro do intervalo indicado.
+Ex.: valor_do_produto BETWEEN 100 AND 300
+Obs.: a verificação inclui os limites inferior e superior do intervalo
+
+IN 	
+verifica se um determinado valor está presente em uma lista de valores
+Ex.: valor_do_produto IN (100,300,500,7000)
+
+NOT >	nega uma expressão lógica
+IS NULL  >	verifica se um valor é nulo
+IS NOT NULL >	verifica se um valor não é nulo
+
+
+LIKE 	
+Utiliza os wildcards  _  e  %  para procurar por padrões de texto em uma string ou sequência de caracteres.
+Cada _ corresponde a um caracter.
+% corresponde a nenhum ou vários caracteres em uma sequência.
+Ex.: cidade LIKE ‘_elo Hori%’ retornaria a cidade Belo Horizonte.
+
+
+
+select NomeProduto, Preco
+from produto
+where preco > 1000
+order by preco;                 ira retornar os produtos com preco maior que 1000 em ordem crescente
+
+
+select NomeProduto, Preco
+from produto
+where preco > 1000 and preco < 2000;                    Poderiamos colocar o between
+order by preco;                 ira retornar os produtos com preco maior que 1000 e menores que 2000 em ordem crescente
+
+
+select NomeProduto, Preco
+from produto
+where Categoria <> '3'
+order by preco;                 ira retornar os produtos com preco que nao sao da Categoria 3 em ordem crescente
+
+
+select Nome
+from categoria
+where nome in ('Acessorio','Suprimentos');     Nome de categoria igual as que estao dentro do parenteses, podemos usar o not, ai retorna todas menos as de dentro to parentedes;
+
+select Nome
+from fornecedor
+where cidade LIKE '%Belo';                     Usamos like quando nao sabemos o restante das informacoes, a cidade comeca com Belo mas esqueci o restante;
+
+
+
+select Nome
+from fornecedor
+where cidade LIKE '_elo Horizonte';                     Substitui o ander line pela letra que achar compativel nos dados, caso tenha Belo Horizonte o underline ira aparecer B;  
+
+
+
+
+
+
+Função 	Descrição
+AVG(coluna) 	 calcula a média de todos os valores para aquela coluna                Ex: SELECT AVG(Preco) AS 'NovoNomedaColuna' from Produto;
+COUNT(coluna) 	 conta o número de valores não nulos para coluna                       Ex: SELECT count(preco) from Produto;
+COUNT(*) 	 conta o número de linhas na tabela                                    Ex: SELECT count(*) from Produto;
+MAX(coluna) 	 retorna o valor máximo para coluna                                    Ex: SELECT MAX(preco) from Produto;
+MIN(coluna) 	 retorna o valor mínimo para coluna                                    Ex: SELECT min(preco) from Produto;
+SUM(coluna) 	 calcula a soma dos valores para coluna                                Ex: SELECT sum(preco) from Produto where fornecedor = '2';
+
+Obs: Valores nulos nao sao considerados;
+
+
+select 2*3; 6    >>      select ' O produto de 2 e 3 =', 2*3 from produto; ira fazer linhas produtos vezes;
+
+
+parei no TEMA 3//
 
