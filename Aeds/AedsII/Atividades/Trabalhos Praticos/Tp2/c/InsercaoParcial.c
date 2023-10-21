@@ -2,16 +2,27 @@
 #include <stdlib.h>
 #include <string.h>
 #include <stdbool.h>
+#include <time.h>
 
 /*
     Dev: Tulio Gomes Braga
     Matricula: 1441272
-    Curso: CC-PucMinas - 13/10/2023
+    Curso: CC-PucMinas - 20/10/2023
 */
 
+/*
+    InserirElementos: Controla a entrada(stdin) quando ela nao for igual a "FIM" , chamando os outros metodos passando o id e o primeiro endereco vago da lista;
+    SetaId: Abre o arquivo base, ignora a primeira linha, procura a linha do Id digitado, pega a linha e manda pra parteDados;
+    parteDados: Copia a linha e substitui o \n por \0, aloca de tamanho+4 (+4 pra entrar os espacos entre as virgulas) e trata os casos ",,", envia pra SetaDados;
+    setaDados: Parte a String de acordo com ',' e caso a parte for ' ', insere nao informado, se nao, o conteudo dela proprio;
+    mostrarTodos: Percorre a lista enviada ate o tamanho enviado chamando a mostraDados pra printar na formatacao correta;
+    ArqLog: Registra em um arquivo a matricula, tempo de execucao, numero de ocorrencia de comparacao e movimentacao durante o exercicio abaixo;
 
-int k=10;
-int tamanho = 0;
+    Exercicios de Ordenacao: Metodo Insercao parcial para ordenar os 10 primeiros de acordo com o atributo da struct "anoNascimento";
+*/
+
+clock_t start,end;
+int tamanho=0,comp=0,mov=0;
 
 typedef struct {
     int id;
@@ -25,6 +36,17 @@ typedef struct {
 } Jogador;
 
 
+void InserirElementos(Jogador *lista);
+void SetaId(Jogador *jogador, int id);
+void parteDados(Jogador *jogador, const char *x);
+void setaDados(Jogador *jogador, char *linha);
+void mostraDados(Jogador *jogador);
+void mostrarTodos(Jogador *lista,int x);
+void troca(Jogador *lista, int x, int y);
+void ArqLog();
+void NomeEdata(Jogador *lista, int tam);
+
+
 void InserirElementos(Jogador *lista){
     char input[100];
     scanf("%s", input);
@@ -36,9 +58,10 @@ void InserirElementos(Jogador *lista){
     }
 }
 
+
 void SetaId(Jogador *jogador, int id) {
     FILE *file;
-    file = fopen("players.csv", "r");
+    file = fopen("/tmp/players.csv", "r");
 
     char linha[100];
     char resp[100];
@@ -53,7 +76,7 @@ void SetaId(Jogador *jogador, int id) {
         int num = atoi(token);
 
         if(id==num){
-            parteDados(jogador,&resp);
+            parteDados(jogador,resp);
             achou=true;
         }
         token=strtok(NULL,",");
@@ -61,6 +84,7 @@ void SetaId(Jogador *jogador, int id) {
     }
     fclose(file);
 }
+
 
 void parteDados(Jogador *jogador, const char *x) {
 
@@ -95,6 +119,7 @@ void parteDados(Jogador *jogador, const char *x) {
     free(nvlinha);
 }
 
+
 void setaDados(Jogador *jogador,char *linha){
 
     int t=0;
@@ -120,6 +145,7 @@ void setaDados(Jogador *jogador,char *linha){
 
 }
 
+
 void mostraDados(Jogador *jogador){
     printf("[%d ## %s ## %d ## %d ## %d ## %s ## %s ## %s]\n",
         jogador->id,
@@ -133,57 +159,27 @@ void mostraDados(Jogador *jogador){
     );
 }
 
-void mostrarTodos(Jogador *lista, int tam){
-    for(int i=0;i<tam;i++){
+void mostrarTodos(Jogador *lista,int x){
+    for(int i=0;i<x;i++){
         mostraDados(&lista[i]);
     }
 }
 
 
-void ParcialInsercao(Jogador *lista){
-
-    Jogador menores[k];
-
-    for(int i=0;i<k;i++){menores[i]=lista[i];}
-    insercao(menores,k);
-    NomeEdata(menores,k);
-
-    insercao(lista,tamanho);
-    NomeEdata(lista,tamanho);
-
-    mostrarTodos(lista,10);
-
-    /*  TENTATIVA PARCIAL, INSERIDO OS DOIS EM PARALELO.
-
-    for (int i=1;i<tamanho;i++){
-        int tmp = lista[i].anoNascimento;
-        int j=i-1;
-
-        while((j>=0) && (lista[j].anoNascimento > tmp)){
-            troca(lista,j+1,j);
-            if(lista[j].anoNascimento < menores[k-1].anoNascimento){organizaMenores(menores,lista,j);}
-            j--;
-        }
-        lista[j+1].anoNascimento = tmp;
-    }
-
-    mostrarTodos(menores,k);
-    */
-}
-
-void organizaMenores(Jogador *menores,Jogador *lista,int j){
-    menores[k-1]=lista[j];
-    insercao(lista,k);
-    NomeEdata(lista,k);
-    mostrarTodos(lista,k);
-    printf("\n");
+void troca(Jogador *lista,int x,int y){
+    mov++;
+    Jogador tmp = lista[x];
+    lista[x] = lista[y];
+    lista[y] = tmp;
 }
 
 void NomeEdata(Jogador *lista,int tam){
     for (int i=0;i<(tam-1);i++) {
       int menor=i;
       for (int j=(i+1);j<tam;j++){
+        comp++;
          if (lista[menor].anoNascimento == lista[j].anoNascimento){
+             comp++;
             if(strcmp(lista[menor].nome, lista[j].nome)>0) menor=j;
          }
       }
@@ -191,29 +187,32 @@ void NomeEdata(Jogador *lista,int tam){
    }
 }
 
-void insercao(Jogador *lista,int len){
-    for (int i=1;i<len;i++){
-        int tmp = lista[i].anoNascimento;
+void insercao(Jogador *jogador, int tam){
+    for (int i=1;i<tam;i++) {
+        Jogador tmp = jogador[i];
         int j=i-1;
-
-        while((j>=0) && (lista[j].anoNascimento > tmp)){
-            troca(lista,j+1,j);
+        
+        while ((j >= 0) && (jogador[j].anoNascimento > tmp.anoNascimento)) {
+            jogador[j+1] = jogador[j];
             j--;
+            comp++;
         }
-        lista[j+1].anoNascimento = tmp;
+        mov++;
+        jogador[j+1] = tmp;
     }
 }
 
-void troca(Jogador *lista,int x,int y){
-    Jogador tmp = lista[x];
-    lista[x] = lista[y];
-    lista[y] = tmp;
+void InsercaoK(Jogador *lista, int k){
+    insercao(lista,tamanho);
+    mostrarTodos(lista,10);
 }
-
 
 int main(){
     Jogador lista[500];
-    InserirElementos(lista);
-    ParcialInsercao(lista);
+    InserirElementos(lista); 
+
+    NomeEdata(lista,tamanho);   /* CHAMAR DEPOIS FAZ DIFERENCA DEVIDO A ESTABILIDADE*/
+    InsercaoK(lista,10);
+
     return 0;
 }
