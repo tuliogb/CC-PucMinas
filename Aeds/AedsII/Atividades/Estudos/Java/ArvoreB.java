@@ -1,9 +1,11 @@
-class Arvore{
-    int elemento;
-    Arvore esq,dir,raiz;
+public class Arvore{
+
+    public int elemento;
+    public static int media,cont,maior;
+    public Arvore raiz,esq,dir;
 
     public Arvore(){
-        raiz=null;
+        raiz = null;
     }
 
     public Arvore(int elemento){
@@ -11,56 +13,62 @@ class Arvore{
         this.esq = null;
         this.dir = null;
     }
-
-    public Arvore(int elemento,Arvore esq,Arvore dir){
-        this.elemento = elemento;
-        this.esq = esq;
-        this.dir = dir;
+    
+    void inserir(int elemento){
+        cont++;
+        raiz = inserir(elemento,raiz); 
+    }  
+    
+    Arvore inserir(int x, Arvore raiz){
+      if(raiz==null) raiz = new Arvore(x);
+      else if(x < raiz.elemento) raiz.esq = inserir(x,raiz.esq);
+      else if(x > raiz.elemento) raiz.dir = inserir(x,raiz.dir);
+      
+      return raiz;  
     }
 
-
-    public void inserir(int x){
-        raiz = inserir(x,raiz);
-    }   
-
-    public Arvore inserir(int x,Arvore i){
-        if (i==null){  i = new Arvore(x);  }
-        else if (x < i.elemento){  i.esq = inserir(x, i.esq);  }
-        else if (x > i.elemento){  i.dir = inserir(x, i.dir);  }
-
-        return i;
-    }
-
-    public void mostrar(Arvore nodo) {
-        if (nodo != null) {
-            mostrar(nodo.esq); // Recursivamente percorre a subárvore esquerda
-            System.out.print(nodo.elemento + " "); // Exibe o elemento atual
-            mostrar(nodo.dir); // Recursivamente percorre a subárvore direita
+    void mostrarArvore(Arvore raiz) {
+        if (raiz != null) {
+            mostrarArvore(raiz.esq);                    // Recursivamente percorre a subárvore esquerda
+            System.out.print(raiz.elemento + " ");      // Exibe o elemento atual
+            mostrarArvore(raiz.dir);                    // Recursivamente percorre a subárvore direita
         }
     }
-    
-    /*
-    public Arvore VerificaNum(int x,Arvore i){
-        if(i.elemento == x){ System.out.println("Elemento Encontrado"); }
-        else if (x < i.elemento){  i.esq = VerificaNum(x, i.esq);  }
-        else if (x > i.elemento){  i.dir = VerificaNum(x, i.dir);  }
 
-        return i;
+
+    void mediaArvore(Arvore raiz) {
+        if (raiz != null) {
+            mediaArvore(raiz.esq);                    // Recursivamente percorre a subárvore esquerda
+            media = media + raiz.elemento;              // soma o elemento correte a media
+            mediaArvore(raiz.dir);                    // Recursivamente percorre a subárvore direita
+        }
     }
-    */
 
+    void maiorArvore(Arvore raiz) {
+        if (raiz != null) {
+            maiorArvore(raiz.esq);                                   // Recursivamente percorre a subárvore esquerda
+            if(raiz.elemento > maior) maior = raiz.elemento;         // soma o elemento correte a media
+            maiorArvore(raiz.dir);                                   // Recursivamente percorre a subárvore direita
+        }
+    }
 
+    
     public static void main(String[] args) {
         Arvore arvore = new Arvore();
+        
+        arvore.inserir(3);
+        arvore.inserir(1);
+        arvore.inserir(5);
+        arvore.inserir(4);
+        arvore.inserir(8);
+        arvore.inserir(2);
 
-        for(int i=0;i<7;i++){
-            arvore.inserir(i);
-        }
 
-        arvore.mostrar(arvore.raiz);
-
-        //arvore.VerificaNum(7,arvore.raiz);
-        //System.out.println(arvore.raiz.elemento);   /* PRIMEIRA INSECAO (PONTEIRO RAIZ SE TORNOU I E APONTOU PRO NOVO E VOLTOU PRA RAIZ COM ELEMENTO INSERIDO*/
-        //System.out.println(arvore.raiz.dir.dir.elemento); /* A POSICAO DO ULTIMO ELEMENTO É RAIZ*ELEMENTOS-1 (QUANDO ESTAO EM SERIE)*/
+        //arvore.mostrarArvore(arvore.raiz);
+        //arvore.mediaArvore(arvore.raiz);
+        //System.out.println(media/cont);
+        arvore.maiorArvore(arvore.raiz);
+        System.out.println(maior);
+        
     }
 }
