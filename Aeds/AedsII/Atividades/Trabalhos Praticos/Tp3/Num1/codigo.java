@@ -21,17 +21,15 @@ class Jogador {
      * MostrarLista: Metodo pra percorrer toda nossa lista e printar os dados;
      * Escreve: Recebe o objeto corrente e printa o retorno de outro metodo;
      * toString: Similar ao mostrar dados, retorna os dados concatenados em String;
-     * Main: 
      * 
-     * Exercicio:
+     * Exercicio: Manipulando o array a partir de criterios da lista simples sequencial.
     */
 
-    public static int tamanho=0, MAX=130;
+    public static Jogador[] removidos = new Jogador[10];
+    public static int tamanho=0, MAX=200, tamRemovidos=0;
+
     private Integer id,altura,peso,anoNascimento;
     private String nome,universidade,cidadeNascimento,estadoNascimento;
-
-    public static Integer comp = 0;
-    public static Long tempo = (long) 0;
 
     public String getEstadoNascimento() {
         return estadoNascimento;
@@ -124,7 +122,7 @@ class Jogador {
     }
 
     public void SetaId(int x) throws Exception {
-        FileReader file = new FileReader("players.csv"); 
+        FileReader file = new FileReader("/tmp/players.csv"); 
         BufferedReader buffer = new BufferedReader(file);
         String linha;
 
@@ -163,28 +161,33 @@ class Jogador {
     }
 
     public static void MostraLista(Jogador[] lista) {
-		for(int i = 0; i < tamanho; i++) {
-			lista[i].Escrever();
+		for(int i=0; i<tamanho; i++) {
+            lista[i].Escrever(i);
 		}
 	}
 
-    public void Escrever() {
-		String linha = this.toString();
+    public void Escrever(int i) {
+		String linha = this.toString(i);
 		MyIO.println(linha);
 	}
 
-    public String toString() {
-		String txt = "";
-		txt += this.getId() + " ## ";
+    public String toString(int i) {
+		String txt = "[" + i + "] " + "## ";
 		txt += this.getNome() + " ## ";
 		txt += this.getAltura() + " ## ";
 		txt += this.getPeso() + " ## ";
 		txt += this.getAnoNascimento() + " ## ";
 		txt += this.getUniversidade() + " ## ";
 		txt += this.getCidadeNascimento() +  " ## ";
-		txt += this.getEstadoNascimento() + "#";
+		txt += this.getEstadoNascimento() + " ##";
 		return txt;
 	}
+
+    public static void troca(Jogador[] lista, int x, int y){
+        Jogador temp = lista[x];  
+        lista[x] = lista[y];
+        lista[y] = temp;
+    }
 
     /*---------------------------------------------------------------------------------------------------------------------------------------------------------------- INSERCAO DE DADOS FIM */
     /*---------------------------------------------------------------------------------------------------------------------------------------------------------- MANIPULACAO DE DADOS INICIO */
@@ -211,58 +214,108 @@ class Jogador {
 
         if(parte.length == 1){
             switch (parte[0]){ 
-                case "RI": removerInicio(); break; 
-                case "RF": removerFim(); break; 
+                case "RI": removerInicio(lista); break; 
+                case "RF": removerFim(lista); break; 
             }
         }
         else if(parte.length == 2){
             int idJogador =  Integer.parseInt(parte[1]);
             switch (parte[0]){
-                case "II": inserirInicio(idJogador); break;     
-                case "IF": inserirFim(idJogador); break; 
-                case "R*": remover(idJogador); break;  
+                case "II": inserirInicio(idJogador, lista); break;     
+                case "IF": inserirFim(idJogador, lista); break; 
+                case "R*": remover(idJogador, lista); break;  
             }
         }
         else if(parte.length == 3){
             int posicao =  Integer.parseInt(parte[1]);
             int idJogador =  Integer.parseInt(parte[2]);
-            inserir(idJogador, posicao);
+            inserir(idJogador, posicao, lista);
         }
 
     }
 
-    public static void inserirInicio(int idJogador){
-        MyIO.println("Inserir inicio");
+    public static void inserirInicio(int idJogador, Jogador[] lista){
+        for(int i=tamanho;i>0;i--){
+            lista[i]=lista[i-1];
+        }
+    
+        try{
+            Jogador jogador = new Jogador();
+            jogador.SetaId(idJogador);
+            lista[0] = jogador;
+            tamanho++;
+        }catch(Exception e){}
     }
 
-    public static void inserir(int idJogador, int posicao){
-         MyIO.println("Inserir");
+    public static void inserir(int idJogador, int posicao, Jogador[] lista){
+        for(int i=tamanho;i>posicao;i--){
+            lista[i]=lista[i-1];                    // O TAMANHO DO ARRAY É A POSICAO VAGA QUE VAI SER USADA PRA MOVIMENTAR A COPIA
+        }
+
+        try{
+            Jogador jogador = new Jogador();
+            jogador.SetaId(idJogador);
+            lista[posicao] = jogador;
+            tamanho++;
+        }catch(Exception e){}
     }
 
-    public static void inserirFim(int idJogador){
-         MyIO.println("Inserir Fim");
+    public static void inserirFim(int idJogador, Jogador[] lista){
+        try{
+            Jogador jogador = new Jogador();
+            jogador.SetaId(idJogador);
+            lista[tamanho] = jogador;
+            tamanho++;
+        }catch(Exception e){}
+    } 
+
+    public static void removerInicio(Jogador[] lista){
+        removidos[tamRemovidos] = lista[0]; tamRemovidos++;
+        for(int i=0;i<tamanho-1;i++){
+            lista[i]=lista[i+1];                    
+        }
+        tamanho--;
     }
 
-    public static void removerInicio(){
-         MyIO.println("Remover inicio");
+    public static void remover(int posicao, Jogador[] lista){
+        removidos[tamRemovidos] = lista[posicao]; tamRemovidos++;
+        for(int i=posicao;i<tamanho-1;i++){
+            lista[i]=lista[i+1];                    
+        }
+        tamanho--;
     }
 
-    public static void remover(int posicao){
-         MyIO.println("Remover");
+    public static void removerFim(Jogador[] lista){
+        removidos[tamRemovidos] = lista[tamanho-1];
+        tamRemovidos++;
+        tamanho--;
     }
 
-    public static void removerFim(){
-         MyIO.println("Remover Fim");
-    }
+    public static void mostraExcluidos(Jogador[] lista) {
+		for(int i=0; i<tamRemovidos; i++) {
+            lista[i].EscreverEx();
+		}
+	}
+
+    public void EscreverEx() {
+		String linha = this.toStringEx();
+		MyIO.println(linha);
+	}
+
+    public String toStringEx() {
+		String txt = "(R) ";
+		txt += this.getNome();
+		return txt;
+	}
 
 
     public static void main(String[] args) {            // Compilar:    javac .\Jogador.java 
-        Jogador[] array = new Jogador[MAX];             // Executar:    type .\pub.in | java Jogador > result.txt */
+        Jogador[] array = new Jogador[MAX];             // Executar:    type .\pub.in | java Jogador > result.txt 
 
         inserirElementos(array);
         manipulaElementos(array);
-        //MostraLista(array);
-
+        mostraExcluidos(removidos);
+        MostraLista(array);
     }
-
+ 
 }
