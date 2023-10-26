@@ -110,7 +110,7 @@ class Jogador {
 		return clone;
 	}
 
-    /*---------------------------------------------------------------------------------------------------------------------------------------------------------------- INSERCAO DE DADOS INICIO */
+    /*----------------------------------------------------------------------------------------------------------------------------------------- INSERCAO DE DADOS INICIO */
 
     public void inserirElementos(){
         String input = MyIO.readLine();
@@ -130,7 +130,7 @@ class Jogador {
     }
 
     public void SetaId(int x) throws Exception {
-        FileReader file = new FileReader("players.csv"); 
+        FileReader file = new FileReader("/tmp/players.csv"); 
         BufferedReader buffer = new BufferedReader(file);
         String linha;
 
@@ -196,8 +196,8 @@ class Jogador {
 
     public static void troca(int x, int y){}
 
-    /*---------------------------------------------------------------------------------------------------------------------------------------------------------------- INSERCAO DE DADOS FIM */
-    /*---------------------------------------------------------------------------------------------------------------------------------------------------------- MANIPULACAO DE DADOS INICIO */
+    /*------------------------------------------------------------------------------------------------------------------------------------------ FIM INSERCAO DE DADOS */
+    /*------------------------------------------------------------------------------------------------------------------------------------------ INICIO MANIPULACAO DE DADOS */
 
     public void manipulaElementos(){
         int qtd = MyIO.readInt();
@@ -232,7 +232,7 @@ class Jogador {
             switch (parte[0]){
                 case "II": inserirInicio(idJogador); break;     
                 case "IF": inserirFim(idJogador); break; 
-                case "R*": remover(idJogador); break;  // Posicao
+                case "R*": remover(idJogador); break;              // Posicao
             }
         }
         else if(parte.length == 3){
@@ -242,27 +242,30 @@ class Jogador {
         }
     }
 
-    public static void inserirInicio(int idJogador){        // OK
+    public static void inserirInicio(int idJogador){                // OK
         try{    
             Jogador jogador = new Jogador();
             jogador.SetaId(idJogador);
 
             jogador.prox = primeiro.prox;
             primeiro.prox = jogador;
+
+            if(primeiro==ultimo) ultimo=jogador; 
+            jogador = null;
             tamanho++;
         }catch(Exception e){}
     }
     
     public static void inserir(int idJogador, int posicao){
-        if(posicao==1) inserirInicio(idJogador);
+        if(posicao==0) inserirInicio(idJogador);
         else if(posicao==tamanho+1) inserirFim(idJogador);
         else{
             try{
                 Jogador jogador = new Jogador();
                 jogador.SetaId(idJogador);
 
-                Jogador i=primeiro.prox;
-                for(int c=0;c<posicao-2;c++) {    /* O i VAI PARAR 1 CASA ANTES, QUE O PROX DO ELEMENTO VAI APONTAR PRA POSICAO A SER ALTERADA */          
+                Jogador i=primeiro;
+                for(int c=0;c<posicao;c++) {                        /* O i VAI PARAR 1 CASA ANTES, QUE O PROX DO ELEMENTO VAI APONTAR PRA POSICAO A SER ALTERADA */          
                     i=i.prox;
                 }
 
@@ -289,21 +292,25 @@ class Jogador {
 
     public static void removerInicio(){                                 /* CRIAR LISTA FLEX PRA REMOVIDOS, USANDO CLONE ANTES DE REMOVER */
         ArmazenaRemovidos(primeiro.prox);
+        
+        Jogador tmp = primeiro;
         primeiro = primeiro.prox;
-        tamanho--;
-        tamRemovidos++;
+        tmp.prox = null; tmp = null;
+        tamanho--; tamRemovidos++;
     }
 
     public static void remover(int posicao){
-        if(posicao==1) removerInicio();
-        else if(posicao==tamanho) removerFim();
+        if(posicao==0) removerInicio();
+        else if(posicao==tamanho-1) removerFim();
         else{
-            Jogador i=primeiro.prox;
-            for(int c=0;c<posicao-2;c++) {                      /* O i VAI PARAR 1 CASA ANTES, QUE O PROX DO ELEMENTO VAI APONTAR PRA POSICAO A SER EXCLUIDA */          
+            Jogador i=primeiro;
+            for(int c=0;c<posicao;c++) {                           /* O i VAI PARAR 1 CASA ANTES, QUE O PROX DO ELEMENTO VAI APONTAR PRA POSICAO A SER EXCLUIDA */          
                i=i.prox; 
             }
             ArmazenaRemovidos(i.prox);
-            i.prox = i.prox.prox;                                  /* NAO DESCONECTOU O PONTEIRO ANTIGO AINDA */
+            Jogador tmp = i.prox;                                  
+            i.prox = tmp.prox;
+            tmp.prox = null; i=tmp=null;
         }
         tamanho--;
         tamRemovidos++;
@@ -311,20 +318,25 @@ class Jogador {
 
     public static void removerFim(){
         Jogador i;
-        for (i=primeiro.prox;i.prox.prox!=null;i=i.prox);   /* PROX.PROX PRA EU CONFERIR A CASA ANTES DE ANDAR COM A REFERENCIA */
-        ArmazenaRemovidos(i.prox);      
-        i.prox = null;
-        tamanho--;
-        tamRemovidos++;
+        for (i=primeiro;i.prox!=ultimo;i=i.prox);          /* PROX.PROX PRA EU CONFERIR A CASA ANTES DE ANDAR COM A REFERENCIA */
+        
+        ArmazenaRemovidos(i.prox); 
+        ultimo = i; i = ultimo.prox = null;
+        tamanho--; tamRemovidos++;
     }
+
+
+    /* ------------------------------------------------------------------------------------------------------------------------------------------- FIM MANIPULACAO */
+    /* ------------------------------------------------------------------------------------------------------------------------------------------- INICIO REMOVIDOS */
 
 
     public static void ArmazenaRemovidos(Jogador jogador){
         Jogador novoRemov = jogador.cloneJogador();
         removidos.prox = novoRemov;
         removidos = removidos.prox;
-    }
 
+        novoRemov = null;
+    }
 
     public static void mostraExcluidos() {
 		for(Jogador i=primeiroRev.prox; i!=null; i=i.prox) {
@@ -343,6 +355,8 @@ class Jogador {
 		return txt;
 	}
 
+    /* ------------------------------------------------------------------------------------------------------------------------------------------- FIM REMOVIDOS */
+    /* ------------------------------------------------------------------------------------------------------------------------------------------- INICIO MAIN */
 
 
     public static void main(String[] args) {            // Compilar:    javac .\Jogador.java        Executar:    type .\pub.in | java Jogador > result.txt
@@ -353,5 +367,6 @@ class Jogador {
         jogador.manipulaElementos();
         jogador.MostraLista();
     }
- 
+    
+    /* ----------------------------------------------------------------------------------------------------------------------------------------------- FIM MAIN */
 }
