@@ -22,13 +22,10 @@ class Jogador {
      * Escreve: Recebe o objeto corrente e printa o retorno de outro metodo;
      * toString: Similar ao mostrar dados, retorna os dados concatenados em String;
      * 
-     * Exercicio: Manipulando o array a partir de criterios da lista flexivel, no qual os elementos estao unidos por um ponteiro prox.
+     * Exercicio: Manipulando o array a partir de criterios da pilha flexivel, no qual os elementos estao controlados por um ponteiro topo.
     */
 
-
-    public static int tamanho=0, tamRemovidos=0;
-
-    public static Jogador primeiro,ultimo, removidos, primeiroRev;
+    public static Jogador topo = null;
     public Jogador prox;
 
     private Integer id,altura,peso,anoNascimento;
@@ -118,11 +115,11 @@ class Jogador {
             try {
                 Integer id = Integer.parseInt(input);
                 Jogador jogador = new Jogador();
-
                 jogador.SetaId(id);                           
-                ultimo.prox = jogador;
-                ultimo = ultimo.prox;
-                tamanho++;
+
+                jogador.prox = topo;                    // LIGA NO ANTIGO TOPO
+                topo = jogador;                         // NOVO ELEMENTO SE TORNA TOPO
+                jogador = null;
             } catch (Exception e) {}
             input = MyIO.readLine();
         }
@@ -130,7 +127,7 @@ class Jogador {
     }
 
     public void SetaId(int x) throws Exception {
-        FileReader file = new FileReader("/tmp/players.csv"); 
+        FileReader file = new FileReader("players.csv"); 
         BufferedReader buffer = new BufferedReader(file);
         String linha;
 
@@ -140,7 +137,6 @@ class Jogador {
             try{
                 if(Integer.parseInt(numId) == x) {
                     this.setaDados(linha);
-                    //this.mostraDados();
                     break;
                 }
             }catch(NumberFormatException e){}
@@ -163,27 +159,21 @@ class Jogador {
 
     }
 
-    public void mostraDados(){
-        MyIO.println("[" + this.getId() + " ## " + this.getNome() + " ## " + this.getAltura() + " ## " + this.getPeso() + " ## " + this.getAnoNascimento() + " ## " 
-        + this.getUniversidade() + " ## " + this.getCidadeNascimento() + " ## " + this.getEstadoNascimento() + "]");
-    }
-
-    public void MostraLista() {
-        int c=0;
-		for(Jogador i=primeiro.prox; i!=null; i=i.prox) {           /* SE EU COLOCO ATE I.PROX!=NULL ELE VAI ANDAR 1 ELEMENTO NA FRENTE */
-            i.Escrever(c);
-            c++;
+	public void mostraPilha(Jogador i) {
+		if (i != null) {
+			mostraPilha(i.prox);
+			i.Escrever();
 		}
 	}
 
-    public void Escrever(int c) {
-		String linha = this.toString(c);
+    public void Escrever() {
+		String linha = this.toString();
 		MyIO.println(linha);
 	}
 
-    public String toString(int c) {
-		String txt = "[" + c + "] " + "## ";
-        //txt += this.getId() + " ## ";
+    public String toString() {
+		String txt = "[" + "] " + "## ";
+        txt += this.getId() + " ## ";
 		txt += this.getNome() + " ## ";
 		txt += this.getAltura() + " ## ";
 		txt += this.getPeso() + " ## ";
@@ -195,97 +185,65 @@ class Jogador {
 	}
 
     /*------------------------------------------------------------------------------------------------------------------------------------------ FIM INSERCAO DE DADOS */
-    /*------------------------------------------------------------------------------------------------------------------------------------------ INICIO MANIPULACAO DE DADOS */
+    /* ------------------------------------------------------------------------------------------------------------------------------------------- INICIO MANIPULACAO */
 
-    public void manipulaElementos(){
+    public static void manipulaElementos(){
         int qtd = MyIO.readInt();
-        primeiroRev = removidos = new Jogador();
 
         for(int i=0;i<qtd;i++){
             String input = MyIO.readLine();
             decodificaInput(input);
         }
-        mostraExcluidos();
     }
 
     public static void decodificaInput(String input){
         /*
-         * I inserir
+         * I empilhar/inserir
          * R remover 
          */
         String[] parte = input.split(" ");
 
         if(parte.length == 1){
-            if(parte[0].equals("R")) removerFim();
+            String entrada = parte[0];
+            if(entrada.equals("R")) removerFim();
+
         }
         else if(parte.length == 2){
-            int idJogador =  Integer.parseInt(parte[1]);
-            if(parte[0].equals("I")) inserirFim(idJogador);;
+            String entrada = parte[0];
+            if(entrada.equals("I")){
+                int idJogador =  Integer.parseInt(parte[1]);
+                empilhar(idJogador);
+            } 
         }
     }
-    
-    public static void inserirFim(int idJogador){
+
+    public static void empilhar(int idJogador){
         try{
             Jogador jogador = new Jogador();
-            jogador.SetaId(idJogador);
+            jogador.SetaId(idJogador);                           
 
-            ultimo.prox = jogador;
-            ultimo = ultimo.prox;
-
-            tamanho++;
+            jogador.prox = topo;                    // LIGA NO ANTIGO TOPO
+            topo = jogador;                         // NOVO ELEMENTO SE TORNA TOPO
+            jogador = null;
         }catch(Exception e){}
     } 
 
     public static void removerFim(){
-        Jogador i;
-        for (i=primeiro;i.prox!=ultimo;i=i.prox);          /* PROX.PROX PRA EU CONFERIR A CASA ANTES DE ANDAR COM A REFERENCIA */
-        
-        ArmazenaRemovidos(i.prox); 
-        ultimo = i; i = ultimo.prox = null;
-        tamanho--; tamRemovidos++;
+        Jogador tmp = topo;
+        topo = topo.prox;
+        tmp.prox = null; tmp = null;
     }
-
 
     /* ------------------------------------------------------------------------------------------------------------------------------------------- FIM MANIPULACAO */
-    /* ------------------------------------------------------------------------------------------------------------------------------------------- INICIO REMOVIDOS */
-
-
-    public static void ArmazenaRemovidos(Jogador jogador){
-        Jogador novoRemov = jogador.cloneJogador();
-        removidos.prox = novoRemov;
-        removidos = removidos.prox;
-
-        novoRemov = null;
-    }
-
-    public static void mostraExcluidos() {
-		for(Jogador i=primeiroRev.prox; i!=null; i=i.prox) {
-            i.EscreverEx();
-		}
-	}
-
-    public void EscreverEx() {
-		String linha = this.toStringEx();
-		MyIO.println(linha);
-	}
-
-    public String toStringEx() {
-		String txt = "(R) ";
-		txt += this.getNome();
-		return txt;
-	}
-
-    /* ------------------------------------------------------------------------------------------------------------------------------------------- FIM REMOVIDOS */
     /* ------------------------------------------------------------------------------------------------------------------------------------------- INICIO MAIN */
 
 
     public static void main(String[] args) {            // Compilar:    javac .\Jogador.java        Executar:    type .\pub.in | java Jogador > result.txt
-        Jogador jogador = new Jogador();                // Compilar:    javac Jogador.java          Executar:    java Jogador < pub.in > result.txt
-        ultimo = primeiro = new Jogador();             
+        Jogador jogador = new Jogador();                // Compilar:    javac Jogador.java          Executar:    java Jogador < pub.in > result.txt             
 
         jogador.inserirElementos();
-        jogador.manipulaElementos();
-        jogador.MostraLista();
+        manipulaElementos();
+        //jogador.mostraPilha(topo);
     }
     
     /* ----------------------------------------------------------------------------------------------------------------------------------------------- FIM MAIN */
