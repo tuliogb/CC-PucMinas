@@ -9,7 +9,7 @@
     Curso: CC-PucMinas - 13/10/2023
 */
 
-int tamanho = 0;
+int tamanho = 0, mostrar=0;
 
 typedef struct {
     int id;
@@ -29,6 +29,14 @@ void parteDados(Jogador *jogador, const char *linha);
 void mostraDados(Jogador *jogador);
 void mostrarTodos(Jogador *lista);
 void manipulaElementos(Jogador *lista);
+void decodifica(Jogador *lista,char *entrada);
+void inserirInicio(Jogador *lista, char* entrada);
+void inserir(Jogador *lista, int posicao, char* entrada);
+void inserirFim(Jogador *lista, char *entrada);
+void removerInicio(Jogador *lista);
+void remover(Jogador *lista, int posicao);
+void removerFim(Jogador *lista);
+
 
 
 
@@ -38,14 +46,14 @@ void inserirElementos(Jogador *lista){
 
     while(strcmp(input, "FIM")!= 0){
         int id = atoi(input);
-        SetaId(&lista[tamanho++],id);
+        setaId(&lista[tamanho++],id);
         scanf("%s", input);
     }
 }
 
-void SetaId(Jogador *jogador, int id) {
+void setaId(Jogador *jogador, int id) {
     FILE *file;
-    file = fopen("players.csv", "r");
+    file = fopen("/tmp/players.csv", "r");
 
     char linha[100];
     char resp[100];
@@ -128,8 +136,8 @@ void setaDados(Jogador *jogador,char *linha){
 }
 
 void mostraDados(Jogador *jogador){
-    printf("[%d ## %s ## %d ## %d ## %d ## %s ## %s ## %s]\n",
-        jogador->id,
+    printf("[%i] ## %s ## %d ## %d ## %d ## %s ## %s ## %s ##\n",
+        mostrar,
         jogador->nome,
         jogador->altura,
         jogador->peso,
@@ -138,6 +146,7 @@ void mostraDados(Jogador *jogador){
         jogador->cidadeNascimento,
         jogador->estadoNascimento
     );
+    mostrar++;
 }
 
 void mostrarTodos(Jogador *lista){
@@ -159,31 +168,105 @@ void manipulaElementos(Jogador *lista){
 }
 
 void decodifica(Jogador *lista,char *entrada){
-    int len = strlen(tamanho);
-    if (len>0 && entrada[len-1]=='\n'){
-        entrada[len-1]='\0';
-    }
-
+    int len = strlen(entrada);
+    if (len>0 && entrada[len-1]=='\n'){entrada[len-1]='\0';}
     char *token = strtok(entrada," ");
+
     if(token!=NULL){
-        if (strcmp(token,"II")==0){     printf("Caso II\n");     }
-        else if(strcmp(token, "IF")==0){    printf("Caso IF\n");    }
-        else if(strcmp(token,"I*")==0){     printf("Caso I*\n");    }
-        else if(strcmp(token,"R*")==0){     printf("Caso R*\n");    }
+        if (strcmp(token,"II")==0){
+            token = strtok(NULL, " ");
+            inserirInicio(lista,token);
+        }
+        else if(strcmp(token, "IF")==0){
+            token = strtok(NULL, " ");
+            inserirFim(lista,token);
+        }
+        else if(strcmp(token,"I*")==0){
+            token = strtok(NULL, " ");
+            int posicao = atoi(token);
+            token = strtok(NULL, " ");
+            inserir(lista,posicao,token);
+        }
+        else if(strcmp(token,"R*")==0){
+            token = strtok(NULL, " ");
+            int posicao = atoi(token);
+            remover(lista,posicao);
+        }
         else{
-            if(strcmp(entrada, "RI")==0){    printf("Caso RI\n");    }
-            else if(strcmp(entrada,"RF")==0){     printf("Caso RF\n");    }
+            if(strcmp(entrada, "RI")==0){
+                removerInicio(lista);
+            }
+            else if(strcmp(entrada,"RF")==0){
+                removerFim(lista);
+            }
         }
     }
 }
 
+void inserirInicio(Jogador *lista, char* entrada){
+    int idJogador = atoi(entrada);                          /*ATOI ESTA COLOCANDO UM \N NO ID JOGADOR*/
+    for (int i=tamanho;i>0;i--){
+       lista[i]=lista[i-1];
+    }
+    setaId(&lista[0],idJogador);
+    tamanho++;
+}
 
+void inserir(Jogador *lista, int posicao, char* entrada){
+    if(posicao==0) inserirInicio(lista,entrada);
+    else if(posicao==tamanho) inserirFim(lista,entrada);
+    else{
+        int idJogador = atoi(entrada);
+        for (int i=tamanho;i>posicao;i--){
+            lista[i]=lista[i-1];
+        }
+        setaId(&lista[posicao],idJogador);
+        tamanho++;
+    }
+}
+
+void inserirFim(Jogador *lista, char *entrada){
+    int idJogador = atoi(entrada);
+    setaId(&lista[tamanho],idJogador);
+    tamanho++;
+}
+
+void removerInicio(Jogador *lista){
+    mostraRemovido(&lista[0]);
+
+    for (int i=0;i<tamanho;i++){
+        lista[i]=lista[i+1];
+    }
+    tamanho--;
+}
+
+void remover(Jogador *lista, int posicao){
+    mostraRemovido(&lista[posicao]);
+
+    if(posicao==0) removerInicio(lista);
+    else if(posicao==tamanho-1) removerFim(lista);
+    else{
+        for (int i=posicao;i<tamanho-1;i++){
+            lista[i]=lista[i+1];
+        }
+    }
+    tamanho--;
+}
+
+void removerFim(Jogador *lista){
+    mostraRemovido(&lista[tamanho-1]);
+    tamanho--;
+}
+
+void mostraRemovido(Jogador *jogador){
+    printf("(R) %s\n", jogador->nome);
+}
 
 int main(){
     Jogador lista[500];
-    //inserirElementos(lista);
+    inserirElementos(lista);
     manipulaElementos(lista);
-    //mostrarTodos(lista);
+    mostrarTodos(lista);
     return 0;
 }
 
