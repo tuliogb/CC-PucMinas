@@ -27,49 +27,58 @@ Para cada caso de teste imprima uma linha, contendo um inteiro, indicando o núm
 public class Recreio{
 
 	public static int[] array = new int[4];
-
-	public static void inserir(){
-		int n = MyIO.readInt();
-
-		String entrada = MyIO.readLine();
-		String[] entradas = entrada.split(entrada,n);
+	public static int[] clone = new int[4];
+	
+	public static void verificaNota(){
+		int qtd = MyIO.readInt();
 		
-		for (int i=0;i<n;i++){
-			array[i] = Integer.parseInt(entradas[i]);
+		String entrada = MyIO.readLine();
+		String[] parte = entrada.split(" ");
+		
+		for  (int i=0;i<qtd;i++){
+			array[i] = Integer.parseInt(parte[i]);				// Integer.toString(numero); 	>> PASSANDO NUMERO PRA STRING << 
 		}
-	}
-
-	public static void verifica(int[] array, int tam){
-		for (int i=0;i<tam-1;i++){
-			int maior = i;
-			for(int j=i+1;j<tam;j++){
-				if(array[maior] < array[j]) maior=j;
-			}
-			if(maior!=i){
-				troca(array,maior,i);
-			}
+		
+		for  (int i=0;i<qtd;i++){
+			clone[i] = Integer.parseInt(parte[i]);				// CLONA O ARRAY PRA PODER COMPARAR DEPOIS DA ORGANIZACAO SE HOUVE ALGUMA TROCA 
 		}
-	}
-
-	public static void troca(int[] array, int x, int y){		
-		int tmp = array[x];
-		array[x] = array[y];
-	        array[y] = tmp;
+		
+		ordenaArray(qtd);
+		
+		MyIO.println(qtd-comparaTrocas(qtd));
 	}
 	
-	public static void mostraArray(){
-		for(int i=0;i<4;i++){
-			MyIO.print(array[i]+"/");
+	public static void ordenaArray(int qtd){
+		for (int i=0;i<qtd-1;i++){
+			int maior = i;
+			for (int j=i+1;j<qtd;j++){
+				if(array[maior] < array[j]) maior=j;
+			}
+			troca(maior,i);
 		}
 	}
-
-
-
+	
+	public static void troca(int i, int j){
+		int temp = array[i];
+      		array[i] = array[j];
+      		array[j] = temp;
+	}
+	
+	public static int comparaTrocas(int qtd){
+		int resp = 0;
+		
+		for (int i=0;i<qtd;i++){
+			if(array[i] != clone[i]){ resp++; }
+		}
+		
+		return resp;
+	}
+	
 	public static void main(String[] args){
 		int qtd = MyIO.readInt();
-
+		
 		for (int i=0;i<qtd;i++){
-			inserir();		
+			verificaNota();
 		}
 	}
 }
