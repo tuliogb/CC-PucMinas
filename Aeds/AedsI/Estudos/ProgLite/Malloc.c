@@ -33,6 +33,11 @@ int main() {
 
 
     */
+
+
+
+    int** p = (int**)malloc(sizeof(int*));          // p guarda o endereco do retorno, que aponta pra o endereco de outro lugar que a primeira posicao aponta
+4	  int* x = (int*)malloc(2*sizeof(int*));          // Se eu crio sem ser ** ele nao cria uma caixa pra ponteiro e sim caixas do tipo int ate dar o tamanho de um ponteiro do tipo int.
     
     return 0;
 }
