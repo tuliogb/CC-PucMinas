@@ -75,7 +75,7 @@ int* sorteados(){
 	char entrada[25];
 	fgets(entrada, sizeof(entrada), stdin);				
 	
-	char *token = strtok(entrada, " ");
+	char *token = strtok(entrada, " ");                             /* 'strtok modifica a string original, substituindo os delimitadores por terminadores nulos.*/
 	sort[0] = atoi(token);
 	
 	for (int i=1;i<sortiados;i++){
@@ -144,3 +144,14 @@ int main(){
 	liberaMemoria(matriz,sort);
 	//imprimirMatriz(matriz);
 }
+
+
+
+
+/*
+Quando você chama a função strtok pela primeira vez com a string original como o primeiro argumento, a função encontra o primeiro token na string e guarda a posição do início desse token. Essa informação é armazenada em uma variável estática interna à biblioteca C usada pela função strtok. Essa variável mantém a posição do último caractere que a função encontrou como um token.
+
+Nas chamadas subsequentes à função strtok com NULL como o primeiro argumento, a função utiliza essa variável estática interna para saber onde parou e continua a partir dessa posição. Ela examina a string a partir desse ponto em busca do próximo token com base nos delimitadores especificados.
+
+A variável interna é mantida entre chamadas à função strtok, permitindo que você divida a string em tokens de maneira incremental sem precisar rastrear a posição manualmente. Isso é uma característica útil para processar uma string token por token.
+*/
