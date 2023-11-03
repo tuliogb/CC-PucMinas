@@ -26,3 +26,121 @@ Seu programa deve imprimir uma linha contendo os números identificadores das ca
     4 entradas com os numeros porque sao 4 linhas;
     entrada com os numeros sortiados;
 */
+
+
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h> 
+
+int NLIN = 0, NCOL = 0, sortiados = 0;
+
+void dadosTabela();
+int** setaTabela();
+int* sorteados();
+void bingo(int* sort, int** tabela);
+int resultado(int** matriz);
+
+
+
+void dadosTabela(){
+	char entrada[20];
+	fgets(entrada, sizeof(entrada), stdin);					// Limpa o buffer(std.in) >>> while (getchar() != '\n');
+	
+	char *token = strtok(entrada, " ");
+	NLIN = atoi(token);
+	token = strtok(NULL, " ");
+	NCOL = atoi(token);
+	token = strtok(NULL, " ");
+	sortiados = atoi(token); 	
+}
+
+int** setaTabela() {
+    int** matriz = (int**)malloc(NLIN * sizeof(int*));		// E alocado 4 espacos >> 1 espaco aponta pra o primeiro elemento de um array (primeira linha)			
+    for (int l = 0; l < NLIN; l++) {
+        matriz[l] = (int*)malloc(NCOL * sizeof(int));		// A funcao malloc retorna o endereco do bloco alocado, entao o recebimento tem que ser ponteiro
+        char entrada[20];
+        fgets(entrada, sizeof(entrada), stdin);
+        char* token = strtok(entrada, " ");
+        matriz[l][0] = atoi(token);
+        for (int c = 1; c < NCOL; c++) {
+            token = strtok(NULL, " ");
+            matriz[l][c] = atoi(token);
+        }
+    }
+    return matriz;
+}
+
+int* sorteados(){
+	int* sort = (int*)malloc(sortiados * sizeof(int));
+	char entrada[25];
+	fgets(entrada, sizeof(entrada), stdin);				
+	
+	char *token = strtok(entrada, " ");
+	sort[0] = atoi(token);
+	
+	for (int i=1;i<sortiados;i++){
+		token = strtok(NULL, " ");
+		sort[i] = atoi(token);
+	}
+	
+	return sort;
+}
+
+void bingo(int* sort, int** tabela) {
+    for (int l = 0; l < NLIN; l++) {
+        for (int c = 0; c < NCOL; c++) {
+            for (int s = 0; s < sortiados; s++) {
+                if (tabela[l][c] == sort[s]) {
+                    tabela[l][c] = 0; 
+                }
+            }
+        }
+    }
+}
+
+int resultado(int** matriz){
+    int cont = 0, resp = 0;
+	for (int l = 0; l < NLIN; l++) {
+        for (int c = 0; c < NCOL; c++) {
+            if(matriz[l][c] == 0){
+				cont++;
+				if(cont == NCOL){				// Se der isso é porque todos os valores sao nulos.
+					resp = l;
+				}
+			}
+        }
+		cont=0;
+    }	
+
+	return resp;
+}
+
+
+void imprimirMatriz(int** matriz) {
+    for (int i = 0; i < NLIN; i++) {
+        for (int j = 0; j < NCOL; j++) {
+            printf("%d ", matriz[i][j]);
+        }
+        printf("\n");
+    }
+}
+
+void liberaMemoria(int** matriz, int* sort) {
+    for (int l = 0; l < NLIN; l++) {
+        free(matriz[l]);
+    }
+    free(matriz);
+    free(sort);
+}
+
+	
+
+int main(){
+	dadosTabela();
+	int** matriz = setaTabela();
+	int* sort = sorteados();
+	bingo(sort,matriz);
+	printf("%i",resultado(matriz));
+	liberaMemoria(matriz,sort);
+	//imprimirMatriz(matriz);
+}
