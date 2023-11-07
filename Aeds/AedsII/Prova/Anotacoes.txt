@@ -22,3 +22,16 @@ int x = Integer.parseInt(numId);
 String numId = linha.substring(0, linha.indexOf(","));               "(comeco,fim) >>> particao"
 toUpperCase();  toLowerCase();  texto.length()
 char caractere = texto.charAt(2);   e   texto.indexOf("caractere");
+
+
+
+for (int i=0;i<qtd-1;i++){
+	int maior = i;
+	for (int j=i+1;j<qtd;j++){
+		if(array[maior] < array[j]) maior=j;            
+	}
+	troca(maior,i);
+}
+
+ Decrescente    if(array[maior] < array[j]) maior=j;
+ Crescente      if (array[maior] > array[j]) maior = j;
