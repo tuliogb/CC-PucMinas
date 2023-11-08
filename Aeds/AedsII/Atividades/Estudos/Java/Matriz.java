@@ -1,7 +1,28 @@
 public class Matriz {
 
+    public static class Celula {
+    public int elemento;
+    public Celula inf, sup, esq, dir;
+
+    public Celula(){
+        this(0);
+    }
+
+    public Celula(int elemento){
+        this(elemento, null, null, null, null);
+    }
+
+    public Celula(int elemento, Celula inf, Celula sup, Celula esq, Celula dir){
+        this.elemento = elemento;
+        this.inf = inf;
+        this.sup = sup;
+        this.esq = esq;
+        this.dir = dir;
+    }
+    }
+
     private Celula inicio;
-    private int linha, coluna, cont = 1;
+    private  int linha, coluna, cont = 1;
 
 
 
@@ -33,7 +54,6 @@ public class Matriz {
         for (int i=0;i<linha-1;i++)  inicio = inicio.sup;
     }
 
-
     public void mostraMatriz(){
         for (int c=0; c<linha; c++){
             for(Celula i=inicio;i!=null;i=i.dir){
@@ -43,6 +63,7 @@ public class Matriz {
             if(inicio.inf != null) inicio = inicio.inf;                            /* NO ULTIMO LACO EU TO FAZENDO, ENTAO TA PONTANDO PRA NULO, TO PERDENDO O INICIO */
         }
         for (int i=0;i<linha-1;i++)  inicio = inicio.sup;
+        MyIO.print("\n");
     }
 
     public void inserirValores(){
@@ -50,27 +71,78 @@ public class Matriz {
             for(Celula i=inicio;i!=null;i=i.dir){
                 i.elemento = MyIO.readInt();
             }
-            if(inicio.inf != null) inicio = inicio.inf;                            /* NO ULTIMO LACO EU TO FAZENDO, ENTAO TA PONTANDO PRA NULO, TO PERDENDO O INICIO */
+            if(inicio.inf != null) inicio = inicio.inf;                           
         }
         for (int i=0;i<linha-1;i++)  inicio = inicio.sup;
     }
 
-    public void somaMatriz(Matriz um, Matriz dois){
-        for (int c=0; c<linha; c++){
-            for(Celula i=um.inicio, j=dois.inicio;i!=null && j!=null;i=i.dir, j=j.dir){
-               
+    public Matriz somaMatriz(Matriz um, Matriz dois){                                   /* CONFERIR AMANHA */
+        Matriz somada = new Matriz(linha, coluna);
+
+        if((um.linha == dois.linha) && (um.coluna == dois.coluna)){
+            somada.CriaMatriz();
+
+            for (int c=0; c<linha; c++){
+                for(Celula i=um.inicio, j=dois.inicio, s=somada.inicio;i!=null;i=i.dir, j=j.dir, s=s.dir){
+                    s.elemento = i.elemento + j.elemento;
+                }
+                if(um.inicio.inf != null) um.inicio = um.inicio.inf;
+                if(dois.inicio.inf != null) dois.inicio = dois.inicio.inf;  
+                if(somada.inicio.inf != null) somada.inicio = somada.inicio.inf;                              
             }
-            if(inicio.inf != null) inicio = inicio.inf;                            /* NO ULTIMO LACO EU TO FAZENDO, ENTAO TA PONTANDO PRA NULO, TO PERDENDO O INICIO */
+            for (int i=0;i<linha-1;i++){
+                um.inicio = um.inicio.sup;
+                dois.inicio = dois.inicio.sup;
+                somada.inicio = somada.inicio.sup; 
+            }  
         }
-        for (int i=0;i<linha-1;i++)  inicio = inicio.sup;
+        return somada;
+    }
+
+    public Matriz multiplicaMatriz(Matriz um, Matriz dois){                                   /* CONFERIR AMANHA */
+        Matriz mult = new Matriz(um.linha, dois.coluna);
+
+        if((um.coluna == dois.linha)){
+            mult.CriaMatriz();
+
+
+                for (Celula i=um.inicio;i!=null;i=i.dir){ 
+                    for (Celula j=dois.inicio, x = mult.inicio; j!=null;j=j.dir, x=x.dir){
+                    x.elemento = i.elemento * j.elemento;
+                    }
+                    if(dois.inicio.inf != null) dois.inicio = dois.inicio.inf;
+                }
+
+
+        }
+
+        return mult;
     }
 
 
 
     public static void main(String[] args) {
-        Matriz matriz = new Matriz(3, 3);
-        matriz.CriaMatriz();
-        matriz.inserirValores();
-        matriz.mostraMatriz();
+        Matriz matrizUm = new Matriz(4, 4);                 // type .\pub.in | java Jogador > result.txt
+        Matriz matrizDois = new Matriz(4, 4);
+
+        matrizUm.CriaMatriz();
+        matrizDois.CriaMatriz();
+
+        matrizUm.inserirValores();
+        matrizDois.inserirValores();
+
+        matrizUm.mostraMatriz();
+        matrizDois.mostraMatriz();
+        
+        Matriz soma = new Matriz(4,4);
+        soma = soma.somaMatriz(matrizUm,matrizDois);
+        MyIO.print("SOMA M1+M2");
+        soma.mostraMatriz();
+        
+        Matriz multiplicacao = new Matriz(4, 4);
+        multiplicacao = multiplicacao.multiplicaMatriz(matrizUm, soma);
+        MyIO.print("MULTIPLICACAO M1*(M1+M2)");
+        multiplicacao.mostraMatriz();
+
     }
 }
