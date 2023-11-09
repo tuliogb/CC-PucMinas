@@ -52,6 +52,15 @@ public class Matriz {
             cont=1;
         }
         for (int i=0;i<linha-1;i++)  inicio = inicio.sup;
+
+        for (int n=0; n<linha-1; n++){
+            for (Celula um=inicio, dois=inicio.inf; dois!=null; um=um.dir, dois=dois.dir){
+                um.inf = dois;  dois.sup=um;
+            }
+            inicio = inicio.inf;
+        }
+
+        for (int i=0;i<linha-1;i++)  inicio = inicio.sup;
     }
 
     public void mostraMatriz(){
@@ -95,7 +104,8 @@ public class Matriz {
                 dois.inicio = dois.inicio.sup;
                 somada.inicio = somada.inicio.sup; 
             }  
-        }
+        }else MyIO.println("Matriz Invalida para soma");
+
         return somada;
     }
 
@@ -108,9 +118,7 @@ public class Matriz {
             for(int l=0;l<um.linha;l++){
                 for (Celula i=um.inicio;i!=null;i=i.dir){ 
                     for (Celula j=dois.inicio, x=mult.inicio; j!=null;j=j.dir, x=x.dir){
-                        MyIO.println("\nX.elemento antes de receber a multiplicacao: " + x.elemento);
                         x.elemento += i.elemento * j.elemento;
-                        MyIO.println("Multipliquei:" + i.elemento + "*" + j.elemento + " amazenei em" + x.elemento);
                     }
                     if(dois.inicio.inf != null) dois.inicio = dois.inicio.inf;
                 }
@@ -121,16 +129,36 @@ public class Matriz {
 
             for (int i=0;i<um.linha-1;i++) mult.inicio = mult.inicio.sup;
 
-        }
+        }else MyIO.println("Matriz Invalida para multiplicação");
 
         return mult;
     }
 
+    public void DiagonalP(){
+        if (linha == coluna){
+            Celula c = inicio;
+            for (int i=0; i<linha; i++){
+                MyIO.println(c.elemento);
+                if(c.inf != null) c = c.inf.dir;
+            }
+        }else MyIO.println("Matriz Invalida");
+    }
 
+    public void DiagonalS(){
+        if (linha == coluna){
+            Celula c = inicio;
+            for (int n=0;n<linha-1; n++)    c = c.dir; 
+
+            for (int i=0; i<linha; i++){
+                MyIO.println(c.elemento);
+                if(c.esq != null) c = c.esq.inf;
+            }
+        }else MyIO.println("Matriz Invalida");
+    }
 
     public static void main(String[] args) {
-        Matriz matrizUm = new Matriz(2, 2);                 // type .\pub.in | java Jogador > result.txt
-        Matriz matrizDois = new Matriz(2, 2);
+        Matriz matrizUm = new Matriz(3, 3);                 // type .\pub.in | java Jogador > result.txt
+        Matriz matrizDois = new Matriz(3, 3);
 
         matrizUm.CriaMatriz();
         matrizDois.CriaMatriz();
@@ -141,18 +169,18 @@ public class Matriz {
         matrizUm.mostraMatriz();
         matrizDois.mostraMatriz();
 
-        /* 
-        Matriz soma = new Matriz(2,2);
+        Matriz soma = new Matriz(3,3);
         soma = soma.somaMatriz(matrizUm,matrizDois);
         MyIO.println("\nSOMA M1+M2");
         soma.mostraMatriz();
-        */
-         
-        Matriz multiplicacao = new Matriz(2, 2);
+        
+        Matriz multiplicacao = new Matriz(3, 3);
         multiplicacao = multiplicacao.multiplicaMatriz(matrizUm, matrizDois);
         MyIO.println("\nMULTIPLICACAO M1*M2");
         multiplicacao.mostraMatriz();
-    
+
+        multiplicacao.DiagonalP();
+        multiplicacao.DiagonalS();
 
     }
 }
