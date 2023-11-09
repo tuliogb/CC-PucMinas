@@ -1,24 +1,24 @@
 public class Matriz {
 
     public static class Celula {
-    public int elemento;
-    public Celula inf, sup, esq, dir;
+        public int elemento;
+        public Celula inf, sup, esq, dir;
 
-    public Celula(){
-        this(0);
-    }
+        public Celula(){
+            this(0);
+        }
 
-    public Celula(int elemento){
-        this(elemento, null, null, null, null);
-    }
+        public Celula(int elemento){
+            this(elemento, null, null, null, null);
+        }
 
-    public Celula(int elemento, Celula inf, Celula sup, Celula esq, Celula dir){
-        this.elemento = elemento;
-        this.inf = inf;
-        this.sup = sup;
-        this.esq = esq;
-        this.dir = dir;
-    }
+        public Celula(int elemento, Celula inf, Celula sup, Celula esq, Celula dir){
+            this.elemento = elemento;
+            this.inf = inf;
+            this.sup = sup;
+            this.esq = esq;
+            this.dir = dir;
+        }
     }
 
     private Celula inicio;
@@ -105,14 +105,21 @@ public class Matriz {
         if((um.coluna == dois.linha)){
             mult.CriaMatriz();
 
-
+            for(int l=0;l<um.linha;l++){
                 for (Celula i=um.inicio;i!=null;i=i.dir){ 
-                    for (Celula j=dois.inicio, x = mult.inicio; j!=null;j=j.dir, x=x.dir){
-                    x.elemento = i.elemento * j.elemento;
+                    for (Celula j=dois.inicio, x=mult.inicio; j!=null;j=j.dir, x=x.dir){
+                        MyIO.println("\nX.elemento antes de receber a multiplicacao: " + x.elemento);
+                        x.elemento += i.elemento * j.elemento;
+                        MyIO.println("Multipliquei:" + i.elemento + "*" + j.elemento + " amazenei em" + x.elemento);
                     }
                     if(dois.inicio.inf != null) dois.inicio = dois.inicio.inf;
                 }
+                if(um.inicio.inf != null) um.inicio = um.inicio.inf;
+                for (int i=0;i<um.coluna-1;i++) dois.inicio = dois.inicio.sup;
+                if(mult.inicio.inf != null) mult.inicio = mult.inicio.inf;
+            }
 
+            for (int i=0;i<um.linha-1;i++) mult.inicio = mult.inicio.sup;
 
         }
 
@@ -122,8 +129,8 @@ public class Matriz {
 
 
     public static void main(String[] args) {
-        Matriz matrizUm = new Matriz(4, 4);                 // type .\pub.in | java Jogador > result.txt
-        Matriz matrizDois = new Matriz(4, 4);
+        Matriz matrizUm = new Matriz(2, 2);                 // type .\pub.in | java Jogador > result.txt
+        Matriz matrizDois = new Matriz(2, 2);
 
         matrizUm.CriaMatriz();
         matrizDois.CriaMatriz();
@@ -133,16 +140,19 @@ public class Matriz {
 
         matrizUm.mostraMatriz();
         matrizDois.mostraMatriz();
-        
-        Matriz soma = new Matriz(4,4);
+
+        /* 
+        Matriz soma = new Matriz(2,2);
         soma = soma.somaMatriz(matrizUm,matrizDois);
-        MyIO.print("SOMA M1+M2");
+        MyIO.println("\nSOMA M1+M2");
         soma.mostraMatriz();
-        
-        Matriz multiplicacao = new Matriz(4, 4);
-        multiplicacao = multiplicacao.multiplicaMatriz(matrizUm, soma);
-        MyIO.print("MULTIPLICACAO M1*(M1+M2)");
+        */
+         
+        Matriz multiplicacao = new Matriz(2, 2);
+        multiplicacao = multiplicacao.multiplicaMatriz(matrizUm, matrizDois);
+        MyIO.println("\nMULTIPLICACAO M1*M2");
         multiplicacao.mostraMatriz();
+    
 
     }
 }
