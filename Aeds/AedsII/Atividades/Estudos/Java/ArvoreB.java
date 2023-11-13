@@ -52,23 +52,37 @@ public class Arvore{
         }
     }
 
+    void maior(Arvore raiz){
+        if(raiz.dir == null) MyIO.println(raiz.elemento);
+        else maior(raiz.dir);
+    }
+
+    void menor(Arvore raiz){
+        if(raiz.esq == null) MyIO.println(raiz.elemento);
+        else menor(raiz.esq);
+    }
+
+
     
     public static void main(String[] args) {
         Arvore arvore = new Arvore();
         
-        arvore.inserir(3);
-        arvore.inserir(1);
-        arvore.inserir(5);
-        arvore.inserir(4);
+        arvore.inserir(10);
+        arvore.inserir(12);
+        arvore.inserir(7);
+        arvore.inserir(11);
+        arvore.inserir(15);
+        arvore.inserir(6);
         arvore.inserir(8);
-        arvore.inserir(2);
+        arvore.inserir(9);
 
 
-        //arvore.mostrarArvore(arvore.raiz);
-        //arvore.mediaArvore(arvore.raiz);
-        //System.out.println(media/cont);
-        arvore.maiorArvore(arvore.raiz);
-        System.out.println(maior);
+
+
+        arvore.maior(arvore.raiz.dir);
+        arvore.maior(arvore.raiz.esq);
+        arvore.menor(arvore.raiz.esq);
+        arvore.menor(arvore.raiz.dir);
         
     }
 }
