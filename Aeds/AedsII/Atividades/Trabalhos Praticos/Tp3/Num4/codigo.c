@@ -9,7 +9,8 @@
     Curso: CC-PucMinas - 13/10/2023
 */
 
-int tamanho = 0, mostrar=0;
+int tamanho=0, mostrar=0, primeiro=0, ultimo=0, tam=6;
+bool print=false;
 
 typedef struct {
     int id;
@@ -20,32 +21,15 @@ typedef struct {
     char universidade[100];
     char cidadeNascimento[100];
     char estadoNascimento[100];
-} Jogador;
-
-typedef struct Celula {
-    Jogador elemento;
-    struct Celula* prox; 
-}Celula;
-
-Celula* primeiro; Celula* ultimo;
-
-Celula* newCelula(Jogador elemento){
-    Celula* nova = (Celula*) malloc(sizeof(Celula));
-    nova->elemento = elemento;
-    nova->prox = NULL;
-
-    return nova;    
-}
-
-
-
+} Jogador;  Jogador lista[6];
 
 void inserirElementos();
-void setaId(int id);
-void parteDados(const char *linha);
-void setaDados(char *linha);
-void mostraDados(Jogador jogador);
+void setaId(Jogador *jogador, int id);
+void parteDados(Jogador *jogador, const char *linha);
+void setaDados(Jogador *jogador,char *linha);
+void mostraDados(Jogador *jogador);
 void mostrarTodos();
+void removerInicioPrint();
 
 
 
@@ -55,12 +39,16 @@ void inserirElementos(){
 
     while(strcmp(input, "FIM")!= 0){
         int id = atoi(input);
-        setaId(id); tamanho++;
+        if ((ultimo+1)%tam == primeiro){
+            removerInicioPrint(lista);
+        }
+        setaId(&lista[ultimo],id);
+        ultimo = ((ultimo+1)%tam);
         scanf("%s", input);
     }
 }
 
-void setaId(int id) {
+void setaId(Jogador *jogador, int id) {
     FILE *file;
     file = fopen("players.csv", "r");
 
@@ -77,7 +65,7 @@ void setaId(int id) {
         int num = atoi(token);
 
         if(id==num){
-            parteDados(resp);
+            parteDados(jogador,resp);
             achou=true;
         }
         token=strtok(NULL,",");
@@ -86,7 +74,7 @@ void setaId(int id) {
     fclose(file);
 }
 
-void parteDados(const char *x) {
+void parteDados(Jogador *jogador, const char *x) {
 
     int len = strlen(x);
     char linha[len];
@@ -115,70 +103,75 @@ void parteDados(const char *x) {
     }
     nvlinha[j]='\0';
 
-    setaDados(nvlinha);
+    setaDados(jogador,nvlinha);
     free(nvlinha);
 }
 
-void setaDados(char *linha){
-
-    Jogador jogador;
-
+void setaDados(Jogador *jogador,char *linha){
     int t=0;
     char *parte[8];
     char *token = strtok(linha, ",");
+    tamanho++;
 
     while (token != NULL && t < 8) {
         parte[t] = token;
-        token = strtok(NULL, ",");          //MANTEM UM ESTADO INTERNO PARA RASTREAR A POSICAO ATUAL NA STRING
+        token = strtok(NULL, ",");          
         t++;
     }
 
-    jogador.id = atoi(parte[0]);
-    if(strcmp(parte[1], " ")== 0)strcpy(jogador.nome, "nao informado");else strcpy(jogador.nome, parte[1]);
-    jogador.altura = atoi(parte[2]);
-    jogador.peso = atoi(parte[3]);
-    if(strcmp(parte[4], " ")== 0)strcpy(jogador.universidade, "nao informado");else strcpy(jogador.universidade, parte[4]);
-    jogador.anoNascimento = atoi(parte[5]);
-    if(strcmp(parte[6], " ")== 0)strcpy(jogador.cidadeNascimento, "nao informado");else strcpy(jogador.cidadeNascimento, parte[6]);
-    if(strcmp(parte[7], " ")== 0)strcpy(jogador.estadoNascimento, "nao informado");else strcpy(jogador.estadoNascimento, parte[7]);
+    jogador->id = atoi(parte[0]);
+    if(strcmp(parte[1], " ")== 0)strcpy(jogador->nome, "nao informado");else strcpy(jogador->nome, parte[1]);
+    jogador->altura = atoi(parte[2]);
+    jogador->peso = atoi(parte[3]);
+    if(strcmp(parte[4], " ")== 0)strcpy(jogador->universidade, "nao informado");else strcpy(jogador->universidade, parte[4]);
+    jogador->anoNascimento = atoi(parte[5]);
+    if(strcmp(parte[6], " ")== 0)strcpy(jogador->cidadeNascimento, "nao informado");else strcpy(jogador->cidadeNascimento, parte[6]);
+    if(strcmp(parte[7], " ")== 0)strcpy(jogador->estadoNascimento, "nao informado");else strcpy(jogador->estadoNascimento, parte[7]);
 
-
-    //mostraDados(jogador);
-    if(tamanho==0){
-        primeiro = newCelula(jogador);
-        ultimo = primeiro;
-    }else{
-        ultimo->prox = newCelula(jogador);
-        ultimo = ultimo->prox;
+    printf("%i\n", tamanho);
+    float media=0; int soma=0; int i=primeiro;              // NA PRIMEIRA VEZ O PRIMEIRO == ULTIMO AI ESTA QUEBRANDO A MEDIA;
+    while (i!=ultimo){
+        soma += lista[i].altura;
+        i=(i+1)%tam;
     }
+    media = soma/(float)tamanho;
+    printf("%0.f\n", media);
 }
 
-void mostraDados(Jogador jogador){
+void mostraDados(Jogador *jogador){
     printf("[%i] ## %s ## %d ## %d ## %d ## %s ## %s ## %s ##\n",
         mostrar,
-        jogador.nome,   
-        jogador.altura,
-        jogador.peso,
-        jogador.anoNascimento,
-        jogador.universidade,
-        jogador.cidadeNascimento,
-        jogador.estadoNascimento    
+        jogador->nome,
+        jogador->altura,
+        jogador->peso,
+        jogador->anoNascimento,
+        jogador->universidade,
+        jogador->cidadeNascimento,
+        jogador->estadoNascimento
     );
     mostrar++;
 }
 
 void mostrarTodos(){
-    Celula* i;
-    for(i=primeiro; i!=NULL; i=i->prox){
-        mostraDados(i->elemento);
+    for (int i=primeiro; i!=ultimo; i=(i+1)%tam){
+        mostraDados(&lista[i]);
+    }
+}
+
+void removerInicioPrint(){
+    if(primeiro==ultimo) printf("Erro\n");
+    else{
+        if(print) printf("(R) %s\n", lista[primeiro].nome);
+        primeiro = (primeiro+1)%tam;
+        tamanho--;
     }
 }
 
 
 
-int main(){ 
+int main(){
     inserirElementos();
-    mostrarTodos();
+    //mostrarTodos();
     return 0;
 }
 
