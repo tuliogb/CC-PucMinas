@@ -1,70 +1,161 @@
 import java.io.BufferedReader;
 import java.io.FileReader;
 
-public class CelulaAB {
 
-    public static CelulaAB raiz;
-    public CelulaAB dir, esq;
-    public Jogador elemento;
-    public static int comp=0;
+public class No {
 
-    public CelulaAB(){
-        this(null);
-    }
+    public static No raiz;
 
-    public CelulaAB(Jogador elemento){
-        this.elemento=elemento;
+    public No dir, esq;
+    public No2 raiz2;
+    public int chave;
+    public boolean achou=false;
+
+    public No(){
+        this(0);
+    } 
+
+    public No(int chave){
+        this.chave = chave;
         this.dir = this.esq = null;
+        this.raiz2 = null;
     }
 
-    public static void inserir(Jogador jogador){
-        raiz = inserir(raiz,jogador);
+
+
+    public void formarArvore(){
+        int[] array = {7, 3, 11, 1, 5, 9, 12, 0, 2, 4, 6, 8, 10, 13 , 14};
+
+        for (int i=0; i<15; i++){
+            setaAB1(array[i]);
+        }
+    } 
+
+    public void setaAB1(int chave){
+        raiz = construir(chave, raiz);
     }
 
-    static CelulaAB inserir(CelulaAB raiz, Jogador jogador){
-        if(raiz==null) raiz = new CelulaAB(jogador);
-        else if(jogador.nome.compareTo(raiz.elemento.nome)<0){ raiz.esq = inserir(raiz.esq,jogador); comp++; }
-        else if(jogador.nome.compareTo(raiz.elemento.nome)>0){ raiz.dir = inserir(raiz.dir,jogador); comp++; }
+    private No construir(int elemento, No raiz){
+        if (raiz==null) raiz = new No(elemento);
+        else if (elemento < raiz.chave) raiz.esq = construir(elemento, raiz.esq);
+        else if (elemento > raiz.chave) raiz.dir = construir(elemento, raiz.dir);
 
         return raiz;
     }
 
-    public static void mostrarCelulas(CelulaAB raiz){
+    public void mostrarCelulas(No raiz){
         if(raiz!=null){
             mostrarCelulas(raiz.esq);
-            raiz.elemento.mostraDados();
+
+            MyIO.print(raiz.chave + "- "); 
+            mostrarCelulasNo2(raiz.raiz2);
+            MyIO.print("\n"); 
+
             mostrarCelulas(raiz.dir);
         }
     }
 
-    public static void pesquisarElementos(){
-        String input = MyIO .readLine();
-        while(!input.equals("FIM")){
-            MyIO.print(input + " raiz ");
-            pesquisarElemento(input,raiz);
-            input = MyIO .readLine();
+    public void mostrarCelulasNo2(No2 raiz){
+        if(raiz!=null){
+            mostrarCelulasNo2(raiz.esq);
+            MyIO.print(raiz.chave + "-> ");
+            mostrarCelulasNo2(raiz.dir);
         }
     }
 
-    static void pesquisarElemento(String input, CelulaAB raiz){
-        if (raiz!=null){
-            if(input.compareTo(raiz.elemento.nome)<0) {
-                MyIO.print("esq ");
-                comp++;
-                pesquisarElemento(input, raiz.esq);
-            }
-            else if(input.compareTo(raiz.elemento.nome)>0){
-                MyIO.print("dir ");
-                comp++;
-                pesquisarElemento(input, raiz.dir);
-            }
-            else if(input.equals(raiz.elemento.nome)) MyIO.println("SIM");
 
-        } else MyIO.println("NAO");
+
+
+    public static void inserirJogador(Jogador jogador){
+        posicaoDeInserir(jogador, raiz);
     }
 
-    /* ----------------------------------------------------------------------------------------------------------- INICIO CLASSE JOGADOR */
+    public static void posicaoDeInserir(Jogador jogador, No raiz){
+        if(raiz!=null){
+            if ((jogador.altura % 15)==raiz.chave){
+                raiz.raiz2 = setaNo2(jogador, raiz.raiz2);
+            }
+            else if ((jogador.altura % 15) < raiz.chave) posicaoDeInserir(jogador, raiz.esq);
+            else if ((jogador.altura % 15) > raiz.chave) posicaoDeInserir(jogador, raiz.dir);
+        }
+    }
 
+    public static No2 setaNo2(Jogador jogador, No2 raiz){
+        if (raiz==null) raiz = new No2(jogador.nome, jogador);
+        else if (jogador.nome.compareTo(raiz.chave)<0) raiz.esq = setaNo2(jogador, raiz.esq);
+        else if (jogador.nome.compareTo(raiz.chave)>0) raiz.dir = setaNo2(jogador, raiz.dir);
+
+        return raiz;
+    }
+
+
+
+
+    public void pesquisaJogadores(No raiz){
+            String input = MyIO.readLine();
+            while (!input.equals("FIM")) {
+                MyIO.print(input + " raiz");
+                pesquisaNome(input, raiz);
+
+                if(achou) MyIO.println(" SIM");
+                else MyIO.println(" NAO");
+                achou=false;
+
+                input = MyIO.readLine();
+            } 
+    }
+
+    public void pesquisaNome(String Nome, No raiz){
+        if(raiz!=null){
+            pesquisaNome(Nome, raiz.raiz2);
+
+            if(!achou) MyIO.print(" esq");
+            pesquisaNome(Nome, raiz.esq);
+            
+            if(!achou) MyIO.print(" dir");
+            pesquisaNome(Nome, raiz.dir); 
+        }
+    }
+
+    public void pesquisaNome(String Nome, No2 raiz){
+        if(raiz!=null){
+            if(!achou) MyIO.print(" ESQ");
+            pesquisaNome(Nome,raiz.esq);
+
+            if(raiz.chave.equals(Nome)){
+                achou=true;
+            } 
+
+            if(!achou) MyIO.print(" DIR");
+            pesquisaNome(Nome,raiz.dir);
+        }
+    }
+
+
+
+
+
+
+    /* --------------------------------------------------------------------------------------------------------------- INICIO CLASSE NO2 */
+    public static class No2{
+
+        public No2 esq, dir;
+        public String chave;
+        public Jogador elemento;
+
+        public No2(){
+            this("",null);
+        }
+
+        public No2(String chave, Jogador elemento){
+            this.chave = chave;
+            this.dir = this.esq = null;
+            this.elemento = elemento;
+        }
+    }
+    /* ------------------------------------------------------------------------------------------------------------------ FIM CLASSE NO2 */
+
+    /* ----------------------------------------------------------------------------------------------------------- INICIO CLASSE JOGADOR */
     public static class Jogador{
 
         private Integer id,altura,peso,anoNascimento;
@@ -149,9 +240,8 @@ public class CelulaAB {
                 try {
                     int id = Integer.parseInt(input);
                     Jogador jogador = new Jogador();
-
                     jogador.SetaId(id);
-                    inserir(jogador);
+                    inserirJogador(jogador);
 
                 } catch (Exception e) {}
                 input = MyIO.readLine();
@@ -159,7 +249,7 @@ public class CelulaAB {
         }
 
         public void SetaId(int x) throws Exception {
-            FileReader file = new FileReader("/tmp/players.csv"); 
+            FileReader file = new FileReader("players.csv"); 
             BufferedReader buffer = new BufferedReader(file);
             String linha;
 
@@ -197,17 +287,20 @@ public class CelulaAB {
             + this.getUniversidade() + " ## " + this.getCidadeNascimento() + " ## " + this.getEstadoNascimento() + "]");
         }
     }
-
     /* -------------------------------------------------------------------------------------------------------------- FIM CLASSE JOGADOR */
     
 
+
+
+
     public static void main(String[] args) {
-        Jogador jogador = new Jogador(); raiz = null;
+        No arvoreUm = new No();
+        arvoreUm.formarArvore();
 
-
+        Jogador jogador = new Jogador(); 
         jogador.inserirElementos();
-        //mostrarCelulas(raiz);
-        pesquisarElementos();
+
+        arvoreUm.pesquisaJogadores(raiz);
 
     }
 
