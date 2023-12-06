@@ -1,5 +1,9 @@
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.File;
 import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
 
 
 public class No {
@@ -10,6 +14,8 @@ public class No {
     public No2 raiz2;
     public int chave;
     public boolean achou=false;
+    public static int comp=0;
+    public static Long tempo = (long) 0;
 
     public No(){
         this(0);
@@ -72,6 +78,7 @@ public class No {
 
     public static void posicaoDeInserir(Jogador jogador, No raiz){
         if(raiz!=null){
+            comp++;
             if ((jogador.altura % 15)==raiz.chave){
                 raiz.raiz2 = setaNo2(jogador, raiz.raiz2);
             }
@@ -91,7 +98,7 @@ public class No {
 
 
 
-    public void pesquisaJogadores(No raiz){
+    public void pesquisaJogador(No raiz){                                     
             String input = MyIO.readLine();
             while (!input.equals("FIM")) {
                 MyIO.print(input + " raiz");
@@ -119,20 +126,19 @@ public class No {
 
     public void pesquisaNome(String Nome, No2 raiz){
         if(raiz!=null){
-            if(!achou) MyIO.print(" ESQ");
-            pesquisaNome(Nome,raiz.esq);
 
+            comp++;
             if(raiz.chave.equals(Nome)){
                 achou=true;
             } 
+
+            if(!achou) MyIO.print(" ESQ");
+            pesquisaNome(Nome,raiz.esq);
 
             if(!achou) MyIO.print(" DIR");
             pesquisaNome(Nome,raiz.dir);
         }
     }
-
-
-
 
 
 
@@ -249,7 +255,7 @@ public class No {
         }
 
         public void SetaId(int x) throws Exception {
-            FileReader file = new FileReader("players.csv"); 
+            FileReader file = new FileReader("/tmp/players.csv"); 
             BufferedReader buffer = new BufferedReader(file);
             String linha;
 
@@ -291,16 +297,41 @@ public class No {
     
 
 
+	public static void ArqLog(long tempo) {
+		String nomeArq = "802512_arvoreArvore.txt";
+		String mtr = "802512";
+		
+		try {
+            File arq = new File(nomeArq);
+            arq.createNewFile();
+        	try {
+    			FileWriter file = new FileWriter(nomeArq, false); 
+    			BufferedWriter buffer = new BufferedWriter(file);
+
+    			buffer.write(mtr + '\t' + tempo*1000 + "s" + '\t' + comp);
+    			buffer.close();
+
+    		}catch(IOException e) {e.printStackTrace();}
+        }catch(IOException e){e.printStackTrace();}
+	}
+
+
+
 
 
     public static void main(String[] args) {
+        long tempoInicio = System.nanoTime();
         No arvoreUm = new No();
         arvoreUm.formarArvore();
 
         Jogador jogador = new Jogador(); 
         jogador.inserirElementos();
 
-        arvoreUm.pesquisaJogadores(raiz);
+        arvoreUm.pesquisaJogador(raiz);
+        long tempoFinal = System.nanoTime();
+
+        tempo = (tempoFinal - tempoInicio);
+        ArqLog(tempo);
 
     }
 
