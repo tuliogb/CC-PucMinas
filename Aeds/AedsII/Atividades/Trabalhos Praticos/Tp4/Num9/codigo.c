@@ -2,11 +2,12 @@
 #include <stdlib.h>
 #include <string.h>
 #include <stdbool.h>
+#include <time.h>
 
 /*
     Dev: Tulio Gomes Braga
     Matricula: 1441272
-    Curso: CC-PucMinas - 14/11/2023
+    Curso: CC-PucMinas - 09/12/2023
 */
 
 
@@ -37,7 +38,9 @@ Celula* newCelula(Jogador elemento){
 }
 
 Celula* tabela[25];
-int tamanho = 0;
+int tamanho=0, comparacoes;
+clock_t start,end;
+
 
 
 void inserirElementos();
@@ -72,7 +75,7 @@ void startTabela(){
 
 void setaId(int id) {
     FILE *file;
-    file = fopen("players.csv", "r");
+    file = fopen("/tmp/players.csv", "r");
 
     char linha[100];
     char resp[100];
@@ -193,11 +196,12 @@ void mostraTudo(){
 
 void pesquisaElementos(){
     char input[100];
-    gets(input);
+    fgets(input, sizeof(input), stdin);
+    fgets(input, sizeof(input), stdin);
 
-    while(strcmp(input, "FIM")!= 0){
+    while(strcmp(input, "FIM\n")!= 0){
         pesquisaElemento(input);
-        gets(input);
+        fgets(input, sizeof(input), stdin);
     }   
 }
 
@@ -207,25 +211,38 @@ void pesquisaElemento(char *input){
     int len = strlen(input);
     char linha[len];
     strcpy(linha,input);
-
+    linha[len-1]='\0';
 
     for (int i=0; i<25; i++){
-        Celula* tmp = tabela[i];
+        Celula* tmp = tabela[i];    
 
         for (; tmp!=NULL; tmp=tmp->prox){
+            comparacoes++;
             if(strcmp(linha, tmp->elemento.nome) == 0) achou=true;
         }
     }
 
-    if (achou) printf ("%s SIM\n", linha);
-    else printf ("%s NAO\n", linha);
+    if (achou) printf("%s SIM\n", linha);
+    else printf("%s NAO\n", linha);
 }
+
+void ArqLog(){
+    int matricula = 802512;
+    float tempo;
+    tempo = (float)(end-start)*1000;
+
+    FILE *file = fopen("matrícula_hashIndireta.txt","w");
+    fprintf(file,"Matricula: %i\tTempo: %f\tComparacoes: %i",matricula, tempo, comparacoes);
+}
+
+
 
 
 int main(){ 
     inserirElementos();
     //mostraTudo();
     pesquisaElementos();
+    ArqLog();
 
     return 0;
 }
