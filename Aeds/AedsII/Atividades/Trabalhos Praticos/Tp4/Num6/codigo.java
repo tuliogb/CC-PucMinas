@@ -1,10 +1,15 @@
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.File;
 import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
 
 public class Trie {
 
     public static No raiz;
     public static int comp=0;
+    public static Long tempo = (long) 0;
 
 
     public Trie(){
@@ -43,24 +48,28 @@ public class Trie {
     public void pesquisarElementos(){
         String input =  MyIO.readLine();
         while(!input.equals("FIM")){
-            pesquisarElemento(input, raiz, 0, false);
+            if(pesquisar(input)) MyIO.println(input + " SIM");
+            else MyIO.println(input + " NAO");
             input = MyIO.readLine();
         }
     }
 
-    private void pesquisarElemento(String nome, No no, int k, boolean achou) {
-        if (k==nome.length()-1){
-            if(no.elemento==nome.charAt(k)) MyIO.println(nome + " SIM");
-            else MyIO.println(nome + " NAO");
-        }else{
-            for (int i = 0; i < no.prox.length; i++) {
-                if (no.prox[i] != null && no.prox[i].elemento==nome.charAt(k)) {
-                    achou = true;
-                    pesquisarElemento(nome, no.prox[i], k+1, true);
-                
-                }else achou = false;
-            }
+    public boolean pesquisar(String s){
+        return pesquisar(s, raiz, 0);
+    }
+
+    public boolean pesquisar(String s, No no, int i){
+        boolean resp=false;
+        comp++;
+        if(no.prox[s.charAt(i)] == null){
+            resp = false;
+        } else if(i == s.length() - 1){
+            resp = (no.prox[s.charAt(i)].folha == true);
+        } else if(i < s.length() - 1 ){
+            resp = pesquisar(s, no.prox[s.charAt(i)], i + 1);
         }
+
+        return resp;
     }
 
     /* ----------------------------------------------------------------------------------------------------------- INICIO CLASSE JOGADOR */
@@ -158,7 +167,7 @@ public class Trie {
         }
 
         public void SetaId(int x) throws Exception {
-            FileReader file = new FileReader("players.csv"); 
+            FileReader file = new FileReader("/tmp/players.csv"); 
             BufferedReader buffer = new BufferedReader(file);
             String linha;
 
@@ -222,13 +231,36 @@ public class Trie {
      }
     /* ------------------------------------------------------------------------------------------------------------------- FIM CLASSE NO */
 
+	public static void ArqLog(long tempo) {
+		String nomeArq = "802512_arvoreTrie.txt";
+		String mtr = "802512";
+		
+		try {
+            File arq = new File(nomeArq);
+            arq.createNewFile();
+        	try {
+    			FileWriter file = new FileWriter(nomeArq, false); 
+    			BufferedWriter buffer = new BufferedWriter(file);
 
+    			buffer.write(mtr + '\t' + tempo*1000 + "s" + '\t' + comp);
+    			buffer.close();
+
+    		}catch(IOException e) {e.printStackTrace();}
+        }catch(IOException e){e.printStackTrace();}
+	}
 
     public static void main(String[] args) {
+        long tempoInicio = System.nanoTime();
+
         Trie arvore = new Trie();
         Jogador jogador = new Jogador();
 
         jogador.inserirElementos();
+        jogador.inserirElementos();
         arvore.pesquisarElementos();
+
+        long tempoFinal = System.nanoTime();
+        tempo = (tempoFinal - tempoInicio);
+        ArqLog(tempo);
     }
 }
