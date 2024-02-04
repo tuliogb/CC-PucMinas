@@ -1,0 +1,181 @@
+Nome: Tulio Gomes Braga 
+Matricula: 802512
+
+
+
+1)a) 				     Quociente	       Resto
+			
+a) 23(10) ->    23/2 		  	11		  1
+	        11/2 		  	5		  1
+	        5/2		   	2		  1
+		2/2			1		  0	
+		1/2			0		  1		R=>10111(2)
+
+
+b) 57(10) -> 	57/2			28		1
+		28/2			14		0
+		14/2			7		0
+		7/2			3		1
+		3/2			1		1
+		1/2			0		1		R=>111001(2)
+
+
+c) 732(10) ->  	732/2			366 		0
+		366/2			183		0
+		183/2			91		1
+		91/2			45 		1
+		45/2			22		1
+		22/2			11		0
+		11/2			5		1
+		5/2			2		1
+		2/2			1		0
+		1/2			0		1		R=>1011011100(2)
+
+
+d) 321(10) -> 	321/2			160		1
+		160/2			80		0
+		80/2			40		0
+		40/2 			20		0
+		20/2			10 		0
+		10/2			5		0
+		5/2			2		1
+		2/2			1		0
+		1/2			0		1		R=>101000001(2)
+
+
+e) 364(10) -> 	364/2			182/2		0
+		182/2			91		0
+		91/2			45		1
+		45/2			22		1
+		22/2			11		0
+		11/2			5		1
+		5/2			2		1
+		2/2			1		0	
+		1/2			0		1		R=>101101100(2)
+
+
+Obs: Decimal pra qualquer base é so ir dividindo pelo valor da base que quer transformar.
+
+
+
+
+
+
+2)a) 
+
+a) 10011(2) = 16+3 = 19(10)
+b) 11101(2) = 16+8+4+1 = 29(10)
+c) 10110(2) = 16+4+2 = 22(10)
+d) 101101(2) = 32+8+4+1 = (10)
+e) 110011(2) = 32+16+3 = 51(10)
+
+Obs: A metodologia usada foi com base na posicao de cada digito relacionado a potencia de 2.
+
+
+
+
+
+
+
+
+3)a)			    Quociente	      Resto
+
+a) 67(10) =	67/4		16 		3
+		16/4		4		0
+		4/4		1		0
+		1/4		0		1			R=1003(4)
+
+b) 58(10) =	58/8		7		2
+		7/8		0		7			R=72(8)
+
+
+c) 76(10) =	76/16		4		12
+		4/16		0		4			R=4C	
+
+d) 157(10) =	157/16		9		13
+		9/16		0		9			R=9D	 	
+
+e) 735(10) = 	735/16		45		15
+		45/16		2		13
+		2/16		0		2			R=2DF
+
+
+Obs: Decimal pra qualquer base é so ir dividindo pelo valor da base que quer transformar.
+
+
+
+
+
+
+
+
+4)a)
+
+a) 10111(2) = [00] [01] [01] [11]	-> 	0 + 1 + 1 + 3	= 113(4)			
+b) 11110(2) = [011] [110]		->	3 + 6		= 9(8) 	
+c) 100101(2) = [0100][0101]		-> 	4 + 5		= 9(16)	
+d) 101011(2) = [101] [011]		->	5 + 3		= 8(8) 
+e) 101100(2) = [10] [11] [00]		-> 	2 + 3 + 0	= 5(4)
+
+Obs: De Binario pra outro valor, basta repartir o numero de acordo com a potencia de 2, 4 sera de 2 em 2 porque a potencia é 2, 8 sera de 3 em 3 porque a potencia é 3,...
+
+
+
+
+
+5)a)
+
+a) “PUC-M.G.” = X(16_ASCII)
+P: 80 (decimal) = 50 (hexadecimal)
+U: 85 (decimal) = 55 (hexadecimal)
+C: 67 (decimal) = 43 (hexadecimal)
+-: 45 (decimal) = 2D (hexadecimal)
+M: 77 (decimal) = 4D (hexadecimal)
+.: 46 (decimal) = 2E (hexadecimal)
+G: 71 (decimal) = 47 (hexadecimal)
+
+
+b) “2024-01” = X(16_ASCII)
+2: 50 (decimal) = 32 (hexadecimal)
+0: 48 (decimal) = 30 (hexadecimal)
+2: 50 (decimal) = 32 (hexadecimal)
+4: 52 (decimal) = 34 (hexadecimal)
+-: 45 (decimal) = 2D (hexadecimal)
+0: 48 (decimal) = 30 (hexadecimal)
+1: 49 (decimal) = 31 (hexadecimal)
+
+
+c) “Minas Gerais" = X(2_ASCII)
+M: 77 (decimal) = 4D (hexadecimal)
+i: 105 (decimal) = 69 (hexadecimal)
+n: 110 (decimal) = 6E (hexadecimal)
+a: 97 (decimal) = 61 (hexadecimal)
+s: 115 (decimal) = 73 (hexadecimal)
+espaço: 32 (decimal) = 20 (hexadecimal)
+G: 71 (decimal) = 47 (hexadecimal)
+e: 101 (decimal) = 65 (hexadecimal)
+r: 114 (decimal) = 72 (hexadecimal)
+a: 97 (decimal) = 61 (hexadecimal)
+i: 105 (decimal) = 69 (hexadecimal)
+s: 115 (decimal) = 73 (hexadecimal)
+
+
+d) 116 117 111 124 105 (8) = X(ASCII)
+116: 116 (decimal) = 74 (hexadecimal)
+117: 117 (decimal) = 75 (hexadecimal)
+111: 111 (decimal) = 6F (hexadecimal)
+124: 124 (decimal) = 7C (hexadecimal)
+105 (8): 105 (decimal) = 69 (hexadecimal)
+
+
+e) 54 61 72 64 65 (16) = X(ASCII)
+54: 54 (decimal) = 36 (hexadecimal)
+61: 61 (decimal) = 3D (hexadecimal)
+72: 72 (decimal) = 48 (hexadecimal)
+64: 64 (decimal) = 40 (hexadecimal)
+65 (16): 65 (decimal) = 41 (hexadecimal)		 
+	
+ 
+Obs: Tabela de consulta https://web.fe.up.pt/~ee96100/projecto/Tabela%20ascii.htm	
+
+
