@@ -4,7 +4,9 @@ Wiley Libery
 Scielo
 
 ACM Digital Libery
-
+open sv computer vision
+acm .org
+ieee computer
 
 
 "Da Captura à Codificação: O Processo de Formação de Imagens em Dispositivos Eletrônicos"
