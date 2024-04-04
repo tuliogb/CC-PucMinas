@@ -1,0 +1,192 @@
+Tulio Gomes Braga - 802512
+
+
+
+
+1) Introdução a Automação Industrial
+Link de acesso: https://dca.ufrn.br/~affonso/FTP/DCA447/trabalho1/trabalho1_9.pdf
+
+Dados:
+    Título: Introdução à Automação Industrial
+    Autores: Ana Claudia M. Lins de Albuquerque, Diego Rodrigo C. Silva
+    Departamento: Engenharia de Computação e Automação
+    Instituição: Universidade Federal do Rio Grande do Norte
+    Endereço: Campus Universitário s/n - 59072-970 - Natal - RN – Brasil
+    E-mails dos autores: ana_c@engcomp.ufrn.br, diego@dca.ufrn.br
+
+
+
+
+
+
+2)
+
+Referencias Utilizadas pelo artigo escolhido.
+[1] André L. Maitelli, "Controladores Lógicos Programáveis", ftp://ftp.engcomp.ufrn.br/maitelli/clp.
+[2] Tutorial – Fundamentos de Automação Industrial, http://www.senaiformadores.com.br/Cursos/01/.
+[3] Apostila sobre Automação Industrial, http://www.terravista.pt/Fernoronha/2604/download.htm
+[4] Adelardo A. D. de Medeiros, “Modelagem e Análise de Sistemas Dinâmicos”, www.dca.ufrn.br/~adelardo
+
+
+Citação do artigo:
+
+BibTeX:
+@misc{deintroduccao,
+  title={Introdu{\c{c}}{\~a}o a Automa{\c{c}}{\~a}o Industrial},
+  author={de Albuquerque, Ana Claudia M Lins and Silva, Diego Rodrigo C},
+  publisher={Universidade Federal do Rio Grande do Norte}
+}
+
+MLA: 
+de Albuquerque, Ana Claudia M. Lins, and Diego Rodrigo C. Silva. "Introdução a Automação Industrial."
+
+
+
+
+
+
+
+
+
+3) Cada um desses são tipos de dispositivos eletronicos, os quais cada um tem suas características que são estratégicas na hora da implementação.
+
+ASICs: Se caracterizam principalmente pela necessidade de um processo de fabricação especial, oque acarreta em altos custos de projeto e um longo tempo de desenvolvimento para esse tipo de implementação.
+
+ASSP: É um produto padronizado que é desenvolvido para atender a requisitos específicos de uma aplicação particular. Se caracterizam por serem um produto que já está pronto e disponível no mercado, projetado para aplicações comuns em uma determinada indústria.
+
+SPLD: Dispositivo de lógica programável simples, usado para implementar funções lógicas básicas em sistemas de automação industrial.
+
+CPLD: Dispositivo de lógica programável complexo, capaz de implementar funções mais complexas devido à sua arquitetura interna elaborada.
+
+SoC: Sistema em um Chip, que integra vários componentes de um sistema completo em um único chip, como processador, memória e periféricos.
+
+FPGA: É um dispositivo lógico reconfigurável que permite aos engenheiros programar a funcionalidade do dispositivo após a fabricação. Muito utilizado na prototipagem rápida e implementação de sistemas complexos na automação industrial.
+
+
+
+
+
+
+
+
+
+
+
+
+4) Legenda:	PROM 
+	   	PLA
+           	PAL
+           	   	
+-----------------------------------------------------------------------------------------------------------------------------------------------           	
+Descricao: 	| Memória somente de leitura (ROM) que pode ser programada uma vez.	
+		| Dispositivo de lógica programável que permite a interconexão de portas lógicas e flip-flops programáveis.
+		| Dispositivo de lógica programável que possui uma matriz AND programável seguida por uma matriz OR fixa.	
+-----------------------------------------------------------------------------------------------------------------------------------------------   
+Configuração	| Os bits de dados são programados durante a fabricação e não podem ser alterados depois.	
+		| As interconexões entre as entradas e as saídas podem ser programadas pelo usuário.	
+		| As interconexões entre os termos AND e OR são programadas pelo usuário.
+-----------------------------------------------------------------------------------------------------------------------------------------------   
+Flexibilidade	| Baixa, uma vez programada, não pode ser reprogramada.	
+		| Média, pode ser reprogramada para diferentes funções, mas a estrutura da matriz é fixa.	
+		| Média, pode ser reprogramada para diferentes funções, mas a estrutura da matriz é fixa.
+-----------------------------------------------------------------------------------------------------------------------------------------------
+Aplicações 	| Armazenamento de tabelas de busca, implementação de funções lógicas fixas.	
+Comuns		| Implementação de funções lógicas mais complexas, decodificadores, multiplexadores.	
+		| Implementação de funções lógicas mais complexas, decodificadores, multiplexadores.
+-----------------------------------------------------------------------------------------------------------------------------------------------
+Complexidade	| Baixa, estrutura simples.	
+		| Média, estrutura mais complexa que PROM.	
+		| Média, estrutura mais complexa que PROM.
+-----------------------------------------------------------------------------------------------------------------------------------------------
+Programação	| Programação durante a fabricação.	
+		| O usuário programa as interconexões entre as entradas e as saídas.	
+		| O usuário programa as interconexões entre os termos AND e OR.
+-----------------------------------------------------------------------------------------------------------------------------------------------
+
+
+
+
+
+
+
+
+
+
+
+5) Legenda: 	CPLD
+		FPGA
+		
+		
+Arquitetura	A arquitetura de um CPLD é composta por uma matriz de blocos lógicos interconectados com recursos de roteamento específicos. Geralmente, eles têm uma estrutura de interconexão mais fixa e	são mais adequados para aplicações que exigem menos flexibilidade de roteamento. Obs: (Roteamento: estabelecer conexões físicas entre os blocos lógicos internos para implementar uma determinada função)
+        	A arquitetura de um FPGA consiste em uma matriz de blocos lógicos e uma rede de interconexão programável. Eles oferecem uma flexibilidade muito maior em termos de roteamento, permitindo que os usuários configurem as conexões entre os blocos lógicos conforme necessário.
+
+
+Flexibilidade	Oferece flexibilidade para implementar funções lógicas complexas, mas com menos recursos de roteamento. São mais adequados para implementações menores ou de médio porte.
+        	Oferece uma flexibilidade significativa devido à sua matriz de blocos lógicos e à rede de interconexão programável. São ideais para implementações complexas que exigem uma grande flexibilidade de roteamento.
+
+
+Velocidade:	São mais rápidos para pequenas e médias implementações devido à sua arquitetura mais simples.
+        	Podem ser mais lentos para pequenas implementações, mas podem atingir velocidades muito altas em grandes implementações devido à sua arquitetura altamente paralela.
+
+
+Aplicações Comuns:	São frequentemente usados em aplicações de controle de periféricos, interfaces simples e sistemas embarcados.
+        		São comumente utilizados em aplicações que exigem processamento de sinal digital, processamento de imagem, implementação de redes neurais e sistemas embarcados complexos.
+
+
+Reconfiguração:		Geralmente são mais difíceis de reconfigurar em comparação com FPGA devido à sua arquitetura menos flexível.
+        		São mais fáceis de reconfigurar devido à sua arquitetura flexível, o que permite alterações dinâmicas nas conexões entre os blocos lógicos.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+6)
+
+Artigo 1: FPGA and CPLD architectures: a tutorial
+MLA: Brown, Stephen, and Jonathan Rose. "FPGA and CPLD architectures: A tutorial." IEEE design & test of computers 13.2 (1996): 42-57.
+
+@article{brown1996fpga,
+  title={FPGA and CPLD architectures: A tutorial},
+  author={Brown, Stephen and Rose, Jonathan},
+  journal={IEEE design \& test of computers},
+  volume={13},
+  number={2},
+  pages={42--57},
+  year={1996},
+  publisher={IEEE}
+}
+
+
+
+Artigo 2: ConCISe: a compiler-driven CPLD-based instruction set accelerator
+MLA: Kastrup, Bernardo, Arjan Bink e Jan Hoogerbrugge. "ConCISe: Um acelerador de conjunto de instruções baseado em CPLD baseado em compilador." Sétimo Simpósio Anual IEEE sobre Máquinas de Computação Personalizadas Programáveis por Campo (Cat. - Não. - Não. PR00375 (em inglês). IEEE, 1999.
+
+
+@article{devi2012design,
+  title={Design and implementation of CPLD based solar power saving system for street lights and automatic traffic controller},
+  author={Devi, D Asha and Kumar, Ajay and others},
+  journal={International Journal of Scientific and Research Publications},
+  volume={2},
+  number={11},
+  pages={1--4},
+  year={2012}
+}
+
+
+
+
+
+
+
+
+
+
