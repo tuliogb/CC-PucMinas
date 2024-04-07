@@ -1,0 +1,15 @@
+/**
+ * Questao 1 - Trabalho Pratico 2 - Aeds II - CC_PUCMINAS
+ * @author Tulio Gomes Braga
+ * @version 1 04/2025
+ * 
+ * O codigo le as entradas, abre o arquivo uma vez setando todos os personagens, apos isso, cria uma lista com os personagens solicitados na entrada.
+ * 
+ * 
+ * Explicações dos Métodos:
+ * 
+ * 
+ * setaBase:
+ * 
+ * swap: A variavel "temp" recebe o clone do "p1", "p1" se torna "p2", "p2" se torna "temp".
+ */
