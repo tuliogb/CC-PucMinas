@@ -42,6 +42,12 @@ void mostraPersonagem(Personagem p){
     );
 }
 
+void mostraLista(){
+    for(int i=0; i<entradas; i++){
+        mostraPersonagem(Lista[i]);
+    }
+}
+
 void mostrarBase(){
     for(int i=0; i<baseTam; i++){
         mostraPersonagem(Base[i]);
@@ -59,7 +65,9 @@ void setaLocalDate(Personagem *p, char data[]){
     else{ strncpy(mes, data+3, 1);    mes[1]='\0';    p->dateOfBirth.mes = atoi(mes);}
 
     if(data[4]!='-'){   strncpy(ano, data+6, 4);    ano[4]='\0';    p->dateOfBirth.ano = atoi(ano);}
-    else{ strncpy(ano, data+5, 4);    ano[4]='\0';    p->yearOfBirth.ano = p->dateOfBirth.ano = atoi(ano);}
+    else{ strncpy(ano, data+5, 4);  ano[4]='\0';    p->dateOfBirth.ano = atoi(ano);}
+
+    p->yearOfBirth.ano = atoi(ano);
 }
 
 void setaPersonagem(char* linha){
@@ -73,8 +81,8 @@ void setaPersonagem(char* linha){
     while(input[x]!=';'){ Base[baseTam].ancestry[y] = input[x]; x++; y++;}  Base[baseTam].ancestry[y]='\0'; x++; y=0;
     while(input[x]!=';'){ Base[baseTam].species[y] = input[x]; x++; y++;}   Base[baseTam].species[y]='\0'; x++; y=0;
     while(input[x]!=';'){ Base[baseTam].patronus[y] = input[x]; x++; y++;}  Base[baseTam].patronus[y]='\0'; x++; y=0;
-    while(input[x]!=';'){ Base[baseTam].hogwartsStaff[y] = input[x]; x++; y++;} Base[baseTam].hogwartsStaff[y]='\0'; x++; y=0;
-    while(input[x]!=';'){ Base[baseTam].hogwartsStudent[y] = input[x]; x++; y++;}   Base[baseTam].hogwartsStudent[y]='\0'; x++; y=0;
+    while(input[x]!=';'){ if(input[x]=='F'){ strcpy(Base[baseTam].hogwartsStaff,"false"); x+=5;} else{strcpy(Base[baseTam].hogwartsStaff,"true"); x+=10;}} x++; y=0;
+    while(input[x]!=';'){ if(input[x]=='F'){ strcpy(Base[baseTam].hogwartsStudent,"false"); x+=5;} else{strcpy(Base[baseTam].hogwartsStudent,"true"); x+=10;}} x++; y=0;
     while(input[x]!=';'){ Base[baseTam].actorName[y] = input[x]; x++; y++;}  Base[baseTam].actorName[y]='\0'; x++; y=0;
     while(input[x]!=';'){ if(input[x]=='V'){ Base[baseTam].alive=true; x+=10;} else{ Base[baseTam].alive=false; x+=5;}} x++; y=0;
     while(input[x]!=';'){ Base[baseTam].alternate_actors[y] = input[x]; x++; y++;}  Base[baseTam].alternate_actors[y]='\0'; x++; y=0;
@@ -88,6 +96,17 @@ void setaPersonagem(char* linha){
     baseTam++;
 }
 
+void setaLista(char input[]){
+    bool achou = false;
+
+    for(int i=0; i<MAXTAM && !achou; i++){
+        if(strcmp(Base[i].id, input)==0){
+            Lista[entradas++] = Base[i];
+            achou = true;
+        }
+    }
+}
+
 void setaBase(){
     FILE *file =  fopen("characters.csv","r");
     char input[300];
@@ -98,8 +117,18 @@ void setaBase(){
     }
 }
 
+void lerEntrada(){
+    char input[100];
+    scanf("%s", input);
+
+    while(strcmp(input, "FIM")!=0){
+        setaLista(input);
+        scanf("%s", input);
+    }
+}
 
 int main(){
     setaBase();
-    mostrarBase();
+    lerEntrada();
+    mostraLista();
 }
