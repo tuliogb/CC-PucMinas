@@ -264,6 +264,3 @@ public class CtrlPersonagem{
         } catch(Exception e){ System.out.println(e);}
     }
 }
-
-
-
