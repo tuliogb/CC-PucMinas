@@ -11,7 +11,8 @@ typedef struct{
 
 typedef struct {
     char id[50], name[50], alternate_names[200], house[50], ancestry[50], species[50], patronus[50], hogwartsStaff[50], hogwartsStudent[50], actorName[50], alternate_actors[100], eyeColour[50], gender[50], hairColour[50];
-    LocalDate dateOfBirth, yearOfBirth;
+    LocalDate dateOfBirth;
+    int yearOfBirth;
     bool alive, wizard; 
 } Personagem;
 
@@ -34,7 +35,7 @@ void mostraPersonagem(Personagem p){
         p.actorName,
         p.alive ? "true" : "false",
         p.dateOfBirth.dia, p.dateOfBirth.mes, p.dateOfBirth.ano,
-        p.yearOfBirth.ano,
+        p.yearOfBirth,
         p.eyeColour,
         p.gender,
         p.hairColour,
@@ -66,8 +67,6 @@ void setaLocalDate(Personagem *p, char data[]){
 
     if(data[4]!='-'){   strncpy(ano, data+6, 4);    ano[4]='\0';    p->dateOfBirth.ano = atoi(ano);}
     else{ strncpy(ano, data+5, 4);  ano[4]='\0';    p->dateOfBirth.ano = atoi(ano);}
-
-    p->yearOfBirth.ano = atoi(ano);
 }
 
 void setaPersonagem(char* linha){
@@ -87,7 +86,7 @@ void setaPersonagem(char* linha){
     while(input[x]!=';'){ if(input[x]=='V'){ Base[baseTam].alive=true; x+=10;} else{ Base[baseTam].alive=false; x+=5;}} x++; y=0;
     while(input[x]!=';'){ Base[baseTam].alternate_actors[y] = input[x]; x++; y++;}  Base[baseTam].alternate_actors[y]='\0'; x++; y=0;
     while(input[x]!=';'){ data[y] = input[x]; x++; y++;} setaLocalDate(&Base[baseTam],data); x++; y=0;
-    while(input[x]!=';'){ x++; y++;}  x++; y=0;
+    while(input[x]!=';'){ data[y] = input[x]; x++; y++;} data[y]='\0'; Base[baseTam].yearOfBirth = atoi(data); x++; y=0;
     while(input[x]!=';'){ Base[baseTam].eyeColour[y] = input[x]; x++; y++;}  Base[baseTam].eyeColour[y]='\0'; x++; y=0;
     while(input[x]!=';'){ Base[baseTam].gender[y] = input[x]; x++; y++;}  Base[baseTam].gender[y]='\0'; x++; y=0;
     while(input[x]!=';'){ Base[baseTam].hairColour[y] = input[x]; x++; y++;}  Base[baseTam].hairColour[y]='\0'; x++; y=0;
