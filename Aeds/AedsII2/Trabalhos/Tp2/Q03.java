@@ -4,6 +4,31 @@ import java.io.BufferedReader;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
+/**
+ * Questao 3 - Trabalho Pratico 2 - Aeds II - CC_PUCMINAS
+ * @author Tulio Gomes Braga
+ * @version 2 04/2025
+ * 
+ * 
+ * Explicações dos Métodos:
+ * 
+ * Personagem: Responsavel pela cricao dos atributos e operacoes especificas de personagem.
+ *  Personagem(): Metodo construtor sem parametro.
+ *  Personegem(parametros): Metodo construtor com parametro.
+ *  Metodos set: Responsaveis por receber o parmetro e atribuir o mesmo ao atribuito.
+ *  Metodos get: Responsaveis por retornar o atributo. 
+ *  Clone: Copia os dados de outro personagem para um novo.
+ *  mostrarPersonagem: Apresenta na saida padrao os atributos formatados.
+ * 
+ * CtrlPersonagem: Responsavel pelas operacoes envovendo personagens.
+ *  setaBase: Abre o arquivo uma vez e passa linha por linha para setar todos os personagens.
+ *  setaPersonagem: Particiona a linha e chama os metodos sets correspondentes aos atributos.
+ *  mostrarBase: Percorre toda a base fazendo objeto.mostrarPersonagem().
+ *  setaLista: Equanto a entrada for diferente de "FIM", chama-se o medoto setaInput(passando a entrada lida).
+ *  mostraLista: Percorre toda a lista fazendo objeto.mostrarPersonagem().
+ * 
+ *  pesquisaSequencial: Percorre toda lista procurando a chave de pesquisa, apos isso apresenta o resultado da busca.
+ */
 
 class Personagem {
 
@@ -263,7 +288,7 @@ public class CtrlPersonagem{
         }
     }
 
-
+//////////////////////////////////////////////////////////////////////////////////////
 
     static void pesquisaSequencial(String x){
         boolean achou = false;
@@ -277,7 +302,7 @@ public class CtrlPersonagem{
         if(!achou) System.out.println("NAO");
     }
 
-
+//////////////////////////////////////////////////////////////////////////////////////
 
     public static void main(String[] args){ 
         try {

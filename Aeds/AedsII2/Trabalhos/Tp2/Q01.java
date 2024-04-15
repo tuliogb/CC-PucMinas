@@ -4,6 +4,29 @@ import java.io.BufferedReader;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
+/**
+ * Questao 1 - Trabalho Pratico 2 - Aeds II - CC_PUCMINAS
+ * @author Tulio Gomes Braga
+ * @version 2 04/2025
+ * 
+ * 
+ * Explicações dos Métodos:
+ * 
+ * Personagem: Responsavel pela cricao dos atributos e operacoes especificas de personagem.
+ *  Personagem(): Metodo construtor sem parametro.
+ *  Personegem(parametros): Metodo construtor com parametro.
+ *  Metodos set: Responsaveis por receber o parmetro e atribuir o mesmo ao atribuito.
+ *  Metodos get: Responsaveis por retornar o atributo. 
+ *  Clone: Copia os dados de outro personagem para um novo.
+ *  mostrarPersonagem: Apresenta na saida padrao os atributos formatados.
+ * 
+ * CtrlPersonagem: Responsavel pelas operacoes envovendo personagens.
+ *  setaBase: Abre o arquivo uma vez e passa linha por linha para setar todos os personagens.
+ *  setaPersonagem: Particiona a linha e chama os metodos sets correspondentes aos atributos.
+ *  mostrarBase: Percorre toda a base fazendo objeto.mostrarPersonagem().
+ *  setaLista: Equanto a entrada for diferente de "FIM", chama-se o medoto setaInput(passando a entrada lida).
+ *  mostraLista: Percorre toda a lista fazendo objeto.mostrarPersonagem().
+ */
 
 class Personagem {
 
@@ -134,6 +157,7 @@ class Personagem {
     }
     public String[] getAlternateActors() { return alternate_actors;}
 
+
     public void clone(Personagem p) {
         this.id = p.id;
         this.name = p.name;
@@ -173,9 +197,6 @@ class Personagem {
         */ 
         System.out.println(this.getDateOfBirth() +" ## "+ this.yearOfBirth +" ## "+ this.eyeColour +" ## "+ this.gender +" ## "+ this.hairColour +" ## "+ this.wizard +"]");
     }
-
-    public void lerPersonagem(){}
-    
 }
 
 public class CtrlPersonagem{
@@ -238,6 +259,7 @@ public class CtrlPersonagem{
             setaInput(input);
             input = sc.nextLine();
         }
+        sc.close();
     }
 
     static void setaInput(String id){
@@ -255,12 +277,15 @@ public class CtrlPersonagem{
         }
     }
 
-    public static void main(String[] args){
+    public static void main(String[] args){ 
         try {
             setaBase();
             setaLista();
-            //mostrarBase();
             mostrarLista();
+
         } catch(Exception e){ System.out.println(e);}
     }
 }
+
+
+

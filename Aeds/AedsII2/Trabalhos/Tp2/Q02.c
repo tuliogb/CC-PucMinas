@@ -5,6 +5,26 @@
 
 #define MAXTAM 405
 
+/**
+ * Questao 2 - Trabalho Pratico 2 - Aeds II - CC_PUCMINAS
+ * @author Tulio Gomes Braga
+ * @version 2 04/2025
+ * 
+ * 
+ * Explicações dos Métodos:
+ * 
+ * Personagem: Responsavel pela cricao dos atributos dos personagens.
+ *  mostraPersonagem: Apresenta na saida padrao os atributos formatados.
+ *  mostraLista: Percorre toda a lista fazendo struct.mostrarPersonagem().
+ *  mostrarBase: Percorre toda a base fazendo struct.mostrarPersonagem().
+ *  setLocalDate: Recebe o parametro, trata, e o seta corretamente como Local Date.
+ *  setaPersonagem: Particiona a linha e seta os atributos.
+ *  setaLista: Percorre a base procurando o elemento compativel com chave de entrada, quando achar adiciona na lista.
+ *  setaBase: Abre o arquivo uma vez e passa linha por linha para setar todos os personagens.
+ *  lerEntrada: Enquanto a entrada for diferente de fim passa a chave pra ser procurada.
+*/
+
+
 typedef struct{
     int dia, mes, ano;
 } LocalDate;
