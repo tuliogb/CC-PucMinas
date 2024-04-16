@@ -211,7 +211,7 @@ void Arqlog(){
     double duracaoDeUmTick = 1.0 / CLOCKS_PER_SEC;  // Duração de um tick em segundos
     double tempo = ticks * duracaoDeUmTick;
 
-    FILE *file = fopen("802512.txt", "w");
+    FILE *file = fopen("802512_binaria.txt", "w");
     fprintf(file, "802512\t%i\t%.6fs", comparacoes, tempo);
 }
 
