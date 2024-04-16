@@ -29,6 +29,7 @@ import java.time.format.DateTimeFormatter;
  *  setaLista: Equanto a entrada for diferente de "FIM", chama-se o medoto setaInput(passando a entrada lida).
  *  mostraLista: Percorre toda a lista fazendo objeto.mostrarPersonagem().
  *  
+ *  compareDateOfBirth: metodo pra comparar qual data é maior/menor/igual.
  *  swap: Recebe posicoes e troca os elementos.
  *  log: Exibe em um arquivo numero de comparacoes, movimentacoes e o tempo de execucao do algoritimo.
  *  insertionSort: Metodo de ordenacao por insercao.
@@ -138,6 +139,7 @@ class Personagem {
         }
     }
     public String getDateOfBirth() { DateTimeFormatter f = DateTimeFormatter.ofPattern("dd-MM-yyyy"); String dt = this.dateOfBirth.format(f); return dt;}
+    public LocalDate getDate() { return dateOfBirth; }
 
     public void setAlternateNames(String alternate_names) {
         if(!alternate_names.equals("[]")){
@@ -216,7 +218,7 @@ public class CtrlPersonagem{
 
     static void setaBase() throws Exception{
         String linha = "";
-        FileReader file = new FileReader("/tmp/characters.csv");
+        FileReader file = new FileReader("characters.csv");
         BufferedReader bf = new BufferedReader(file);
 
         while((linha=bf.readLine()) != null){
@@ -294,13 +296,26 @@ public class CtrlPersonagem{
         movimentacoes+=3;
     }
 
+    static int compareDateOfBirth(int j, Personagem temp){     // J>TEMP > 1 / J<TEMP > -1 / J=TEMP > 0
+        int resp = 0;
+        
+        if ((Lista[j].getDate()).isBefore(temp.getDate())) resp=-1;
+        else if((Lista[j].getDate()).isAfter(temp.getDate())) resp = 1;
+        else{
+            if(Lista[j].getName().compareTo(temp.getName()) > 0) resp=1;
+            else resp = -1;
+        }
+
+        return resp;
+    }
+
     static void insertionSort(){
         for(int i=1; i<entradas; i++){
             Personagem temp = Lista[i];
             int j=i-1;
             comparacoes++;
 
-            while(j>=0 && (Lista[j].getName().compareTo(temp.getName()) > 0)){
+            while(j>=0 && (compareDateOfBirth(j,temp) > 0)){
                 Lista[j+1]=Lista[j];
                 movimentacoes++; comparacoes++; j--;
             }
