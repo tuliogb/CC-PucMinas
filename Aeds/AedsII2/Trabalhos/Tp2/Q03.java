@@ -1,6 +1,8 @@
 import java.util.*;
 import java.io.FileReader;
 import java.io.BufferedReader;
+import java.io.FileWriter;
+import java.io.PrintWriter;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
@@ -27,7 +29,7 @@ import java.time.format.DateTimeFormatter;
  *  setaLista: Equanto a entrada for diferente de "FIM", chama-se o medoto setaInput(passando a entrada lida).
  *  mostraLista: Percorre toda a lista fazendo objeto.mostrarPersonagem().
  * 
- *  pesquisaSequencial: Percorre toda lista procurando a chave de pesquisa, apos isso apresenta o resultado da busca.
+ * pesquisaSequencial: Percorre toda lista procurando a chave de pesquisa, apos isso apresenta o resultado da busca.
  */
 
 class Personagem {
@@ -203,7 +205,7 @@ class Personagem {
 
 public class CtrlPersonagem{
 
-    static int tamBase=0, entradas=0, maxTam=405;;
+    static int tamBase=0, entradas=0, comparacoes=0, maxTam=405;;
     static Personagem[] Base =  new Personagem[maxTam];
     static Personagem[] Lista = new Personagem[maxTam];
 
@@ -288,12 +290,11 @@ public class CtrlPersonagem{
         }
     }
 
-//////////////////////////////////////////////////////////////////////////////////////
-
     static void pesquisaSequencial(String x){
         boolean achou = false;
 
         for(int i=0; i<entradas && !achou; i++){
+            comparacoes++;
             if( (Lista[i].getName()).equals(x) ){
                 System.out.println("SIM");
                 achou=true;
@@ -302,16 +303,23 @@ public class CtrlPersonagem{
         if(!achou) System.out.println("NAO");
     }
 
-//////////////////////////////////////////////////////////////////////////////////////
+    static void log(long tempoDeExecucao) throws Exception{
+        FileWriter file = new FileWriter ("802512_sequencial.txt");
+        PrintWriter caneta = new PrintWriter(file);
+        caneta.println("802512" + '\t' + comparacoes + '\t' + tempoDeExecucao + "ms" + '\t');
+        caneta.close();
+    }
 
     public static void main(String[] args){ 
         try {
+            long startTime = System.currentTimeMillis();
             setaBase();
             setaLista();
+            long endTime = System.currentTimeMillis();
 
+            log((endTime - startTime));
         } catch(Exception e){ System.out.println(e);}
     }
 }
-
 
 
