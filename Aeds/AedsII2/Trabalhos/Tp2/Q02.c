@@ -1,3 +1,4 @@
+#include <time.h>
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
@@ -6,7 +7,7 @@
 #define MAXTAM 405
 
 /**
- * Questao 2 - Trabalho Pratico 2 - Aeds II - CC_PUCMINAS
+ * Questao 4 - Trabalho Pratico 2 - Aeds II - CC_PUCMINAS
  * @author Tulio Gomes Braga
  * @version 2 04/2025
  * 
@@ -22,8 +23,12 @@
  *  setaLista: Percorre a base procurando o elemento compativel com chave de entrada, quando achar adiciona na lista.
  *  setaBase: Abre o arquivo uma vez e passa linha por linha para setar todos os personagens.
  *  lerEntrada: Enquanto a entrada for diferente de fim passa a chave pra ser procurada.
+ * 
+ *  swap: Recebe posicoes e troca os elementos.
+ *  quicksort: metodo de ordenacao.
+ *  pesquisaBinaria: busca o elemento na lista de acordo com uma chave.
+ *  lerChave: le a chave e chama o pesquisaBinaria(chave), ate que seja diferente de "FIM";
 */
-
 
 typedef struct{
     int dia, mes, ano;
@@ -37,9 +42,9 @@ typedef struct {
 } Personagem;
 
 Personagem Base[MAXTAM];
-int baseTam = 0, entradas = 0;
+int baseTam=0, entradas=0, comparacoes=0;
 Personagem Lista[MAXTAM];
-
+clock_t startTime, endTime;
 
 void mostraPersonagem(Personagem p){
     printf("[%s ## %s ## {%s} ## %s ## %s ## %s ## %s ## %s ## %s ## %s ## %s ## %02i-%02i-%i ## %i ## %s ## %s ## %s ## %s]\n" , 
@@ -53,7 +58,7 @@ void mostraPersonagem(Personagem p){
         p.hogwartsStaff,
         p.hogwartsStudent,
         p.actorName,
-        p.alive ? "true" : "false",
+        p.alive ? "false" : "false",
         p.dateOfBirth.dia, p.dateOfBirth.mes, p.dateOfBirth.ano,
         p.yearOfBirth,
         p.eyeColour,
@@ -100,8 +105,8 @@ void setaPersonagem(char* linha){
     while(input[x]!=';'){ Base[baseTam].ancestry[y] = input[x]; x++; y++;}  Base[baseTam].ancestry[y]='\0'; x++; y=0;
     while(input[x]!=';'){ Base[baseTam].species[y] = input[x]; x++; y++;}   Base[baseTam].species[y]='\0'; x++; y=0;
     while(input[x]!=';'){ Base[baseTam].patronus[y] = input[x]; x++; y++;}  Base[baseTam].patronus[y]='\0'; x++; y=0;
-    while(input[x]!=';'){ if(input[x]=='F'){ strcpy(Base[baseTam].hogwartsStaff,"false"); x+=5;} else{strcpy(Base[baseTam].hogwartsStaff,"true"); x+=10;}} x++; y=0;
-    while(input[x]!=';'){ if(input[x]=='F'){ strcpy(Base[baseTam].hogwartsStudent,"false"); x+=5;} else{strcpy(Base[baseTam].hogwartsStudent,"true"); x+=10;}} x++; y=0;
+    while(input[x]!=';'){ if(input[x]=='F'){ strcpy(Base[baseTam].hogwartsStaff,"false"); x+=5;} else{strcpy(Base[baseTam].hogwartsStaff,"false"); x+=10;}} x++; y=0;
+    while(input[x]!=';'){ if(input[x]=='F'){ strcpy(Base[baseTam].hogwartsStudent,"false"); x+=5;} else{strcpy(Base[baseTam].hogwartsStudent,"false"); x+=10;}} x++; y=0;
     while(input[x]!=';'){ Base[baseTam].actorName[y] = input[x]; x++; y++;}  Base[baseTam].actorName[y]='\0'; x++; y=0;
     while(input[x]!=';'){ if(input[x]=='V'){ Base[baseTam].alive=true; x+=10;} else{ Base[baseTam].alive=false; x+=5;}} x++; y=0;
     while(input[x]!=';'){ Base[baseTam].alternate_actors[y] = input[x]; x++; y++;}  Base[baseTam].alternate_actors[y]='\0'; x++; y=0;
@@ -110,7 +115,7 @@ void setaPersonagem(char* linha){
     while(input[x]!=';'){ Base[baseTam].eyeColour[y] = input[x]; x++; y++;}  Base[baseTam].eyeColour[y]='\0'; x++; y=0;
     while(input[x]!=';'){ Base[baseTam].gender[y] = input[x]; x++; y++;}  Base[baseTam].gender[y]='\0'; x++; y=0;
     while(input[x]!=';'){ Base[baseTam].hairColour[y] = input[x]; x++; y++;}  Base[baseTam].hairColour[y]='\0'; x++; y=0;
-    if(input[x]=='V'){ Base[baseTam].wizard=true; x+=9;} else{ Base[baseTam].wizard=false; x+=4;}
+    while(input[x]!=';'){ if(input[x]=='V'){ Base[baseTam].wizard=true; x+=9;} else{ Base[baseTam].wizard=false; x+=4;}}
 
     baseTam++;
 }
@@ -127,7 +132,7 @@ void setaLista(char input[]){
 }
 
 void setaBase(){
-    FILE *file =  fopen("characters.csv","r");
+    FILE *file =  fopen("/tmp/characters.csv","r");
     char input[300];
     fgets(input, sizeof(input), file);
     
@@ -136,7 +141,7 @@ void setaBase(){
     }
 }
 
-void lerEntrada(){
+void setaEntrada(){
     char input[100];
     scanf("%s", input);
 
@@ -146,8 +151,80 @@ void lerEntrada(){
     }
 }
 
+
+/////////////////////////////////////////////////////////////////////////
+
+void swap(int x, int y){
+    Personagem tmp = Lista[x];
+    Lista[x] = Lista[y];
+    Lista[y] = tmp;
+}
+
+void quickSort(int esq, int dir){
+    int i=esq, j=dir;
+    char pivo[100]; strcpy(pivo, Lista[(esq+dir)/2].name);
+
+    while(i<=j){
+        while(strcmp(pivo, Lista[i].name) > 0) i++;
+        while(strcmp(pivo, Lista[j].name) < 0) j--;
+
+        if(i<=j){
+            swap(i,j);
+            i++; j--;
+        }
+    }
+
+    if(j>esq) quickSort(esq,j);
+    if(i<dir) quickSort(i,dir);
+}
+
+bool pesquisaBinaria(char* chave){
+    int esq=0, dir=entradas-1, meio;
+    bool achou = false;
+
+    while(esq<=dir && !achou){
+        meio=(esq+dir)/2;
+
+        comparacoes+=2;
+        if(strcmp(chave, Lista[meio].name) == 0) achou=true;
+        else if(strcmp(chave, Lista[meio].name) > 0) esq = meio+1;
+        else dir = meio-1;
+    }
+
+    return achou;
+}
+
+void lerChave(){
+    quickSort(0,entradas-1);
+    
+    char chave[100];
+    scanf(" %[^\n\r]", chave);
+
+    while(strcmp(chave, "FIM")!=0){
+        printf("%s\n", pesquisaBinaria(chave) ? "SIM" : "NAO");
+        scanf(" %[^\n\r]", chave);
+    }
+}
+
+void Arqlog(){
+    double ticks = (double)(endTime - startTime);    // Ticks de clock da cpu (unidades clock, "pulsos")
+    double duracaoDeUmTick = 1.0 / CLOCKS_PER_SEC;  // Duração de um tick em segundos
+    double tempo = ticks * duracaoDeUmTick;
+
+    FILE *file = fopen("802512.txt", "w");
+    fprintf(file, "802512\t%i\t%.6fs", comparacoes, tempo);
+}
+
+/////////////////////////////////////////////////////////////////////////
+
+
+
 int main(){
+    startTime = clock();
     setaBase();
-    lerEntrada();
-    mostraLista();
+    setaEntrada();
+    lerChave();
+    endTime = clock();
+
+    Arqlog();
 }
