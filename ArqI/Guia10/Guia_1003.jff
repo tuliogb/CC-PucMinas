@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?><!--Created with JFLAP 7.1.--><structure>
+	<type>turing</type>
+	<automaton>
+		<!--The list of states.-->
+		<state id="0" name="q0">
+			<x>222.0</x>
+			<y>125.0</y>
+			<initial/>
+		</state>
+		<state id="1" name="q1">
+			<x>389.0</x>
+			<y>274.0</y>
+		</state>
+		<state id="2" name="q2">
+			<x>551.0</x>
+			<y>134.0</y>
+		</state>
+		<state id="3" name="q3">
+			<x>710.0</x>
+			<y>268.0</y>
+			<final/>
+		</state>
+		<!--The list of transitions.-->
+		<transition>
+			<from>1</from>
+			<to>2</to>
+			<read>1</read>
+			<write>0</write>
+			<move>R</move>
+		</transition>
+		<transition>
+			<from>1</from>
+			<to>2</to>
+			<read>0</read>
+			<write>1</write>
+			<move>R</move>
+		</transition>
+		<transition>
+			<from>2</from>
+			<to>3</to>
+			<read>0</read>
+			<write>1</write>
+			<move>R</move>
+		</transition>
+		<transition>
+			<from>2</from>
+			<to>3</to>
+			<read>1</read>
+			<write>0</write>
+			<move>R</move>
+		</transition>
+		<transition>
+			<from>0</from>
+			<to>1</to>
+			<read>1</read>
+			<write>0</write>
+			<move>R</move>
+		</transition>
+		<transition>
+			<from>0</from>
+			<to>1</to>
+			<read>0</read>
+			<write>1</write>
+			<move>R</move>
+		</transition>
+	</automaton>
+</structure>
