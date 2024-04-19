@@ -1,3 +1,4 @@
+#include <time.h>
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
@@ -24,6 +25,7 @@
  *  lerEntrada: Enquanto a entrada for diferente de fim passa a chave pra ser procurada.
  * 
  *  swap: Recebe posicoes e troca os elementos.
+ *  compareHouse: funcao pra comparar de acordo com o atributo house e desempatar com name.
  *  quicksort: metodo de ordenacao.
 */
 
@@ -39,8 +41,9 @@ typedef struct {
 } Personagem;
 
 Personagem Base[MAXTAM];
-int baseTam = 0, entradas = 0;
+int baseTam=0, entradas=0, comparacoes=0, movimentacoes=0;
 Personagem Lista[MAXTAM];
+clock_t startTime, endTime;
 
 
 void mostraPersonagem(Personagem p){
@@ -112,7 +115,7 @@ void setaPersonagem(char* linha){
     while(input[x]!=';'){ Base[baseTam].eyeColour[y] = input[x]; x++; y++;}  Base[baseTam].eyeColour[y]='\0'; x++; y=0;
     while(input[x]!=';'){ Base[baseTam].gender[y] = input[x]; x++; y++;}  Base[baseTam].gender[y]='\0'; x++; y=0;
     while(input[x]!=';'){ Base[baseTam].hairColour[y] = input[x]; x++; y++;}  Base[baseTam].hairColour[y]='\0'; x++; y=0;
-    while(input[x]!=';'){ if(input[x]=='V'){ Base[baseTam].wizard=true; x+=9;} else{ Base[baseTam].wizard=false; x+=4;}}
+    if(input[x]=='V'){ Base[baseTam].wizard=true; x+=9;} else{ Base[baseTam].wizard=false; x+=4;}
 
     baseTam++;
 }
@@ -149,30 +152,65 @@ void setaEntrada(){
 }
 
 
-/////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////// EXERCICIO
 
 void swap(int x, int y){
     Personagem tmp = Lista[x];
     Lista[x] = Lista[y];
     Lista[y] = tmp;
+    movimentacoes+=3;
+}
+
+bool compareHouse(Personagem pivo, Personagem temp, int selecao){
+    bool resp = false; 
+
+    if(selecao == 0){
+        if(strcmp(pivo.house, temp.house)>0) resp = true;
+        else if(strcmp(pivo.house, temp.house)<0) resp = false;
+        else{
+            if(strcmp(pivo.name, temp.name)>0) resp = true;
+            else resp = false;
+            comparacoes++;
+        }
+        comparacoes+=2;
+    }
+    else if(selecao == 1){
+        if(strcmp(pivo.house, temp.house)<0) resp = true;
+        else if(strcmp(pivo.house, temp.house)>0) resp = false;
+        else{
+            if(strcmp(pivo.name, temp.name)<0) resp = true;
+            else resp = false;
+            comparacoes++;
+        }
+        comparacoes+=2;
+    }
+    return resp;
 }
 
 void quickSort(int esq, int dir){
     int i=esq, j=dir;
-    char pivo[100]; strcpy(pivo, Lista[(esq+dir)/2].house);
+    Personagem pivo = Lista[(esq+dir)/2];
 
     while(i<=j){
-        while(strcmp(pivo, Lista[i].house) > 0) i++;
-        while(strcmp(pivo, Lista[j].house) < 0) j--;
+        while(compareHouse(pivo, Lista[i], 0)) i++;
+        while(compareHouse(pivo, Lista[j], 1)) j--; 
 
         if(i<=j){
             swap(i,j);
             i++; j--;
         }
     }
-
-    if(j>esq) quickSort(esq,j);
+    if(esq<j) quickSort(esq,j);
     if(i<dir) quickSort(i,dir);
+}
+
+void Arqlog(){
+    double ticks = (double)(endTime - startTime);    // Ticks de clock da cpu (unidades clock, "pulsos")
+    double duracaoDeUmTick = 1.0 / CLOCKS_PER_SEC;  // Duração de um tick em segundos
+    double tempo = ticks * duracaoDeUmTick;
+
+    FILE *file = fopen("802512_quicksort.txt", "w");
+    fprintf(file, "802512\t%i\t%i\t%.6fs", comparacoes, movimentacoes, tempo);
 }
 
 /////////////////////////////////////////////////////////////////////////
@@ -180,8 +218,12 @@ void quickSort(int esq, int dir){
 
 
 int main(){
+    startTime = clock();
     setaBase();
     setaEntrada();
     quickSort(0,entradas-1);
     mostraLista();
+    endTime = clock();
+
+    Arqlog();
 }
