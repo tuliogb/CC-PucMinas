@@ -108,10 +108,10 @@ class Personagem {
     public String getPatronus() {return patronus;}
 
     public void setHogwartsStaff(String hogwartsStaff) {this.hogwartsStaff = hogwartsStaff;}
-    public String getHogwartsStaff() {return hogwartsStaff.equals("VERDADEIRO") ? "false" : "false";}
+    public String getHogwartsStaff() {return hogwartsStaff.equals("VERDADEIRO") ? "true" : "false";}
 
     public void setHogwartsStudent(String hogwartsStudent) {this.hogwartsStudent = hogwartsStudent;}
-    public String getHogwartsStudent() {return hogwartsStudent.equals("VERDADEIRO") ? "false" : "false";}
+    public String getHogwartsStudent() {return hogwartsStudent.equals("VERDADEIRO") ? "true" : "false";}
 
     public void setActorName(String actorName) {this.actorName = actorName;}
     public String getActorName() {return actorName;}
@@ -128,7 +128,7 @@ class Personagem {
     public void setYearOfBirth(String yearOfBirth) { if(!yearOfBirth.equals("") && !yearOfBirth.equals("yearOfBirth")) this.yearOfBirth = Integer.parseInt(yearOfBirth);}
     public int getYearOfBirth() {return yearOfBirth;}
 
-    public void setAlive(String alive) {boolean x = false;  if(alive.equals("VERDADEIRO")) x=false;    this.alive = x;}
+    public void setAlive(String alive) {boolean x = false;  if(alive.equals("VERDADEIRO")) x=true;    this.alive = x;}
     public boolean getAlive() {return alive;}
 
     public void setWizard(String wizard) {boolean x = false; if(wizard.equals("VERDADEIRO")) x=true;  this.wizard = x;}
@@ -220,7 +220,7 @@ public class CtrlPersonagem{
 
     static void setaBase() throws Exception{
         String linha = "";
-        FileReader file = new FileReader("characters.csv");
+        FileReader file = new FileReader("/tmp/characters.csv");
         BufferedReader bf = new BufferedReader(file);
 
         while((linha=bf.readLine()) != null){
