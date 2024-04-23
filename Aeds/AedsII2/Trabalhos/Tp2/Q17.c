@@ -26,7 +26,7 @@
  * 
  *  swap: Recebe posicoes e troca os elementos.
  *  compareHairColour: funcao pra comparar de acordo com o atributo hairColour e desempatar com name.
- *  heapSort: metodo de ordenacao.
+ *  heapSort: metodo de ordenacao com k igual a 10.
 */
 
 typedef struct{
@@ -69,7 +69,7 @@ void mostraPersonagem(Personagem p){
 }
 
 void mostraLista(){
-    for(int i=0; i<entradas; i++){
+    for(int i=0; i<10; i++){
         mostraPersonagem(Lista[i]);
     }
 }
@@ -132,7 +132,7 @@ void setaLista(char input[]){
 }
 
 void setaBase(){
-    FILE *file =  fopen("characters.csv","r");
+    FILE *file =  fopen("/tmp/characters.csv","r");
     char input[300];
     fgets(input, sizeof(input), file);
     
@@ -172,11 +172,11 @@ void sswap(Personagem *x, Personagem *y) {
 bool compareHairColour(Personagem x, Personagem y){
     bool resp = false; 
 
-    if(strcmp(x.hairColour, y.hairColour) > 0) resp = true;
-    else if(strcmp(x.hairColour, y.hairColour) < 0) resp = false;
+    if(strcmp(x.hairColour, y.hairColour) > 0) resp = false;
+    else if(strcmp(x.hairColour, y.hairColour) < 0) resp = true;
     else{
-        if(strcmp(x.name, y.name) > 0) resp = true;
-        else resp = false;
+        if(strcmp(x.name, y.name) > 0) resp = false;
+        else resp = true;
         comparacoes++;
     }
     comparacoes+=2;
@@ -222,13 +222,14 @@ void heapSort(){
     }
 
     int tamHeap = entradas;
-    while(tamHeap > 1){
+    while(tamHeap > 1 || k>0){
         sswap(&tmp[1], &tmp[tamHeap--]);        // tmp é um ponteiro pra primeira posicao
         reconstruir(tamHeap, tmp);
+        k--;
     }
 
-    for(int i=0; i<entradas; i++){
-        Lista[i] = tmp[i+1];
+    for(int i=0, j=entradas; j>entradas-10; i++,j--){
+        Lista[i] = tmp[j];
     }
 }
 
