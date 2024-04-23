@@ -221,14 +221,14 @@ void heapSort(){
         construir(tamHeap, tmp);
     }
 
-    int tamHeap = entradas;
-    while(tamHeap > 1 || k>0){
+    int tamHeap = entradas, repeticoes=k;
+    while(tamHeap > 1 || repeticoes>0){
         sswap(&tmp[1], &tmp[tamHeap--]);        // tmp é um ponteiro pra primeira posicao
         reconstruir(tamHeap, tmp);
-        k--;
+        repeticoes--;
     }
 
-    for(int i=0, j=entradas; j>entradas-10; i++,j--){
+    for(int i=0, j=entradas; j>entradas-k; i++,j--){
         Lista[i] = tmp[j];
     }
 }
