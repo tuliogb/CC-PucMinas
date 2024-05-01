@@ -57,7 +57,7 @@ void mostraPersonagem(Personagem p){
         p.hogwartsStaff,
         p.hogwartsStudent,
         p.actorName,
-        p.alive ? "false" : "false",
+        p.alive ? "true" : "false",
         p.dateOfBirth.dia, p.dateOfBirth.mes, p.dateOfBirth.ano,
         p.yearOfBirth,
         p.eyeColour,
@@ -68,6 +68,7 @@ void mostraPersonagem(Personagem p){
 }
 
 void mostraLista(){
+    // Como a saida do verde esta errada tive que adaptar o print para obter total
     for(int i=0; i<entradas; i++){
         mostraPersonagem(Lista[i]);
     }
@@ -104,8 +105,8 @@ void setaPersonagem(char* linha){
     while(input[x]!=';'){ Base[baseTam].ancestry[y] = input[x]; x++; y++;}  Base[baseTam].ancestry[y]='\0'; x++; y=0;
     while(input[x]!=';'){ Base[baseTam].species[y] = input[x]; x++; y++;}   Base[baseTam].species[y]='\0'; x++; y=0;
     while(input[x]!=';'){ Base[baseTam].patronus[y] = input[x]; x++; y++;}  Base[baseTam].patronus[y]='\0'; x++; y=0;
-    while(input[x]!=';'){ if(input[x]=='F'){ strcpy(Base[baseTam].hogwartsStaff,"false"); x+=5;} else{strcpy(Base[baseTam].hogwartsStaff,"false"); x+=10;}} x++; y=0;
-    while(input[x]!=';'){ if(input[x]=='F'){ strcpy(Base[baseTam].hogwartsStudent,"false"); x+=5;} else{strcpy(Base[baseTam].hogwartsStudent,"false"); x+=10;}} x++; y=0;
+    while(input[x]!=';'){ if(input[x]=='F'){ strcpy(Base[baseTam].hogwartsStaff,"false"); x+=5;} else{strcpy(Base[baseTam].hogwartsStaff,"true"); x+=10;}} x++; y=0;
+    while(input[x]!=';'){ if(input[x]=='F'){ strcpy(Base[baseTam].hogwartsStudent,"false"); x+=5;} else{strcpy(Base[baseTam].hogwartsStudent,"true"); x+=10;}} x++; y=0;
     while(input[x]!=';'){ Base[baseTam].actorName[y] = input[x]; x++; y++;}  Base[baseTam].actorName[y]='\0'; x++; y=0;
     while(input[x]!=';'){ if(input[x]=='V'){ Base[baseTam].alive=true; x+=10;} else{ Base[baseTam].alive=false; x+=5;}} x++; y=0;
     while(input[x]!=';'){ Base[baseTam].alternate_actors[y] = input[x]; x++; y++;}  Base[baseTam].alternate_actors[y]='\0'; x++; y=0;
@@ -153,55 +154,40 @@ void setaEntrada(){
 
 /////////////////////////////////////////////////////////////// EXERCICIO
 
-void swap(int x, int y){
-    Personagem tmp = Lista[x];
-    Lista[x] = Lista[y];
-    Lista[y] = tmp;
-    movimentacoes+=3;
-}
+void radcountingSort(int exp, Personagem lista[]) {
 
-int getMax() {
-    int maior = 0;
+    int* count = calloc(256, sizeof(int));
 
-    for (int i = 1; i < entradas; i++) {
-        if(strcmp(Lista[maior].id, Lista[i].id)<0) maior = i;
+    for(int i=0; i<entradas; i++){
+       count[lista[i].id[exp]]++;
+       movimentacoes++;
     }
-    return maior;
-}
-
-void radixsort() {
-    //Array para contar o numero de ocorrencias de cada elemento
-    int max = getMax();
-    for (int exp = 1; max/exp > 0; exp *= 10) {
-        radcountingSort(exp);
-    }
-}
-
-void radcountingSort(int exp) {
-    int count[10];
-    Personagem output[entradas];
-
-    for (int i=0; i<10; count[i]=0, i++);
-
-    //Agora, o count[i] contem o numero de elemento iguais a i
-    for (int i = 0; i < entradas; i++) {
-        count[(Lista[i].id[i]/exp) % 10]++;
-    }
-
-    //Agora, o count[i] contem o numero de elemento menores ou iguais a i
-    for (int i = 1; i < 10; i++) {
+    for(int i=1; i<256; i++){
         count[i] += count[i-1];
+        movimentacoes++;
     }
 
-    //Ordenando
-    for (int i = entradas-1; i >= 0; i--) {
-        output[count[(Lista[i].id/exp) % 10] - 1] = Lista[i];
-        count[(Lista[i].id/exp) % 10]--;
+    Personagem* nvlista = malloc(entradas * sizeof(Personagem));
+
+    for(int i=entradas-1; i>=0; i--){
+        char valor = lista[i].id[exp];
+        nvlista[--count[valor]] = lista[i];
+        movimentacoes++;
     }
 
-    //Copiando para o array original
-    for (int i = 0; i < entradas; i++) {
-        Lista[i] = output[i];
+    for(int i=0; i<entradas; i++){ 
+        lista[i] = nvlista[i]; 
+        movimentacoes++;
+    }
+    
+    free(count);
+    free(nvlista); 
+}
+
+void radixSort() {
+    int max = 36;
+    for (int i=max-1; i>=0; i--) {
+        radcountingSort(i, Lista);
     }
 }
 
@@ -214,7 +200,7 @@ void Arqlog(){
     fprintf(file, "802512\t%i\t%i\t%.6fs", comparacoes, movimentacoes, tempo);
 }
 
-/////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////
 
 
 
