@@ -181,8 +181,8 @@ class Personagem {
         this.wizard = p.wizard;
     }
 
-    public void mostrarPersonagem(int num){
-        System.out.print("[" + num +" ## "+ this.id +" ## "+ this.name +" ## {");
+    public void mostrarPersonagem(){
+        System.out.print("[" + this.id +" ## "+ this.name +" ## {");
 
         for(int i=0; i<this.alternate_names.length; i++){
             if(this.alternate_names[i]!=null) System.out.print(this.alternate_names[i]);
@@ -258,7 +258,7 @@ public class CtrlPersonagem{
 
     static void mostrarBase(){
         for (int i=0; i<tamBase; i++){
-            Base[i].mostrarPersonagem(i);
+            Base[i].mostrarPersonagem();
         }
     }
 
@@ -283,9 +283,8 @@ public class CtrlPersonagem{
     }
 
     static void mostrarLista(){
-        int x=0;
-        for(CtrlPersonagem i=primeiro.prox; i!=null; i=i.prox, x++){
-            i.elemento.mostrarPersonagem(x);
+        for(CtrlPersonagem i=primeiro.prox; i!=null; i=i.prox){
+            i.elemento.mostrarPersonagem();
         }
     }
 
@@ -414,4 +413,3 @@ public class CtrlPersonagem{
         } catch(Exception e){ System.out.println(e); }
     }
 }
-
