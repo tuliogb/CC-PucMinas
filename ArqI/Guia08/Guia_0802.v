@@ -1,42 +1,126 @@
 /*
-	Nome: Tulio Gomes Braga
-	Matricula :802512
+    Nome: Tulio Gomes Braga
+    Matricula: 802512
 */
 
-module subtratorCmp (output s, output cout, input a, input b, input cin);
-	assign s = (a^b)^cin;
-	assign cout = (~a&~cin) | (~a&b) | (b&cin);
-endmodule
+module hdd ( output carry, output diff, input a, input b ); 
+    wire not_a;
+    not NOT0 ( not_a, a );
+    xor XOR0 ( diff , a, b ); 
+    and AND0 ( carry, not_a, b ); 
+endmodule 
+
+module fdd ( output carry, output diff, input a,  input b,  input carryOut ); 
+    wire w1,w2,w3;
+    hdd H0 ( w1, w2, a, b );
+    hdd H1 ( w3, diff, w2, carryOut );
+    or      OR1 ( carry, w1, w3 );
+endmodule 
 
 
 
-module Guia_0802;
+module Guia_0802; 
+    reg  [5:0] x; 
+    reg  [5:0] y; 
+    wire [5:0] carry; 
+    wire [6:0] dif; 
 
-    reg [4:0] x, y;
-    wire [4:0] saida;
-    wire terra, um, dois, tres, quatro, cinco;
+    fdd F0 ( carry[0], dif[0], x[0], y[0], 1'b0     ); 
+    fdd F1 ( carry[1], dif[1], x[1], y[1], carry[0] ); 
+    fdd F2 ( carry[2], dif[2], x[2], y[2], carry[1] ); 
+    fdd F3 ( carry[3], dif[3], x[3], y[3], carry[2] ); 
+    fdd F4 ( carry[4], dif[4], x[4], y[4], carry[3] ); 
+    fdd F5 ( carry[5], dif[5], x[5], y[5], carry[4] ); 
+    assign dif[6] = carry[5];    
 
-    subtratorCmp f0 (.s(saida[0]), .cout(um), .a(x[0]), .b(y[0]), .cin(terra));
-    subtratorCmp f1 (.s(saida[1]), .cout(dois), .a(x[1]), .b(y[1]), .cin(um));
-    subtratorCmp f2 (.s(saida[2]), .cout(tres), .a(x[2]), .b(y[2]), .cin(dois));
-    subtratorCmp f3 (.s(saida[3]), .cout(quatro), .a(x[3]), .b(y[3]), .cin(tres));
-    subtratorCmp f4 (.s(saida[4]), .cout(cinco), .a(x[4]), .b(y[4]), .cin(quatro));
-
-    initial begin
-        x = 5'b10000;
-        y = 5'b00001;
-
-        #10;
-        $display("S0 = %b", saida[0]);
-        #10;
-        $display("S1 = %b", saida[1]);
-        #10;
-        $display("S2 = %b", saida[2]);
-        #10;
-        $display("S3 = %b", saida[3]);
-        #10;
-        $display("S4 = %b", saida[4]);
+    initial begin : start
+        x = 6'b000000;
+        y = 6'b000000;
     end
 
-endmodule
 
+    initial begin : main 
+        $display("Resultado das diferencas: ");
+
+        $display( "  x   -   y   =   dif" );
+        $monitor( "%b - %b = %b", x, y, dif );
+        for( integer i = 0; i < 64; i++ ) begin
+            { x } = i;
+            { y } = i;
+            #1;
+        end 
+    end
+endmodule  
+
+
+/*
+Saida testada:
+PS C:\Users\Túlio\Desktop\v> iverilog -o guia .\Guia_0802.v
+PS C:\Users\Túlio\Desktop\v> vvp .\guia
+Resultado das diferencas:
+  x   -   y   =   dif
+000000 - 000000 = 0000000
+000001 - 000001 = 0000000
+000010 - 000010 = 0000000
+000011 - 000011 = 0000000
+000100 - 000100 = 0000000
+000101 - 000101 = 0000000
+000110 - 000110 = 0000000
+000111 - 000111 = 0000000
+001000 - 001000 = 0000000
+001001 - 001001 = 0000000
+001010 - 001010 = 0000000
+001011 - 001011 = 0000000
+001100 - 001100 = 0000000
+001101 - 001101 = 0000000
+001110 - 001110 = 0000000
+001111 - 001111 = 0000000
+010000 - 010000 = 0000000
+010001 - 010001 = 0000000
+010010 - 010010 = 0000000
+010011 - 010011 = 0000000
+010100 - 010100 = 0000000
+010101 - 010101 = 0000000
+010110 - 010110 = 0000000
+010111 - 010111 = 0000000
+011000 - 011000 = 0000000
+011001 - 011001 = 0000000
+011010 - 011010 = 0000000
+011011 - 011011 = 0000000
+011100 - 011100 = 0000000
+011101 - 011101 = 0000000
+011110 - 011110 = 0000000
+011111 - 011111 = 0000000
+100000 - 100000 = 0000000
+100001 - 100001 = 0000000
+100010 - 100010 = 0000000
+100011 - 100011 = 0000000
+100100 - 100100 = 0000000
+100101 - 100101 = 0000000
+100110 - 100110 = 0000000
+100111 - 100111 = 0000000
+101000 - 101000 = 0000000
+101001 - 101001 = 0000000
+101010 - 101010 = 0000000
+101011 - 101011 = 0000000
+101100 - 101100 = 0000000
+101101 - 101101 = 0000000
+101110 - 101110 = 0000000
+101111 - 101111 = 0000000
+110000 - 110000 = 0000000
+110001 - 110001 = 0000000
+110010 - 110010 = 0000000
+110011 - 110011 = 0000000
+110100 - 110100 = 0000000
+110101 - 110101 = 0000000
+110110 - 110110 = 0000000
+110111 - 110111 = 0000000
+111000 - 111000 = 0000000
+111001 - 111001 = 0000000
+111010 - 111010 = 0000000
+111011 - 111011 = 0000000
+111100 - 111100 = 0000000
+111101 - 111101 = 0000000
+111110 - 111110 = 0000000
+111111 - 111111 = 0000000
+*/
