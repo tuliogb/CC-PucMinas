@@ -223,7 +223,7 @@ public class CtrlPersonagem{
 
     static void setaBase() throws Exception{
         String linha = "";
-        FileReader file = new FileReader("characters.csv");
+        FileReader file = new FileReader("/tmp/characters.csv");
         BufferedReader bf = new BufferedReader(file);
 
         while((linha=bf.readLine()) != null){
@@ -303,7 +303,7 @@ public class CtrlPersonagem{
         String input = sc.nextLine();
 
         while(!input.equals("FIM")){
-            System.out.print(input + " raiz ");
+            System.out.print(input + " => raiz ");
             System.out.println(pesquisar(raiz, input) ? "SIM" : "NAO");
             input = sc.nextLine();
         } 
