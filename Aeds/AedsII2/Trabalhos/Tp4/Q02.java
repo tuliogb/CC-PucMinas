@@ -344,7 +344,7 @@ public class CtrlPersonagem{
         String input = sc.nextLine();
 
         while(!input.equals("FIM")){
-            System.out.print(input + " => raiz ");
+            System.out.print(input + " => raiz");
             System.out.println(pesquisar(raiz, input) ? "SIM" : "NAO");
             input = sc.nextLine();
         }  
@@ -354,9 +354,9 @@ public class CtrlPersonagem{
         boolean resp = false;
 
         if (i!=null) {
-            if(i.esq!=null) System.out.print("ESQ ");
+            if(i.esq!=null) System.out.print(" ESQ");
             resp = pesquisar(i.esq, chave);
-            if(i.dir!=null) System.out.print("DIR ");
+            if(i.dir!=null) System.out.print(" DIR");
             resp = pesquisar(i.dir, chave);
             resp = pesquisar(i.raiz, chave);
         }
