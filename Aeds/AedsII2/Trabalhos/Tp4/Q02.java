@@ -7,7 +7,7 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
 /**
- * Questao 1 - Trabalho Pratico 4 - Aeds II - CC_PUCMINAS
+ * Questao 2 - Trabalho Pratico 4 - Aeds II - CC_PUCMINAS
  * @author Tulio Gomes Braga
  * @version 2 06/2025
  * 
@@ -319,16 +319,16 @@ public class CtrlPersonagem{
     static void setaInput(String id){
         for(int i=0; i<tamBase; i++){
             if(Base[i].getId().equals(id)){
-                raiz = procuraNo2(raiz, Base[i], Base[i].getYearOfBirth()%15);
+                raiz = inserirNo2(raiz, Base[i], Base[i].getYearOfBirth()%15);
                 i=tamBase;
             }
         }
     }
 
-    static No procuraNo2(No i, Personagem elemento, int posicao){
-        if(i==null) { System.out.println("Posicao nao encontrada"); }
-        else if(posicao < i.elemento) i.esq = procuraNo2(i.esq, elemento, posicao);
-        else if(posicao > i.elemento) i.dir = procuraNo2(i.dir, elemento, posicao);
+    static No inserirNo2(No i, Personagem elemento, int posicao){
+        if(i==null) { System.out.println("No mod nao encontrado"); }
+        else if(posicao < i.elemento) i.esq = inserirNo2(i.esq, elemento, posicao);
+        else if(posicao > i.elemento) i.dir = inserirNo2(i.dir, elemento, posicao);
         else i.raiz = inserirNo2(i.raiz, elemento);
         return i;
     }
@@ -340,8 +340,71 @@ public class CtrlPersonagem{
         return i;
     }
 
+    static int mod15(String nome){
+        int resp=0;
+        for (int i=0; i<tamBase; i++){
+            if(Base[i].getName().compareTo(nome)==0){
+                resp = (Base[i].getYearOfBirth()%15);
+            }
+        }
+        return resp;
+    }
+
+    static void pesquisar(){
+        String input = sc.nextLine();
+
+        while(!input.equals("FIM")){
+            System.out.print(input + " => raiz ");
+            System.out.println(pesquisar(raiz, input, mod15(input)) ? "SIM" : "NAO");
+            input = sc.nextLine();
+        }  
+    }
+
+    static boolean pesquisar(No i, String chave, int posicao){
+        boolean resp = false;
+
+        if(i==null){ comparacoes++;}
+        else if(posicao < i.elemento){ System.out.print("ESQ "); resp = pesquisar(i.esq, chave, posicao);  comparacoes+=2;}
+        else if(posicao > i.elemento){ System.out.print("DIR "); resp = pesquisar(i.dir, chave, posicao);  comparacoes+=3;}
+        else{ resp=pesquisar(i.raiz, chave); comparacoes+=4;}
+
+        return resp;
+    }
+
+    static boolean pesquisar(No2 i, String chave){
+        boolean resp = false;
+
+        if(i==null){ comparacoes++;}
+        else if(chave.compareTo(i.elemento.getName())<0){ System.out.print("esq "); resp = pesquisar(i.esq, chave);  comparacoes+=2;}
+        else if(chave.compareTo(i.elemento.getName())>0){ System.out.print("dir "); resp = pesquisar(i.dir, chave);  comparacoes+=3;}
+        else{ resp = true; comparacoes+=4;}
+
+        return resp;
+    }
+
+    static void mostrarArvore() {
+        mostrarArvore(raiz);
+    }
+
+    static void mostrarArvore(No i) {
+        if (i != null) {
+            mostrarArvore(i.esq);
+            //System.out.println("No: " + i.elemento);
+            mostrarArvore(i.dir);
+            mostrarArvoreNo2(i.raiz);
+        }
+    }
+
+    static void mostrarArvoreNo2(No2 i) {
+        if (i != null) {
+            mostrarArvoreNo2(i.esq);
+            System.out.println("    Personagem: " + i.elemento.getName());
+            mostrarArvoreNo2(i.dir);
+        }
+    }
+
     static void log(long tempoDeExecucao) throws Exception{
-        FileWriter file = new FileWriter ("802512_arvoreBinaria.txt");
+        FileWriter file = new FileWriter ("802512_arvoreArvore.txt");
         PrintWriter caneta = new PrintWriter(file);
         caneta.println("802512" + '\t' + comparacoes + '\t' + tempoDeExecucao + "ms" + '\t');
         caneta.close();
@@ -354,6 +417,8 @@ public class CtrlPersonagem{
             long startTime = System.currentTimeMillis();
             setaBase();
             setaArvore();
+            pesquisar();
+            //mostrarArvore();
             long endTime = System.currentTimeMillis();
             log((endTime - startTime));
 
