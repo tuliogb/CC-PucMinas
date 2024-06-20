@@ -340,67 +340,41 @@ public class CtrlPersonagem{
         return i;
     }
 
-    static int mod15(String nome){
-        int resp=0;
-        for (int i=0; i<tamBase; i++){
-            if(Base[i].getName().compareTo(nome)==0){
-                resp = (Base[i].getYearOfBirth()%15);
-            }
-        }
-        return resp;
-    }
-
     static void pesquisar(){
         String input = sc.nextLine();
 
         while(!input.equals("FIM")){
             System.out.print(input + " => raiz ");
-            System.out.println(pesquisar(raiz, input, mod15(input)) ? "SIM" : "NAO");
+            System.out.println(pesquisar(raiz, input) ? "SIM" : "NAO");
             input = sc.nextLine();
         }  
     }
 
-    static boolean pesquisar(No i, String chave, int posicao){
+    static boolean pesquisar(No i, String chave){
         boolean resp = false;
 
-        if(i==null){ comparacoes++;}
-        else if(posicao < i.elemento){ System.out.print("ESQ "); resp = pesquisar(i.esq, chave, posicao);  comparacoes+=2;}
-        else if(posicao > i.elemento){ System.out.print("DIR "); resp = pesquisar(i.dir, chave, posicao);  comparacoes+=3;}
-        else{ resp=pesquisar(i.raiz, chave); comparacoes+=4;}
-
+        if (i!=null) {
+            if(i.esq!=null) System.out.print("ESQ ");
+            resp = pesquisar(i.esq, chave);
+            if(i.dir!=null) System.out.print("DIR ");
+            resp = pesquisar(i.dir, chave);
+            resp = pesquisar(i.raiz, chave);
+        }
         return resp;
     }
 
     static boolean pesquisar(No2 i, String chave){
         boolean resp = false;
 
-        if(i==null){ comparacoes++;}
-        else if(chave.compareTo(i.elemento.getName())<0){ System.out.print("esq "); resp = pesquisar(i.esq, chave);  comparacoes+=2;}
-        else if(chave.compareTo(i.elemento.getName())>0){ System.out.print("dir "); resp = pesquisar(i.dir, chave);  comparacoes+=3;}
-        else{ resp = true; comparacoes+=4;}
+        if (i!=null) {
+            if(i.esq!=null) System.out.print("->esq ");
+            resp = pesquisar(i.esq, chave);
+            if(i.dir!=null) System.out.print("->dir ");
+            resp = pesquisar(i.dir, chave);
+            if(i.elemento.getName().compareTo(chave)==0){resp = true; comparacoes++; }
+        }
 
         return resp;
-    }
-
-    static void mostrarArvore() {
-        mostrarArvore(raiz);
-    }
-
-    static void mostrarArvore(No i) {
-        if (i != null) {
-            mostrarArvore(i.esq);
-            //System.out.println("No: " + i.elemento);
-            mostrarArvore(i.dir);
-            mostrarArvoreNo2(i.raiz);
-        }
-    }
-
-    static void mostrarArvoreNo2(No2 i) {
-        if (i != null) {
-            mostrarArvoreNo2(i.esq);
-            System.out.println("    Personagem: " + i.elemento.getName());
-            mostrarArvoreNo2(i.dir);
-        }
     }
 
     static void log(long tempoDeExecucao) throws Exception{
@@ -409,7 +383,6 @@ public class CtrlPersonagem{
         caneta.println("802512" + '\t' + comparacoes + '\t' + tempoDeExecucao + "ms" + '\t');
         caneta.close();
     }
-
 
 
     public static void main(String[] args){ 
