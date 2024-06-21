@@ -238,7 +238,7 @@ public class CtrlPersonagem{
 
     static void setaBase() throws Exception{
         String linha = "";
-        FileReader file = new FileReader("characters.csv");
+        FileReader file = new FileReader("/tmp/characters.csv");
         BufferedReader bf = new BufferedReader(file);
 
         while((linha=bf.readLine()) != null){
@@ -345,7 +345,7 @@ public class CtrlPersonagem{
 
         while(!input.equals("FIM")){
             System.out.print(input + " => raiz");
-            System.out.println(pesquisar(raiz, input) ? "SIM" : "NAO");
+            System.out.println(pesquisar(raiz, input) ? " SIM" : " NAO");
             input = sc.nextLine();
         }  
     }
@@ -354,11 +354,15 @@ public class CtrlPersonagem{
         boolean resp = false;
 
         if (i!=null) {
-            if(i.esq!=null) System.out.print(" ESQ");
-            resp = pesquisar(i.esq, chave);
-            if(i.dir!=null) System.out.print(" DIR");
-            resp = pesquisar(i.dir, chave);
-            resp = pesquisar(i.raiz, chave);
+            resp = pesquisar(i.raiz, chave);    
+            if(!resp){
+                System.out.print(" ESQ");
+                resp = pesquisar(i.esq, chave);
+            }
+            if(!resp){
+                System.out.print(" DIR");
+                resp = pesquisar(i.dir, chave);
+            }
         }
         return resp;
     }
@@ -366,13 +370,10 @@ public class CtrlPersonagem{
     static boolean pesquisar(No2 i, String chave){
         boolean resp = false;
 
-        if (i!=null) {
-            if(i.esq!=null) System.out.print("->esq ");
-            resp = pesquisar(i.esq, chave);
-            if(i.dir!=null) System.out.print("->dir ");
-            resp = pesquisar(i.dir, chave);
-            if(i.elemento.getName().compareTo(chave)==0){resp = true; comparacoes++; }
-        }
+        if(i==null) { resp = false; }
+        else if(i.elemento.getName().compareTo(chave) > 0){ System.out.print("->esq"); resp = pesquisar(i.esq, chave);}
+        else if(i.elemento.getName().compareTo(chave) < 0){ System.out.print("->dir"); resp = pesquisar(i.dir, chave);}
+        else resp = true;
 
         return resp;
     }
