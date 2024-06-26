@@ -5,7 +5,7 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
 /**
- * Questao 5 - Trabalho Pratico 4 - Aeds II - CC_PUCMINAS
+ * Questao 6 - Trabalho Pratico 4 - Aeds II - CC_PUCMINAS
  * @author Tulio Gomes Braga
  * @version 1 06/2025
  * 
@@ -199,7 +199,7 @@ class Personagem {
 
 public class CtrlPersonagem{
 
-    static int tamBase=0, tamHash=21, maxTam=405;
+    static int tamBase=0, tamHash=21, maxTam=405, comparacoes=0;
     static Personagem[] Base =  new Personagem[maxTam];
     static Personagem[] Hash = new Personagem[21];
     static Scanner sc = new Scanner(System.in);
@@ -207,7 +207,7 @@ public class CtrlPersonagem{
 
     static void setaBase() throws Exception{
         String linha = "";
-        FileReader file = new FileReader("characters.csv");
+        FileReader file = new FileReader("/tmp/characters.csv");
         BufferedReader bf = new BufferedReader(file);
 
         while((linha=bf.readLine()) != null){
@@ -246,7 +246,7 @@ public class CtrlPersonagem{
 
     static void setaEntrada(){
         String input = sc.nextLine();
-        for(int i=0; i<(tamHash+tamReserva); i++)   Hash[i] = null;
+        for(int i=0; i<tamHash; i++)    Hash[i] = null;
         
         while(!input.equals("FIM")){
             setaHash(input);
@@ -265,27 +265,31 @@ public class CtrlPersonagem{
 
     static void inserirHash(Personagem elemento){
         int posicaoHash = posicaoHash(elemento.getName());
+
         if(Hash[posicaoHash]==null) Hash[posicaoHash] = elemento;
         else{
             int posicaoReHash = posicaoReHash(elemento.getName());
+            comparacoes++;
             if(Hash[posicaoReHash]==null) Hash[posicaoReHash] = elemento;
         }
+        comparacoes++;
     }
 
     static int posicaoHash(String nome){
         int soma=0;
         for (int i=0; i<nome.length(); i++){
-            soma+=nome.charAt(i);
+            soma+=(int)nome.charAt(i);
         }
         return soma%tamHash;
     }
 
     static int posicaoReHash(String nome){
-        int soma=1;
+        int soma=0;
         for (int i=0; i<nome.length(); i++){
-            soma+=nome.charAt(i);
+            soma+=(int)nome.charAt(i);
         }
-        return (soma)%tamHash;
+        soma++;
+        return soma%tamHash;
     }
 
     static void pesquisar(){
@@ -302,16 +306,18 @@ public class CtrlPersonagem{
         boolean resp = false;
         int p = posicaoHash(nome);
 
-        if(Hash[p] != null){
+        if(Hash[p]!=null){
             if(Hash[p].getName().compareTo(nome)==0){ 
-                resp = true;  
+                resp = true;  comparacoes++;
                 System.out.print(" (pos: " +p+ ")");
             }
             else{
                 p = posicaoReHash(nome);
-                if(Hash[p].getName().compareTo(nome)==0){
-                    resp = true;
-                    System.out.print(" (pos: " +p+ ")");
+                if(Hash[p]!=null){
+                    if(Hash[p].getName().compareTo(nome)==0){
+                        resp = true;    comparacoes++;
+                        System.out.print(" (pos: " +p+ ")");
+                    }
                 }
             }
         }
@@ -324,13 +330,25 @@ public class CtrlPersonagem{
         }
     }
 
+    static void log(long tempoDeExecucao) throws Exception{
+        FileWriter file = new FileWriter ("802512_hashRehash.txt");
+        PrintWriter caneta = new PrintWriter(file);
+        caneta.println("802512" + '\t' + comparacoes + '\t' + tempoDeExecucao + "ms" + '\t');
+        caneta.close();
+    }
+
+
+
     public static void main(String[] args){ 
         try {
+            long startTime = System.currentTimeMillis();
             setaBase();
             setaEntrada();
             pesquisar();
             //mostrar();
+            long endTime = System.currentTimeMillis();
+            log((endTime - startTime));
+
         } catch(Exception e){ System.out.println(e);}
     }
 }
-
