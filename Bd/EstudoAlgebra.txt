@@ -1,0 +1,53 @@
+Com base na calculadora > https://dbis-uibk.github.io/relax tabela > IMBD SAMPLE realize os exercicios abaixo:
+
+Facil
+Exiba o id, first_name, last_name e gender de todos os atores.
+Exiba o id e o name de todos os filmes lançados no ano 2000.
+Exiba o id e o first_name de todos os diretores cujo last_name seja "Smith".
+Exiba o id e o name de todos os filmes do gênero "Comedy".
+
+Medio
+Exiba o name e o year de todos os filmes dirigidos pelo diretor cujo first_name seja "Steven" e last_name "Spielberg".
+Exiba o genre de todos os gêneros que um diretor específico trabalhou, dado seu first_name e last_name.
+Exiba o first_name e last_name de todos os atores que atuaram no filme cujo name seja "Inception".
+Exiba o name e rank de todos os filmes com uma rank acima de 8.
+
+Dificil
+Exiba o first_name e last_name de todos os diretores que nunca dirigiram filmes do gênero "Horror".
+Exiba o first_name e last_name de todos os atores que atuaram em filmes dirigidos pelo diretor cujo first_name seja "Christopher" e last_name "Nolan".
+Exiba o name de todos os filmes que possuem pelo menos um ator de gender masculino e um de gender feminino.
+Exiba o first_name, last_name e o número de filmes dirigidos por cada diretor.
+Exiba o genre e a média de rank para cada gênero.
+
+
+Solucao dos problemas:
+-- 1 π id,first_name,last_name,gender actors
+
+-- 2 π id,name (σ year<2000 movies)
+
+-- 3 π id,first_name (σ last_name='Smith' directors)
+
+/* 4 A = movies ⨝ id=movie_id movies_genres
+	π id,name (σ genre='Comedy' A) 
+*/
+
+/* 5 A = movies ⨝ id=movie_id movies_directors
+	B = directors ⨝ id=director_id A
+	π name,year (σ first_name='Stanley' ∧ last_name='Kubrick' B) 
+*/
+
+/* 6 A = (σ first_name='Stanley' ∧ last_name='Kubrick' directors)
+	B = directors_genres ⨝ director_id=id A
+	π genre B 
+*/
+
+/* 7 A = σ name='Aliens' movies
+     B = roles ⨝ movie_id=id A
+     C = actors ⨝ id=actor_id B
+     π first_name,last_name C 
+*/
+
+-- 8 name,rank (σ rank>8 movies)
+
+/* 9 A = (σ genre='Horror' directors_genres)
+B = π director_id directors_genres - π director_id A */
