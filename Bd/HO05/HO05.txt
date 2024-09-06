@@ -1,0 +1,33 @@
+-- 1 Projetar o primeiro nome e o último nome dos atores que são diretores;
+(π first_name,last_name (actors)) ∩ (π first_name,last_name (directors))
+
+
+-- 2 Projetar o primeiro nome e o último nome dos atores que não são diretores;
+(π first_name,last_name (actors)) - (π first_name,last_name (directors))
+
+
+-- 3 Projetar o primeiro nome e o último nome dos atores e diretores;
+(π first_name,last_name (actors)) ∪ (π first_name,last_name (directors))
+
+
+-- 4 Projetar o nome dos filmes que não são dirigidos por nenhum diretor;
+A = movies ⨝ movies.id=movie_id (movies_directors)
+B = directors ⨝ id=director_id (A)
+π name (movies) - π name (B)
+
+
+-- 5 Projetar primeiro nome e o último nome dos atores que não atuaram em pelo menos dois filmes;
+A = roles ⨝ actor_id=actors.id actors -- idFilme e idAtor
+B = γ actor_id, first_name, last_name; count(movie_id)→num_filmes (A)
+C = σ num_filmes<2 (B)
+π first_name, last_name (C)
+
+
+-- 6 Projetar, por gênero e ano, o número médio de filmes com menos de dois atores atuando.
+A = movies ⨝ movies.id=movie_id movies_genres
+B = roles ⨝ movie_id=movies.id A
+C = π actor_id,movies.id,genre,year B
+
+D = γ movies.id,genre,year; count(actor_id)→num_actors C
+π genre,year (σ num_actors<2(D))
+
