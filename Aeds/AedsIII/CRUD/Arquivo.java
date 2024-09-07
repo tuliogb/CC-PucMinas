@@ -1,4 +1,3 @@
-import java.io.File;
 import java.io.IOException;
 import java.io.RandomAccessFile;
 import java.lang.reflect.Constructor;
@@ -144,4 +143,40 @@ public class Arquivo<T extends Registro>{
         return fim;
     }
 
+    protected boolean ordenar(){        // Bloco de 3 registros e 2 arquivos aux.
+        Boolean fim = false;
+
+        try{
+            RandomAccessFile aux1 = new RandomAccessFile("aux1", "rw");
+            RandomAccessFile aux2 = new RandomAccessFile("aux2", "rw");
+
+            byte[] b;
+            byte lapide;
+            short tamRegistro;
+            int bloco=0, arqAtual=0;
+
+            while(arquivo.getFilePointer()<arquivo.length()){
+                arquivo.seek(headerSize);
+                lapide = arquivo.readByte();
+                tamRegistro = arquivo.readShort();
+                b = new byte[tamRegistro];
+                arquivo.read(b);
+
+                if(lapide==' '){
+                    if(arqAtual%2==0){
+                        aux1.writeByte(' ');
+                        aux1.writeShort(b.length);
+                        aux1.write(b);
+                        arqAtual++;
+                        bloco++;
+                    }
+                    else{
+                        arqAtual++;
+                    }
+                }
+            }
+
+        }catch(Exception e){ e.printStackTrace(); }
+        return fim;
+    }
 }
