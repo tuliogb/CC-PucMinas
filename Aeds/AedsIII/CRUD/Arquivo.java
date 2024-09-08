@@ -2,6 +2,9 @@ import java.io.IOException;
 import java.io.RandomAccessFile;
 import java.lang.reflect.Constructor;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class Arquivo<T extends Registro>{
 
     final int headerSize = 4;
@@ -143,40 +146,79 @@ public class Arquivo<T extends Registro>{
         return fim;
     }
 
-    protected boolean ordenar(){        // Bloco de 3 registros e 2 arquivos aux.
-        Boolean fim = false;
+    /*
+     * Modelo: Enfase em maior volume de ordenamento(RAM) para um menor uso na mesclagem(CPU)
+     * Considerando um Bd de 10mb vamos usar blocos de 1mb e 2 arquivos de intercalação.
+     * Log2(250000/2500) = 2 intercalações
+    */
+
+    protected boolean ordenar(){
+        boolean fim = false;
 
         try{
-            RandomAccessFile aux1 = new RandomAccessFile("aux1", "rw");
-            RandomAccessFile aux2 = new RandomAccessFile("aux2", "rw");
+            List<byte[]> bloco = new ArrayList<>();
+            int blocoTam = 1024 * 1024;  
 
             byte[] b;
             byte lapide;
+            int arqAtual=0;
             short tamRegistro;
-            int bloco=0, arqAtual=0;
+            arquivo.seek(headerSize);
 
             while(arquivo.getFilePointer()<arquivo.length()){
-                arquivo.seek(headerSize);
-                lapide = arquivo.readByte();
-                tamRegistro = arquivo.readShort();
-                b = new byte[tamRegistro];
-                arquivo.read(b);
+                long tamBlocoCorrente=0;
+                
+                while(arquivo.getFilePointer()<arquivo.length() && tamBlocoCorrente<blocoTam){
+                    lapide = arquivo.readByte();
+                    tamRegistro = arquivo.readShort();
+                    b = new byte[tamRegistro];
+                    int qtdLida = arquivo.read(b);
 
-                if(lapide==' '){
-                    if(arqAtual%2==0){
-                        aux1.writeByte(' ');
-                        aux1.writeShort(b.length);
-                        aux1.write(b);
-                        arqAtual++;
-                        bloco++;
-                    }
-                    else{
-                        arqAtual++;
+                    if(qtdLida<tamRegistro)
+                        throw new IOException("Número de bytes lidos incorreto: esperado " + tamRegistro + ", obtido " + qtdLida);
+
+                    if(lapide==' '){
+                        bloco.add(b);
+                        tamBlocoCorrente += (tamRegistro+3);
                     }
                 }
+                repartimento(bloco, arqAtual);
+                bloco.clear();
+                arqAtual++;
             }
+            fim=true;
 
         }catch(Exception e){ e.printStackTrace(); }
         return fim;
+    }
+
+    protected void repartimento(List<byte[]> bloco, int numArquivo){
+        RandomAccessFile aux = null;
+
+        try{
+            aux = new RandomAccessFile(numArquivo % 2 == 0 ? "BaseDeDados/aux1.db" : "BaseDeDados/aux2.db", "rw");
+            int tam = bloco.size();
+            aux.seek(aux.length());
+
+            for(int i=0; i<tam; i++){
+                aux.writeByte(' ');
+                aux.writeShort(bloco.get(i).length);
+                aux.write(bloco.get(i));
+            }
+
+        }catch(IOException e){ e.getMessage(); }
+        finally{ if(aux!=null) try { aux.close(); } catch (IOException e) { e.printStackTrace(); }}
+    }
+
+    protected void intercalação(){
+        RandomAccessFile aux = null;
+        int numArquivo=0;
+
+        try{
+
+            aux = new RandomAccessFile(numArquivo % 2 == 0 ? "BaseDeDados/aux1.db" : "BaseDeDados/aux2.db", "rw");
+
+        }catch(IOException e){ e.getMessage(); }
+        finally{ if(aux!=null) try { aux.close(); } catch (IOException e) { e.printStackTrace(); }}
     }
 }
