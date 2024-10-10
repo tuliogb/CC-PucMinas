@@ -1,0 +1,29 @@
+-- Projetar o primeiro nome e o último nome dos atores que são diretores;
+SELECT actors.first_name, actors.last_name
+FROM actors INNER JOIN directors ON (actors.first_name=directors.first_name AND actors.last_name=directors.last_name)
+
+-- Projetar o primeiro nome e o último nome dos atores que não são diretores;
+SELECT actors.first_name, actors.last_name
+FROM actors LEFT JOIN directors ON (actors.first_name=directors.first_name AND actors.last_name=directors.last_name)
+WHERE (directors.first_name IS NULL AND directors.first_name IS NULL)
+
+-- Projetar o primeiro nome e o último nome dos atores e diretores;
+(SELECT actors.first_name, actors.last_name FROM actors) 
+UNION (SELECT directors.first_name, directors.last_name FROM directors)
+
+-- Projetar o nome dos filmes que não são dirigidos por nenhum diretor;
+SELECT name 
+FROM movies LEFT JOIN movies_directors ON (movies.id=movies_directors.movie_id) INNER JOIN directors ON (directors.id=movies_directors.director_id)
+WHERE directors.id IS NULL
+
+-- Projetar primeiro nome e o último nome dos atores que não atuaram em pelo menos dois filmes;
+SELECT actors.first_name, actors.last_name, COUNT(roles.actor_id) AS Total
+FROM actors INNER JOIN roles ON (actors.id=roles.actor_id)
+GROUP BY actors.first_name,  actors.last_name
+HAVING Total<2
+
+-- Projetar, por gênero e ano, o número médio de filmes com menos de dois atores atuando
+SELECT movies_genres.genre, movies.year, COUNT(roles.actor_id) as Total, AVG(movies.id) as Media
+FROM movies INNER JOIN movies_genres ON (movies.id=movies_genres.movie_id) INNER JOIN roles ON (roles.movie_id=movies.id) INNER JOIN actors ON (actors.id=roles.actor_id)
+GROUP BY movies_genres.genre, movies.year
+HAVING Total<2

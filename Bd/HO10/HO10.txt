@@ -1,0 +1,107 @@
+Tabela: Atores (Índice Primário: Chave Primária)
+Fator de blocagem: 64
+Número de blocos necessários: 157
+Espaço desperdiçado no último bloco: 1536 bytes
+Espaço total: 314 KB
+Número de acessos: 8
+
+Tabela: Clientes (Índice Primário: Chave Primária)
+Fator de blocagem: 75
+Número de blocos necessários: 1334
+Espaço desperdiçado no último bloco: 1373 bytes
+Espaço total: 2668 KB
+Número de acessos: 11
+
+Tabela: Filmes (Índice Primário: Chave Primária)
+Fator de blocagem: 64
+Número de blocos necessários: 31250
+Espaço desperdiçado no último bloco: 0 bytes
+Espaço total: 62500 KB
+Número de acessos: 15
+
+Tabela: Funcionarios (Índice Primário: Chave Primária)
+Fator de blocagem: 75
+Número de blocos necessários: 47
+Espaço desperdiçado no último bloco: 698 bytes
+Espaço total: 94 KB
+Número de acessos: 6
+
+Tabela: Midias (Índice Primário: Chave Primária)
+Fator de blocagem: 51
+Número de blocos necessários: 196079
+Espaço desperdiçado no último bloco: 1168 bytes
+Espaço total: 392158 KB
+Número de acessos: 18
+
+Tabela: Aluguel (Índice Primário: Chave Primária)
+Fator de blocagem: 73
+Número de blocos necessários: 273973
+Espaço desperdiçado no último bloco: 816 bytes
+Espaço total: 547946 KB
+Número de acessos: 19
+
+Tabela: Pagamentos (Índice Primário: Chave Primária)
+Fator de blocagem: 32
+Número de blocos necessários: 1562500
+Espaço desperdiçado no último bloco: 0 bytes
+Espaço total: 3125000 KB
+Número de acessos: 21
+
+Tabela: AtoresEmFilmes (Índice Primário: Chave Primária)
+Fator de blocagem: 64
+Número de blocos necessários: 15625
+Espaço desperdiçado no último bloco: 0 bytes
+Espaço total: 31250 KB
+Número de acessos: 14
+
+--------------------------------------------------------------
+
+Tabela: Aluguel (Índice Secundário: CPF_Cliente)
+Fator de blocagem: 75
+Número de blocos necessários: 266667
+Espaço desperdiçado no último bloco: 698 bytes
+Espaço total: 533334 KB
+Número de acessos: 19
+
+Tabela: Aluguel (Índice Secundário: ID_Midia)
+Fator de blocagem: 51
+Número de blocos necessários: 392157
+Espaço desperdiçado no último bloco: 288 bytes
+Espaço total: 784314 KB
+Número de acessos: 19
+
+Tabela: Aluguel (Índice Secundário: CPF_Funcionario)
+Fator de blocagem: 75
+Número de blocos necessários: 266667
+Espaço desperdiçado no último bloco: 698 bytes
+Espaço total: 533334 KB
+Número de acessos: 19
+
+Tabela: Pagamentos (Índice Secundário: CPF_Cliente)
+Fator de blocagem: 75
+Número de blocos necessários: 666667
+Espaço desperdiçado no último bloco: 698 bytes
+Espaço total: 1333334 KB
+Número de acessos: 20
+
+Tabela: Pagamentos (Índice Secundário: ID_Midia)
+Fator de blocagem: 51
+Número de blocos necessários: 980393
+Espaço desperdiçado no último bloco: 1728 bytes
+Espaço total: 1960786 KB
+Número de acessos: 20
+
+Tabela: AtoresEmFilmes (Índice Secundário: CodFilme)
+Fator de blocagem: 64
+Número de blocos necessários: 15625
+Espaço desperdiçado no último bloco: 0 bytes
+Espaço total: 31250 KB
+Número de acessos: 14
+
+Tabela: AtoresEmFilmes (Índice Secundário: CodAtor)
+Fator de blocagem: 64
+Número de blocos necessários: 15625
+Espaço desperdiçado no último bloco: 0 bytes
+Espaço total: 31250 KB
+Número de acessos: 14
+
