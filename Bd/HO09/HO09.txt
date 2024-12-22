@@ -1,9 +1,0 @@
-Tabela,Tamanho Registro(em bytes!),Fator de Blocagem,Número de Blocos,Espaço Desperdiçado por Bloco(em bytes),Espaço Total Gasto(em bytes!)
-Atores,176,11,910,112,1863680
-Clientes,400,5,20000,48,40960000
-Filmes,256,8,250000,0,512000000
-Funcionarios,171,11,319,167,653312
-Midias,72,28,357143,32,731428864
-Aluguel,92,22,909091,24,1861818368
-Pagamentos,131,15,3333334,83,6826668032
-AtoresEmFilmes,32,64,15625,0,32000000
