@@ -1,0 +1,185 @@
+bool dadosCarregados = false;
+bool prontoExecucao = false;
+String dadosRecebidos = "";
+
+String memoria[100];
+int apontadorEscrita = 4, apontadorLeitura = 4;
+int pc = 0;
+int opcode, op1, op2;
+unsigned int w;
+int resultado;
+
+void setup() {
+  Serial.begin(9600);
+  Serial.println("Entre com os dados: \n");
+}
+
+void loop() {
+  if (dadosCarregados == false) {
+    if (Serial.available() > 0) {
+      dadosRecebidos = Serial.readString();
+      Serial.print("Dados Inseridos: ");
+      Serial.println(dadosRecebidos);
+      dadosCarregados = true;
+    }
+  }
+
+  if (dadosCarregados == true) {
+    if (prontoExecucao == false)
+      prontoExecucao = carregarMemoria(dadosRecebidos);
+    else {
+      Serial.println("Podemos comecar a realizar as operacoes? (S/N)");
+
+      while (true) {
+        if (Serial.available() > 0) {
+          char resp = Serial.read(); // Lê um único caractere
+          resp = toupper(resp);
+
+          if (resp == 'S') {
+            decodificarInstrucao();
+            Serial.println("Operacao encerrada.");
+			while(true);
+            break; // Sai do loop se a operação for realizada
+          } else if (resp == 'N') {
+            Serial.println("Operação não realizada");
+            break;
+          }
+        }
+      }
+      return;
+    }
+  }
+}
+
+//----------------------------------------------------------------------------------- Parte de carregamento
+
+bool carregarMemoria(String entrada) {
+  Serial.println("Memoria sendo carregada: " + entrada);
+  bool carregada = reparteCarrega(entrada);
+  return carregada;
+}
+
+void apresentarEstadoMemoria() {
+  Serial.print("|PC:" + String(apontadorLeitura) + "|W:" + String(w) + "|X:" + String(op1) + "|Y:" + String(op2) + "|");
+
+  for (int i = 4; i < apontadorEscrita; i++) {
+    Serial.print(memoria[i] + "|");
+  }
+  Serial.println();
+}
+
+
+bool reparteCarrega(String entrada) {
+  bool carregado = false;
+  int posicaoInicial = 0;
+  int posicaoEspaco = entrada.indexOf(' ');
+
+  while (posicaoEspaco != -1) {
+    if (apontadorEscrita > 99) {
+      Serial.println("Erro: Memoria cheia!");
+      return false;
+    }
+
+    memoria[apontadorEscrita] = entrada.substring(posicaoInicial, posicaoEspaco);
+    apontadorEscrita++;
+    posicaoInicial = posicaoEspaco + 1;
+    posicaoEspaco = entrada.indexOf(' ', posicaoInicial);
+  }
+
+  if (apontadorEscrita < 100) {
+    memoria[apontadorEscrita] = entrada.substring(posicaoInicial);
+    apontadorEscrita++;
+    carregado = true;
+  } else {
+    Serial.println("Erro: Memoria cheia na ultima parte!");
+    carregado = false;
+  }
+  return carregado;
+}
+
+//--------------------------------------------------------------------------------------- Parte de execucao
+
+void decodificar(int opcode, int A, int B) {
+  switch (opcode) {
+    case 0x0:
+      w = 1; // 1 lógico
+      break;
+    case 0x1:
+      w = A | ~B; // A or not B
+      break;
+    case 0x2:
+      w = A; // Copia A
+      break;
+    case 0x3:
+      w = ~(A) ^ ~(B); // not A xor not B
+      break;
+    case 0x4:
+      w = ~(A & B); // A nand B
+      break;
+    case 0x5:
+      w = ~A; // not A
+      break;
+    case 0x6:
+      w = A & ~B; // A and not B
+      break;
+    case 0x7:
+      w = ~(A) | ~(B); // not A and not B
+      break;
+    case 0x8:
+      w = A ^ B; // A xor B
+      break;
+    case 0x9:
+      w = 0; // 0 lógico
+      break;
+    case 0xA:
+      w = B; // Copia B
+      break;
+    case 0xB:
+      w = A & B; // B and A
+      break;
+    case 0xC:
+      w = ~B; // not B
+      break;
+    case 0xD:
+      w = ~(~(A) & B); // not A nand B
+      break;
+    case 0xE:
+      w = A | B; // A or B
+      break;
+    case 0xF:
+      w = ~(A) & B; // not A and B
+      break;
+  }
+}
+
+int hexToDecimal(char hexChar) {
+  if (hexChar >= '0' && hexChar <= '9') {
+    return hexChar - '0';  // Converte de caractere '0'-'9' para número
+  } else if (hexChar >= 'A' && hexChar <= 'F') {
+    return 10 + (hexChar - 'A');  // Converte de caractere 'A'-'F' para número
+  }
+  return 0;  // Caso de erro
+}
+
+void decodificarInstrucao() {
+  apontadorLeitura = 4;
+	
+  while (apontadorLeitura < apontadorEscrita) {
+    // Separar a string nos componentes (opcode, A e B)
+    char xChar = memoria[apontadorLeitura].charAt(0);  // Extrai o primeiro caractere
+    char yChar = memoria[apontadorLeitura].charAt(1);  // Extrai o segundo caractere
+    
+    opcode = hexToDecimal(memoria[apontadorLeitura].charAt(2));  // Extrai o opcode
+    op1 = hexToDecimal(xChar);  // Converte x para decimal
+    op2 = hexToDecimal(yChar);  // Converte y para decimal
+    
+    // Executa a instrução
+    decodificar(opcode, op1, op2);
+    
+    // Avança o apontador de leitura
+    apontadorLeitura++;
+    
+    // Apresenta o estado da memória após a execução da instrução
+    apresentarEstadoMemoria();
+  }
+}
