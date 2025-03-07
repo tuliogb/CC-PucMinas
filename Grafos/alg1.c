@@ -12,28 +12,21 @@ int matriz[6][6] = {
     {0,0,1,1,1,0}   //f
 };
 
-
-/*
-int matriz[4][4] = {
-    {0, 1, 1, 1},  // vértice A
-    {1, 0, 1, 1},  // vértice B
-    {1, 1, 0, 1},  // vértice C
-    {1, 1, 1, 0}   // vértice D
-};
-*/
-
-
 int visitados[6];
 int ciclos=0, maxLin=6, maxCol=6, qtdVisitados=0;
 
 
+void setaVisita(int linha)
+{
+    visitados[linha] = 1;
+    qtdVisitados++;
+}
 
 bool possoIr(int linha)
 {
-    if(visitados[linha] != 1)   // se eu nao tiver visitado
+    if(visitados[linha] != 1)
     {
-        visitados[linha] = 1;
-        qtdVisitados++;
+        setaVisita(linha);
         return true;
     }
     return false;
@@ -41,11 +34,7 @@ bool possoIr(int linha)
 
 void verificaCiclo(int linha, int procurado)
 {
-    if(matriz[linha][procurado]==1 && qtdVisitados>2)
-    {
-        printf("Cliclo marcado\n");
-        ciclos++;
-    } 
+    if(matriz[linha][procurado]==1 && qtdVisitados>2) ciclos++;
 }
 
 void gerarCiclos(int lin, int col, int procurado)
@@ -56,8 +45,7 @@ void gerarCiclos(int lin, int col, int procurado)
         {
             if(possoIr(col))
             { 
-                printf("[%i][%i]\n",lin,col);
-                verificaCiclo(lin, procurado);
+                verificaCiclo(col, procurado);
                 gerarCiclos(col,0,procurado);
                 visitados[col]=0;
                 qtdVisitados--;
@@ -79,6 +67,7 @@ void removeVertice(int vertice)
 
 void setaVisitados(int i)
 {
+    qtdVisitados=0;
     for (int i=0; i<maxCol; i++) visitados[i]=0;
     visitados[i] = 1;
     qtdVisitados++;
@@ -92,7 +81,6 @@ int main()
     {
         setaVisitados(i);
         gerarCiclos(i,i,i);
-        printf("\n");
         removeVertice(i);
     }
     printf("Total de ciclos encontrados: %d\n", ciclos/2);
