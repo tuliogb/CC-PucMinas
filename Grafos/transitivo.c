@@ -22,11 +22,12 @@ int matriz[numVertice][numVertice] = {
 int eixoTransitivo[numVertice];
 stack<int> pilha;
 
-void buscaTransitivoDireto(int linha)
+
+void buscaTransitivoDireto(int vertice)
 {
     for (int i=0; i<numVertice; i++) 
     {
-        if(matriz[linha][i]==1)
+        if(matriz[vertice][i]==1)
         {
             if(eixoTransitivo[i]!=1)
             {
@@ -35,9 +36,42 @@ void buscaTransitivoDireto(int linha)
             }
         } 
     }
-    if(linha<numVertice)
+
+    if(vertice<numVertice)
     {
-        while(!pilha.empty()) buscaTransitivoDireto(pilha.pop());
+        while(!pilha.empty())
+        {
+            int proximo = pilha.top();
+            printf("%i ",proximo);
+            pilha.pop();
+            buscaTransitivoDireto(proximo);
+        } 
+    }
+}
+
+void buscaTransitivoIndireto(int vertice)
+{
+    for (int i=0; i<numVertice; i++) 
+    {
+        if(matriz[i][vertice]==1)
+        {
+            if(eixoTransitivo[i]!=1)
+            {
+                eixoTransitivo[i]=1;
+                pilha.push(i);
+            }
+        } 
+    }
+
+    if(vertice<numVertice)
+    {
+        while(!pilha.empty())
+        {
+            int proximo = pilha.top();
+            printf("%i ",proximo);
+            pilha.pop();
+            buscaTransitivoIndireto(proximo);
+        } 
     }
 }
 
@@ -46,8 +80,15 @@ void setaArray()
     for (int i=0; i<numVertice; i++) eixoTransitivo[i]=0;
 }
 
+
+
 int main() {
 
+    setaArray();
     buscaTransitivoDireto(2);
+    printf("\n");
+    setaArray();
+    buscaTransitivoIndireto(1);
+
     return 0;
 }
