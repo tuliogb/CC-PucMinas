@@ -1,12 +1,12 @@
-Science Direct
 Google academico
-Wiley Libery
 Scielo
+JSTOR
+Sci-Hub
 
 ACM Digital Libery
-open sv computer vision
-acm .org
+Arxiv
+Science Direct
+Wiley Libery
+Acm
+ieee xplore
 ieee computer
-
-
-"Da Captura à Codificação: O Processo de Formação de Imagens em Dispositivos Eletrônicos"
